@@ -18,5 +18,6 @@
 
 		var map = new kakao.maps.Map(container, options);
 	</script>
+	깃허브 테스트중
 </body>
 </html>
