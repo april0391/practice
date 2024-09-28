@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: demo
+  output:
+    ansi:
+      enabled: always
+
+logging:
+  level:
+    org.springframework.security: DEBUG
