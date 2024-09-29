@@ -1,6 +1,5 @@
-package edu.jwtyummi.service;
+package edu.jwtyummi.security;
 
-import edu.jwtyummi.model.dto.CustomUserDetails;
 import edu.jwtyummi.model.entity.User;
 import edu.jwtyummi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

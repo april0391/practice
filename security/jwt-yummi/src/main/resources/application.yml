@@ -25,7 +25,7 @@ spring:
         format_sql: true  # ???? ??? ?? ?? ??
 
   jwt:
-    secret: abc
+    secret: abcd2wetfaergsadfg234gy35yhesmrtjh
 
 logging:
   level:
