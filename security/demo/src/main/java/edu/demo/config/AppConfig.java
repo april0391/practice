@@ -17,7 +17,7 @@ public class AppConfig {
     private final ApplicationContext ac;
     private final Logger log = LoggerFactory.getLogger(AppConfig.class);
 
-    @Bean
+//    @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
             int beanCnt = 0;
