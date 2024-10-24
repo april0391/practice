@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+</head>
+<body>
+    <form action enctype="multipart/form-data" method="post" th:object="${productForm}">
+        상품명: <input type="text" th:field="*{name}"><br>
+        국가: <input type="text" th:field="*{region.country}"><br>
+        도시: <input type="text" th:field="*{region.city}"><br>
+        우편번호: <input type="text" th:field="*{region.zipcode}"><br>
+        파일: <input type="file" th:field="*{registrationCertificate}"><br>
+        이미지들: <input type="file" multiple th:field="*{productImages}"><br>
+        <button>제출</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+</head>
+<body>
+    <form th:object="${product}">
+        번호: <input type="text" th:field="*{id}"><br>
+        상품명: <input type="text" th:field="*{name}"><br>
+        등록증: <a th:href="|/attach/${product.registrationCertificate.id}|"
+                th:text="${product.registrationCertificate.fileMetadata.originalName}"></a>
+        이미지들: <img th:each="image : ${product.productImages}"
+                   th:src="|/images/${image.fileMetadata.storedName}|"
+                   th:title="${image.fileMetadata.originalName}">
+    </form>
+</body>
+</html>
