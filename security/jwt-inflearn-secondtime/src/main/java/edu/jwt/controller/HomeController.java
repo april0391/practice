@@ -11,8 +11,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
 
     /*@GetMapping
@@ -45,6 +46,16 @@ public class HomeController {
     public String login() {
         System.out.println("HomeController.login");
         return "user/login";
+    }
+
+    @GetMapping("/api/v1/user")
+    public String user() {
+        return "ok";
+    }
+
+    @GetMapping("/api/v1/manager")
+    public String manager() {
+        return "ok";
     }
 
 }

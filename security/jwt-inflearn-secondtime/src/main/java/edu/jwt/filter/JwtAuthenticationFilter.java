@@ -22,6 +22,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    public static final String SECRET = "dsfwiufhweofkljwajsdkflaweorgiwaehfkjlweafwek";
     private final ObjectMapper objectMapper;
 
     @Override
@@ -49,13 +50,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         PrincipalDetails principal = (PrincipalDetails) authResult.getPrincipal();
         User user = principal.getUser();
-        String secret = "dsfwiufhweofkljwajsdkflaweorgiwaehfkjlweafwek";
         String jwt = JWT.create()
                 .withSubject("토큰")
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
                 .withClaim("id", user.getId())
                 .withClaim("username", user.getUsername())
-                .sign(Algorithm.HMAC256(secret));
+                .sign(Algorithm.HMAC256(SECRET));
 
         response.setHeader("Authorization", "Bearer " + jwt);
 

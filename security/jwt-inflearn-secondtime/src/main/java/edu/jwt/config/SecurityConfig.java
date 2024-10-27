@@ -3,6 +3,7 @@ package edu.jwt.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.jwt.filter.JwtAuthenticationFilter;
 import edu.jwt.filter.JwtAuthorizationFilter;
+import edu.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final ObjectMapper objectMapper;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -47,7 +49,7 @@ public class SecurityConfig {
         http
                 .addFilter(corsFilter())
                 .addFilterAfter(jwtAuthenticationFilter(authenticationConfiguration), LogoutFilter.class)
-                .addFilter(jwtAuthorizationFilter(authenticationConfiguration));
+                .addFilterBefore(jwtAuthorizationFilter(authenticationConfiguration), JwtAuthenticationFilter.class);
 
         return http.build();
     }
@@ -81,7 +83,7 @@ public class SecurityConfig {
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
-        return new JwtAuthorizationFilter(authenticationManager);
+        return new JwtAuthorizationFilter(authenticationManager, userRepository);
     }
 
 }
