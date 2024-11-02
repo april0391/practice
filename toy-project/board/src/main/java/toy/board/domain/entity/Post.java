@@ -1,13 +1,13 @@
 package toy.board.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 public class Post {

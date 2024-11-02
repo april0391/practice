@@ -16,7 +16,7 @@ public class PostController {
 
     @GetMapping
     public String getPosts(Model model) {
-        model.addAttribute("posts", postService.getPosts());
+        model.addAttribute("posts", postService.findAll());
         return "post/post-list";
     }
 

@@ -2,9 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{post.title}">Default Title</title>
+    <title th:text="#{post.page.title}">Default Title</title>
 </head>
 <body>
-
+    <table>
+        <tr>
+            <th th:text="#{post.postId}">글번호</th>
+            <th th:text="#{post.title}">제목</th>
+            <th th:text="#{post.content}">내용</th>
+            <th th:text="#{post.author}">작성자</th>
+            <th th:text="#{post.registered}">등록일</th>
+        </tr>
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.postId}"></td>
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.content}"></td>
+            <td th:text="${post.nickname}"></td>
+            <td th:text="${post.registeredAt}"></td>
+        </tr>
+    </table>
 </body>
 </html>

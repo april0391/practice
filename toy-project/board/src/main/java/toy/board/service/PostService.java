@@ -2,13 +2,16 @@ package toy.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import toy.board.domain.dto.PostDto;
+import org.springframework.transaction.annotation.Transactional;
+import toy.board.domain.dto.PostForm;
+import toy.board.domain.dto.PostWithUserDto;
 import toy.board.domain.entity.Post;
 import toy.board.domain.entity.User;
 import toy.board.repository.PostRepository;
 import toy.board.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,24 +21,29 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public List<Post> getPosts() {
-        return postRepository.getPosts();
-    }
-
-    public Post getPost(Long id) {
-        return postRepository.findById(id).orElseThrow();
-    }
-
-    public Post save(PostDto postDto) {
-        Post post = dtoToEntity(postDto);
+    @Transactional
+    public Post save(PostForm postForm) {
+        Post post = dtoToEntity(postForm);
         return postRepository.save(post);
     }
 
-    private Post dtoToEntity(PostDto postDto) {
-        User user = userRepository.findById(postDto.getUserId()).orElseThrow();
-        LocalDateTime now = LocalDateTime.now();
-        return new Post(postDto.getTitle(),
-                postDto.getContent(),
+    public Post findById(Long id) {
+        return postRepository.findById(id).orElseThrow();
+    }
+
+    public PostWithUserDto findById_query(Long id) {
+        return postRepository.findById_query(id).orElseThrow();
+    }
+
+    public List<PostWithUserDto> findAll() {
+        return postRepository.findAll();
+    }
+
+    private Post dtoToEntity(PostForm postForm) {
+        User user = userRepository.findById(postForm.getUserId()).orElseThrow();
+        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        return new Post(postForm.getTitle(),
+                postForm.getContent(),
                 now,
                 now,
                 user);

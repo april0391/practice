@@ -1,4 +1,4 @@
-package toy.board.repository;
+package toy.board.repository.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import toy.board.domain.entity.Post;

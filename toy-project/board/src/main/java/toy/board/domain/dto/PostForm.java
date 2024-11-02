@@ -1,9 +1,13 @@
 package toy.board.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class PostDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class PostForm {
 
     private String title;
     private String content;

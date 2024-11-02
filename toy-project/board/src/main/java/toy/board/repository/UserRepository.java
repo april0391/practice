@@ -6,8 +6,10 @@ import java.util.Optional;
 
 public interface UserRepository {
 
+    User save(User user);
+
     Optional<User> findById(Long id);
 
-    User save(User user);
+    Optional<User> findByUsernameAndPassword(String username, String encodedPassword);
 
 }
