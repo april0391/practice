@@ -7,7 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class BcryptTest {
 
     @Test
-    void test() {
+    void check() {
         String rawPw = "abcd1234!";
         String salt = BCrypt.gensalt();
         String hashedPw = BCrypt.hashpw(rawPw, salt);

@@ -10,6 +10,6 @@ public interface UserRepository {
 
     Optional<User> findById(Long id);
 
-    Optional<User> findByUsernameAndPassword(String username, String encodedPassword);
+    Optional<User> findByUsername(String username);
 
 }

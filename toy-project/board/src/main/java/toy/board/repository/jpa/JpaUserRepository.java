@@ -9,7 +9,7 @@ import toy.board.repository.UserRepository;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Repository
+//@Repository
 public class JpaUserRepository implements UserRepository {
 
     private final EntityManager em;
@@ -27,12 +27,12 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByUsernameAndPassword(String username, String encodedPassword) {
-        String jpql = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password";
+    public Optional<User> findByUsername(String username) {
+        String jpql = "SELECT u FROM User u WHERE u.username = :username";
         return em.createQuery(jpql, User.class)
                 .setParameter("username", username)
-                .setParameter("password", encodedPassword)
                 .getResultStream()
                 .findFirst();
     }
+
 }

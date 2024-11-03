@@ -1,10 +1,7 @@
 package toy.board.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@Setter
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +32,9 @@ public class User {
         this.nickname = nickname;
         this.registeredAt = registeredAt;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }
