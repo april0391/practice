@@ -9,8 +9,8 @@ import toy.board.repository.UserRepository;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-//@Repository
-public class JpaUserRepository implements UserRepository {
+@Repository
+public class UserRepositoryJpa implements UserRepository {
 
     private final EntityManager em;
 
@@ -25,14 +25,4 @@ public class JpaUserRepository implements UserRepository {
         User user = em.find(User.class, id);
         return Optional.ofNullable(user);
     }
-
-    @Override
-    public Optional<User> findByUsername(String username) {
-        String jpql = "SELECT u FROM User u WHERE u.username = :username";
-        return em.createQuery(jpql, User.class)
-                .setParameter("username", username)
-                .getResultStream()
-                .findFirst();
-    }
-
 }

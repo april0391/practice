@@ -1,41 +1,32 @@
 package toy.board.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
-@Getter
-@ToString
-@EqualsAndHashCode
 @NoArgsConstructor
+@Data
 @Entity
-public class Post {
+public class Post extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    private String title;
-
-    @Setter
-    private String content;
-
-    private LocalDateTime registeredAt;
-
-    @Setter
-    private LocalDateTime updatedAt;
-
-    @Setter
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public Post(String title, String content, LocalDateTime registeredAt, LocalDateTime updatedAt, User user) {
+    @Transient
+    private Long userId;
+
+    private String title;
+
+    @Lob
+    private String content;
+
+    public Post(String title, String content, User user) {
         this.title = title;
         this.content = content;
-        this.registeredAt = registeredAt;
-        this.updatedAt = updatedAt;
         this.user = user;
     }
-
 }

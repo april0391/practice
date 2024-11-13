@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="toy.board.repository.mybatis.PostMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO post (user_id, title, content)
+        VALUES (#{userId}, #{title}, #{content})
+    </insert>
+
+    <select id="findById" resultType="Post">
+        SELECT *
+        FROM post
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultType="Post">
+        SELECT *
+        FROM post p
+        INNER JOIN users u
+            ON p.user_id = u.id
+        <where>
+            <if test="cond.searchTarget != null and cond.searchValue != null">
+                <choose>
+                    <when test="cond.searchType == 'title'">
+                        title LIKE CONCAT('%', #{cond.searchValue}, '%')
+                    </when>
+                    <when test="cond.searchType == 'content'">
+                        content LIKE CONCAT('%', #{cond.searchValue}, '%')
+                    </when>
+                    <when test="cond.searchType == 'author'">
+                        author LIKE CONCAT('%', #{cond.searchValue}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+</mapper>
