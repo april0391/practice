@@ -1,7 +1,6 @@
-package toy.board.repository.mybatis;
+package toy.board.repository.jpa;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -14,24 +13,23 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
-public class PostRepositoryMybatis implements PostRepository {
+public class PostJpaRepositoryV2 implements PostRepository {
 
-    private final PostMapper mapper;
+    private final PostSpringDataJpaRepository repository;
 
     @Override
     public Post save(Post post) {
-        mapper.save(post);
-        return post;
+        return null;
     }
 
     @Override
     public Optional<Post> findById(Long id) {
-        return mapper.findById(id);
+        return Optional.empty();
     }
 
     @Override
     public List<Post> findAll(SearchCond cond) {
-        return mapper.findAll(cond);
+        return List.of();
     }
 
     @Override
@@ -41,7 +39,7 @@ public class PostRepositoryMybatis implements PostRepository {
 
     @Override
     public Page<Post> findAll(SearchCond cond, Pageable pageable) {
-        return null;
+        return repository.findAll(pageable);
     }
 
 }

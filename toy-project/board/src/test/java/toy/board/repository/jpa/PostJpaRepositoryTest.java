@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import toy.board.domain.entity.Post;
 
 @SpringBootTest
-class PostRepositoryJpaTest {
+class PostJpaRepositoryTest {
 
     @Autowired
     EntityManager em;
 
     @Autowired
-    PostRepositoryJpa postRepository;
+    PostJpaRepositoryV1 postRepository;
 
     @Transactional
     @Test

@@ -18,6 +18,8 @@ public class Post extends BaseEntity {
 
     @Transient
     private Long userId;
+    @Transient
+    private String nickname;
 
     private String title;
 

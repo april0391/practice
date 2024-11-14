@@ -15,21 +15,21 @@
     </select>
 
     <select id="findAll" resultType="Post">
-        SELECT *
+        SELECT p.*, u.nickname
         FROM post p
         INNER JOIN users u
             ON p.user_id = u.id
         <where>
             <if test="cond.searchTarget != null and cond.searchValue != null">
                 <choose>
-                    <when test="cond.searchType == 'title'">
+                    <when test="cond.searchTarget == 'title'">
                         title LIKE CONCAT('%', #{cond.searchValue}, '%')
                     </when>
-                    <when test="cond.searchType == 'content'">
+                    <when test="cond.searchTarget == 'content'">
                         content LIKE CONCAT('%', #{cond.searchValue}, '%')
                     </when>
-                    <when test="cond.searchType == 'author'">
-                        author LIKE CONCAT('%', #{cond.searchValue}, '%')
+                    <when test="cond.searchTarget == 'author'">
+                        u.nickname LIKE CONCAT('%', #{cond.searchValue}, '%')
                     </when>
                 </choose>
             </if>

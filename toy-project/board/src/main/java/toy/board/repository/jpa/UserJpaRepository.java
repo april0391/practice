@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
-public class UserRepositoryJpa implements UserRepository {
+public class UserJpaRepository implements UserRepository {
 
     private final EntityManager em;
 
