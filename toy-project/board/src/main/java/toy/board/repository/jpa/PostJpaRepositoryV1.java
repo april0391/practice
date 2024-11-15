@@ -71,18 +71,20 @@ public class PostJpaRepositoryV1 implements PostRepository {
         String searchValue = cond.getSearchValue();
         QPost post = QPost.post;
 
-        // QueryDSL 페이징을 위한 기본 쿼리 설정
+        // 페이징 전 결과 검색 쿼리
         JPAQuery<Post> query = queryFactory.select(post)
                 .from(post)
                 .where(likeSearchValue(searchTarget, searchValue));
 
         // 페이징 처리 및 결과 조회
-        QueryResults<Post> results = query.offset(pageable.getOffset())  // 페이지 시작 인덱스
+        List<Post> posts = query.offset(pageable.getOffset())  // 페이지 시작 인덱스
                 .limit(pageable.getPageSize())  // 페이지 크기
-                .fetchResults();  // 결과 및 전체 개수를 포함한 QueryResults 반환
+                .fetch();  // 현재 페이지에 해당하는 데이터 목록
 
-        List<Post> posts = results.getResults();  // 현재 페이지에 해당하는 데이터 목록
-        long totalCount = results.getTotal();  // 전체 데이터 개수
+        // 전체 데이터 개수 조회 (count 쿼리 사용)
+        long totalCount = queryFactory.selectFrom(post)
+                .where(likeSearchValue(searchTarget, searchValue))
+                .fetch().size();  // `fetch()` 후 size()를 사용해 전체 개수를 구함
 
         return new PageImpl<>(posts, pageable, totalCount);  // PageImpl을 사용해 Page 객체 반환
     }

@@ -25,4 +25,16 @@ public class UserJpaRepository implements UserRepository {
         User user = em.find(User.class, id);
         return Optional.ofNullable(user);
     }
+
+    @Override
+    public User findByUsername(String username) {
+        String jpql = "SELECT u FROM user u WHERE u.username = :username";
+        try {
+            return em.createQuery(jpql, User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

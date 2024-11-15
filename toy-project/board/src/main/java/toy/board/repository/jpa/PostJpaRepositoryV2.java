@@ -34,12 +34,12 @@ public class PostJpaRepositoryV2 implements PostRepository {
 
     @Override
     public Page<Post> findAll(Pageable pageable) {
-        return null;
+        return repository.findAll(pageable);
     }
 
     @Override
     public Page<Post> findAll(SearchCond cond, Pageable pageable) {
-        return repository.findAll(pageable);
+        return null;
     }
 
 }

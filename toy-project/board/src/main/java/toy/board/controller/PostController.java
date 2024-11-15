@@ -20,7 +20,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping
+//    @GetMapping
     public String showPostList(SearchCond cond, Model model) {
         List<Post> posts = postService.findAll(cond);
         /*for (Post post : posts) {
@@ -31,13 +31,13 @@ public class PostController {
         return "posts/post-list";
     }
 
-//    @GetMapping
-    public String listPosts(
+    @GetMapping
+    public String showPostList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             SearchCond cond,
             Model model) {
-        Page<Post> postPage = postService.getPosts(page, size);
+        Page<Post> postPage = postService.findAll(cond, page, size);
         model.addAttribute("postPage", postPage);
         model.addAttribute("posts", postPage.getContent());
         return "posts/post-list";

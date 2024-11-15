@@ -28,9 +28,14 @@ public class PostService {
         return postRepository.findAll(cond);
     }
 
-    public Page<Post> getPosts(int page, int size) {
+    public Page<Post> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("registeredAt").descending());
         return postRepository.findAll(pageable);
+    }
+
+    public Page<Post> findAll(SearchCond cond, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("registeredAt").descending());
+        return postRepository.findAll(cond, pageable);
     }
 
 }
