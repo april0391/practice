@@ -8,6 +8,4 @@ public class SearchCond {
     private String searchTarget;
     private String searchValue;
 
-    private int page;
-
 }

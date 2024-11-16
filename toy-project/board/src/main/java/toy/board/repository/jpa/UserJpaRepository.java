@@ -1,9 +1,11 @@
 package toy.board.repository.jpa;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import toy.board.domain.entity.User;
+import toy.board.exception.UserException;
 import toy.board.repository.UserRepository;
 
 import java.util.Optional;
@@ -27,14 +29,16 @@ public class UserJpaRepository implements UserRepository {
     }
 
     @Override
-    public User findByUsername(String username) {
-        String jpql = "SELECT u FROM user u WHERE u.username = :username";
+    public Optional<User> findByUsername(String username) {
+        String jpql = "SELECT u FROM User u WHERE u.username = :username";
         try {
-            return em.createQuery(jpql, User.class)
+            User find = em.createQuery(jpql, User.class)
                     .setParameter("username", username)
                     .getSingleResult();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return Optional.of(find);
+
+        } catch (NoResultException e) {
+            return Optional.empty();
         }
     }
 }

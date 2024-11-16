@@ -32,12 +32,10 @@ public class PostController {
     }
 
     @GetMapping
-    public String showPostList(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            SearchCond cond,
-            Model model) {
-        Page<Post> postPage = postService.findAll(cond, page, size);
+    public String showPostList(@RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               SearchCond cond, Model model) {
+        Page<Post> postPage = postService.findAll(cond, page - 1, size);
         model.addAttribute("postPage", postPage);
         model.addAttribute("posts", postPage.getContent());
         return "posts/post-list";

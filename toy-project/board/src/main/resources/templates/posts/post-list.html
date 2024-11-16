@@ -77,7 +77,7 @@
         <tbody>
         <tr th:each="post : ${posts}">
             <th th:text="${post.id}">글번호</th>
-            <td><a th:href="@{/post/{id} (id=${post.id})}" th:text="${post.title}">제목</a></td>
+            <td><a th:href="@{/posts/{id} (id=${post.id})}" th:text="${post.title}">제목</a></td>
             <td th:text="${post.user.nickname}">작성자</td>
             <td th:text="${post.registeredAt}">등록일</td>
             <td>조회수</td>
@@ -88,16 +88,16 @@
     <div class="pagination">
         <ul class="pagination">
             <li th:classappend="${postPage.hasPrevious()} ? '' : 'disabled'">
-                <a th:href="@{/posts(page=${postPage.number - 1})}">Previous</a>
+                <a th:href="@{/posts(page=${postPage.number})}">Previous</a>
             </li>
 
             <li th:each="i : ${#numbers.sequence(0, postPage.totalPages - 1)}"
                 th:classappend="${i == postPage.number} ? 'active'">
-                <a th:href="@{/posts(page=${i})}" th:text="${i + 1}">1</a>
+                <a th:href="@{/posts(page=${i+1})}" th:text="${i + 1}">1</a>
             </li>
 
             <li th:classappend="${postPage.hasNext()} ? '' : 'disabled'">
-                <a th:href="@{/posts(page=${postPage.number + 1})}">Next</a>
+                <a th:href="@{/posts(page=${postPage.number + 2})}">Next</a>
             </li>
         </ul>
     </div>
