@@ -5,9 +5,9 @@
     <title>메인 페이지</title>
 </head>
 <body>
-    <!--/*-->
-    <div th:if="${}"></div>
-    <!--*/-->
+    <div th:if="${user != null}">
+        <span th:text="${user.nickname} + '님 안녕하세요'"></span>
+    </div>
     <a href="signup">회원 가입</a><br>
     <a href="signin">로그인</a><br>
     <form action="logout" method="post">

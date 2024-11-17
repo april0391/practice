@@ -1,9 +1,8 @@
 package toy.board.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,9 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public String signin(String username, String password, HttpServletRequest request) {
+    public String signin(String username, String password,
+                                        HttpServletRequest request,
+                                        HttpServletResponse response) {
         User user = userService.signin(username, password);
         sessionManager.createSession(user, request);
         return "redirect:/";
@@ -39,9 +40,8 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        System.out.println("UserController.logout");
-        sessionManager.invalidateSession(request);
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        sessionManager.invalidateSession(request, response);
         return "redirect:/";
     }
 
@@ -50,4 +50,5 @@ public class UserController {
         User save = userService.save(userForm);
         return ResponseEntity.status(201).body(save);
     }
+
 }
