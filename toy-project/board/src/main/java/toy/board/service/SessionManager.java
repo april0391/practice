@@ -8,7 +8,7 @@ public interface SessionManager {
 
     void createSession(User user, Object sessionStore);
 
-    Object getSessionData(Object sessionStore);
+    Object getSessionData(HttpServletRequest request, HttpServletResponse response);
 
     void invalidateSession(HttpServletRequest request, HttpServletResponse response);
 }
