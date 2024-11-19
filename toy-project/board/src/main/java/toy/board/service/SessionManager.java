@@ -6,7 +6,7 @@ import toy.board.domain.entity.User;
 
 public interface SessionManager {
 
-    void createSession(User user, Object sessionStore);
+    void createSession(User user, HttpServletRequest request, HttpServletResponse response);
 
     Object getSessionData(HttpServletRequest request, HttpServletResponse response);
 

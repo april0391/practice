@@ -22,8 +22,8 @@ public class AppControllerAdvice {
     private final SessionManager sessionManager;
 
     @ModelAttribute
-    public void model(HttpServletRequest request, Model model) {
-        User sessionData = (User) sessionManager.getSessionData(request);
+    public void model(HttpServletRequest request, HttpServletResponse response, Model model) {
+        User sessionData = (User) sessionManager.getSessionData(request, response);
         model.addAttribute("user", sessionData);
     }
 

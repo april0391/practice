@@ -34,7 +34,7 @@ public class UserController {
                                         HttpServletRequest request,
                                         HttpServletResponse response) throws IOException {
         User user = userService.signin(username, password);
-        sessionManager.createSession(user, response);
+        sessionManager.createSession(user, request, response);
         return "redirect:/";
     }
 
