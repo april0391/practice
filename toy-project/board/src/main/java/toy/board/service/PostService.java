@@ -12,6 +12,7 @@ import toy.board.domain.entity.Post;
 import toy.board.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +23,11 @@ public class PostService {
     @Transactional
     public Post save(Post post) {
         return postRepository.save(post);
+    }
+
+    public Post findById(Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        return post.orElseThrow();
     }
 
     public List<Post> findAll(SearchCond cond) {

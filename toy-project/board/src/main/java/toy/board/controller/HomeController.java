@@ -11,7 +11,6 @@ public class HomeController {
     @GetMapping
     public String home(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        System.out.println("session = " + session);
         if (session != null) {
             Object attribute = session.getAttribute("signin");
             System.out.println("attribute = " + attribute);
