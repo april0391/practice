@@ -1,4 +1,4 @@
-package toy.board.util;
+package toy.board.util.cache;
 
 import toy.board.domain.entity.User;
 

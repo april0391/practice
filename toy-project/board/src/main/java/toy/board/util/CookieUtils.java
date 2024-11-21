@@ -10,7 +10,7 @@ import java.util.Arrays;
 @Component
 public class CookieUtils {
 
-    public void createAndAddCookie(String name, String value, int maxAge, HttpServletResponse response) {
+    public void createCookieAndAddToResponse(String name, String value, int maxAge, HttpServletResponse response) {
         Cookie cookie = createCookie(name, value, maxAge);
         response.addCookie(cookie);
     }

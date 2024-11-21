@@ -36,8 +36,11 @@ public class PostJpaRepositoryV1 implements PostRepository {
 
     @Override
     public Optional<Post> findById(Long id) {
-        Post post = em.find(Post.class, id);
-        return Optional.ofNullable(post);
+        String jpql = "SELECT p FROM Post p JOIN FETCH p.user u WHERE p.id = :id";
+        return em.createQuery(jpql, Post.class)
+                .setParameter("id", id)
+                .getResultList().stream()
+                .findFirst();
     }
 
     @Override
@@ -74,6 +77,8 @@ public class PostJpaRepositoryV1 implements PostRepository {
         // 페이징 전 결과 검색 쿼리
         JPAQuery<Post> query = queryFactory.select(post)
                 .from(post)
+                .innerJoin(post.user)
+                .fetchJoin()
                 .where(likeSearchValue(searchTarget, searchValue));
 
         // 페이징 처리 및 결과 조회

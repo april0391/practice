@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,6 @@ public class JwtUtils {
 
     private final String SECRET_KEY = "test-secret-key";
     private final String ISSUER = "toy-board";
-    @Getter
     private final JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET_KEY))
             .withIssuer(ISSUER)
             .build();
@@ -33,16 +31,15 @@ public class JwtUtils {
                 .sign(Algorithm.HMAC256(SECRET_KEY)); // 서명 알고리즘 및 키
     }
 
-    public boolean isTokenValid(String token) {
+    public void verifyToken(String token) {
         if (token == null) {
-            return false;
+            throw new JWTVerificationException("token is null");
         }
         try {
             verifier.verify(token);
-            return true;
         } catch (JWTVerificationException e) {
             e.printStackTrace();
-            return false;
+            throw e;
         }
     }
 

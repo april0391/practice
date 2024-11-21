@@ -21,10 +21,10 @@ public class InitEvent {
 
 //    @Bean
     public ApplicationRunner applicationRunner() {
-        UserForm userForm = new UserForm("tester", "1234", "테스형");
-        User savedUser = userService.save(userForm);
         return args -> {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 1; i <= 100; i++) {
+                UserForm userForm = new UserForm("tester" + i, "1234", "테스형" + i);
+                User savedUser = userService.save(userForm);
                 Post post = new Post("제목" + i, "내용" + i, savedUser);
                 postService.save(post);
             }
