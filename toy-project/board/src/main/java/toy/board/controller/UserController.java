@@ -31,8 +31,7 @@ public class UserController {
 
     @PostMapping("/signin")
     public String signin(String username, String password,
-                                        HttpServletRequest request,
-                                        HttpServletResponse response) throws IOException {
+                         HttpServletRequest request, HttpServletResponse response) {
         User user = userService.signin(username, password);
         sessionManager.createSession(user, request, response);
         return "redirect:/";

@@ -21,7 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1);
 
         registry.addInterceptor(authorizationInterceptor)
-                .addPathPatterns("/posts/new")
+                .addPathPatterns("/posts/**")
+                .excludePathPatterns("/posts", "/posts/{id}")
                 .order(2);
     }
 }

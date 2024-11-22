@@ -77,9 +77,10 @@ public class PostJpaRepositoryV1 implements PostRepository {
         // 페이징 전 결과 검색 쿼리
         JPAQuery<Post> query = queryFactory.select(post)
                 .from(post)
-                .innerJoin(post.user)
+                .leftJoin(post.user)
                 .fetchJoin()
-                .where(likeSearchValue(searchTarget, searchValue));
+                .where(likeSearchValue(searchTarget, searchValue))
+                .orderBy(post.id.desc());
 
         // 페이징 처리 및 결과 조회
         List<Post> posts = query.offset(pageable.getOffset())  // 페이지 시작 인덱스

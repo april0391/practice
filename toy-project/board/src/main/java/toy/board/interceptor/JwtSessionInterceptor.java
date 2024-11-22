@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import toy.board.domain.entity.User;
+import toy.board.service.SessionContextHolder;
 import toy.board.util.CookieUtils;
 import toy.board.util.JwtUtils;
 import toy.board.util.cache.UserCache;
@@ -40,7 +41,7 @@ public class JwtSessionInterceptor implements HandlerInterceptor {
                 log.info("access token 유효함");
 
                 // request에 유저 세션 저장
-                saveUserToRequest(accessToken, request);
+                saveUserToSessionContext(accessToken, request);
                 return true;
             } catch (JWTVerificationException e) {
                 log.info("access token 유효하지 않음");
@@ -79,7 +80,8 @@ public class JwtSessionInterceptor implements HandlerInterceptor {
                 cookieUtils.createCookieAndAddToResponse(ACCESS_TOKEN_NAME, newAccessToken, EXPIRATION_TIME_SECOND_OF_ACCESS_TOKEN, response);
 
                 // request에 유저 세션 저장
-                saveUserToRequest(refreshToken, request);
+                saveUserToSessionContext(refreshToken, request);
+                return;
 
             } catch (JWTVerificationException e) {
                 log.info("refresh token 유효하지 않음");
@@ -92,10 +94,15 @@ public class JwtSessionInterceptor implements HandlerInterceptor {
         log.info("refresh token 없음");
     }
 
-    private void saveUserToRequest(String token, HttpServletRequest request) {
+    private void saveUserToSessionContext(String token, HttpServletRequest request) {
         String subject = jwtUtils.getSubject(token);
-        User user = userCache.getSession(Long.valueOf(subject));
-        request.setAttribute(ACCESS_ATTRIBUTE, user);
+        User user = userCache.getUser(Long.valueOf(subject));
+        SessionContextHolder.setSession(user);
     }
 
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println("JwtSessionInterceptor.afterCompletion");
+        SessionContextHolder.clearSession();
+    }
 }

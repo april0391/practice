@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import toy.board.domain.entity.User;
 import toy.board.util.CookieUtils;
 import toy.board.util.JwtUtils;
-import toy.board.util.cache.UserCache;
 
 import static toy.board.util.JwtConst.*;
 
@@ -17,7 +16,6 @@ public class JwtSessionManager implements SessionManager {
 
     private final JwtUtils jwtUtils;
     private final CookieUtils cookieUtils;
-    private final UserCache userCache;
 
     @Override
     public void createSession(User user, HttpServletRequest request, HttpServletResponse response) {
@@ -27,13 +25,11 @@ public class JwtSessionManager implements SessionManager {
 
         cookieUtils.createCookieAndAddToResponse(ACCESS_TOKEN_NAME, accessToken, EXPIRATION_TIME_SECOND_OF_ACCESS_TOKEN, response);
         cookieUtils.createCookieAndAddToResponse(REFRESH_TOKEN_NAME, refreshToken, EXPIRATION_TIME_SECOND_OF_REFRESH_TOKEN, response);
-
-        userCache.putSession(user);
     }
 
     @Override
-    public Object getSessionData(HttpServletRequest request, HttpServletResponse response) {
-        return request.getAttribute(ACCESS_ATTRIBUTE);
+    public Object getSession(HttpServletRequest request, HttpServletResponse response) {
+        return SessionContextHolder.getSession();
     }
 
     @Override
@@ -41,7 +37,6 @@ public class JwtSessionManager implements SessionManager {
         String accessToken = cookieUtils.getCookieValue(ACCESS_TOKEN_NAME, request);
 
         String subject = jwtUtils.getSubject(accessToken);
-        userCache.removeSession(Long.valueOf(subject));
 
         cookieUtils.invalidateCookie(ACCESS_TOKEN_NAME, request, response);
         cookieUtils.invalidateCookie(REFRESH_TOKEN_NAME, request, response);

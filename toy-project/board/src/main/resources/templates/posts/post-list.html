@@ -78,7 +78,7 @@
         <tr th:each="post : ${posts}">
             <th th:text="${post.id}">글번호</th>
             <td><a th:href="@{/posts/{id} (id=${post.id})}" th:text="${post.title}">제목</a></td>
-            <td th:text="${post.user.nickname}">작성자</td>
+            <td th:text="${post.user != null ? post.user.nickname : '익명'}">작성자</td>
             <td th:text="${post.registeredAt}">등록일</td>
             <td>조회수</td>
         </tr>

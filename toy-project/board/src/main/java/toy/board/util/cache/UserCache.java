@@ -4,10 +4,10 @@ import toy.board.domain.entity.User;
 
 public interface UserCache {
 
-    void putSession(User user);
+    void putUser(User user);
 
-    User getSession(Long id);
+    User getUser(Long id);
 
-    void removeSession(Long id);
+    void removeUser(Long id);
 
 }

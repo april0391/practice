@@ -9,6 +9,7 @@ import toy.board.service.JwtSessionManager;
 import toy.board.service.SessionManager;
 import toy.board.util.*;
 import toy.board.util.cache.DbUserCache;
+import toy.board.util.cache.NoCacheUserCache;
 import toy.board.util.cache.UserCache;
 
 @RequiredArgsConstructor
@@ -23,13 +24,13 @@ public class SessionConfig {
     @Bean
     public SessionManager sessionManager() {
 //        return new HttpSessionSessionManager();
-        return new JwtSessionManager(jwtUtils, cookieUtils, userCache());
+        return new JwtSessionManager(jwtUtils, cookieUtils);
     }
 
     @Bean
     public UserCache userCache() {
-//        return new NoCacheUserCache(userRepository);
-        return new DbUserCache(userSessionSpringJpaRepository);
+        return new NoCacheUserCache(userRepository);
+//        return new DbUserCache(userSessionSpringJpaRepository);
     }
 
 }

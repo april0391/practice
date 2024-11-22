@@ -14,7 +14,7 @@ public class HttpSessionSessionManager implements SessionManager {
     }
 
     @Override
-    public Object getSessionData(HttpServletRequest request, HttpServletResponse response) {
+    public Object getSession(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             return session.getAttribute("signin");

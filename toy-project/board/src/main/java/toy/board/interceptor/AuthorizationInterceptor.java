@@ -15,7 +15,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Object sessionData = sessionManager.getSessionData(request, response);
+        Object sessionData = sessionManager.getSession(request, response);
         if (sessionData == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.sendRedirect("/signin");

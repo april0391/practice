@@ -26,7 +26,7 @@ public class InitEvent {
                 UserForm userForm = new UserForm("tester" + i, "1234", "테스형" + i);
                 User savedUser = userService.save(userForm);
                 Post post = new Post("제목" + i, "내용" + i, savedUser);
-                postService.save(post);
+//                postService.save(post);
             }
         };
     }

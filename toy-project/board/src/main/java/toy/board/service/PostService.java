@@ -7,8 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import toy.board.domain.dto.PostForm;
 import toy.board.domain.dto.SearchCond;
 import toy.board.domain.entity.Post;
+import toy.board.domain.entity.User;
 import toy.board.repository.PostRepository;
 
 import java.util.List;
@@ -21,8 +23,18 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Post save(Post post) {
+    public Post save(PostForm postForm) {
+        Post post = mapToEntity(postForm);
         return postRepository.save(post);
+    }
+
+    private Post mapToEntity(PostForm form) {
+        User user = SessionContextHolder.getSession();
+        return new Post(
+                form.getTitle(),
+                form.getContent(),
+                user
+        );
     }
 
     public Post findById(Long id) {

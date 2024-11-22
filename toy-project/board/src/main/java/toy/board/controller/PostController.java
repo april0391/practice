@@ -55,8 +55,8 @@ public class PostController {
 
     @PostMapping
     public String registerPost(PostForm postForm) {
-        System.out.println("postForm = " + postForm);
-        return null;
+        postService.save(postForm);
+        return "redirect:/posts";
     }
 
 }

@@ -23,7 +23,7 @@ public class AppControllerAdvice {
 
     @ModelAttribute
     public void model(HttpServletRequest request, HttpServletResponse response, Model model) {
-        User sessionData = (User) sessionManager.getSessionData(request, response);
+        User sessionData = (User) sessionManager.getSession(request, response);
         model.addAttribute("user", sessionData);
     }
 
