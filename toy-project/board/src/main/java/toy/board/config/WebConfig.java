@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(authorizationInterceptor)
                 .addPathPatterns("/posts/**")
-                .excludePathPatterns("/posts", "/posts/{id}")
+                .excludePathPatterns("/posts", "/posts/{id:[0-9]+}")
                 .order(2);
     }
 }

@@ -15,12 +15,14 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("AuthorizationInterceptor.preHandle");
         Object sessionData = sessionManager.getSession(request, response);
         if (sessionData == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.sendRedirect("/signin");
             return false;
         }
+        System.out.println("AuthorizationInterceptor 세션 없음");
         return true;
     }
 
