@@ -8,67 +8,67 @@ public abstract class ApiResponse {
     protected String status;
     protected String message;
 
-    public static <T> ApiSuccessResponse<T> success() {
-        return new ApiSuccessResponse<>();
+    public static <T> SuccessResponse<T> success() {
+        return new SuccessResponse<>();
     }
 
-    public static <T> ApiFailResponse<T> fail() {
-        return new ApiFailResponse<>();
+    public static <T> FailResponse<T> fail() {
+        return new FailResponse<>();
     }
 
     @Getter
-    public static class ApiSuccessResponse<T> extends ApiResponse {
+    public static class SuccessResponse<T> extends ApiResponse {
         private T data;
 
-        private ApiSuccessResponse() {
+        private SuccessResponse() {
         }
 
-        public ApiSuccessResponse(String status, String message, T data) {
+        public SuccessResponse(String status, String message, T data) {
             super.setStatus(status);
             super.setMessage(message);
             this.data = data;
         }
 
-        public ApiSuccessResponse<T> status(String status) {
+        public SuccessResponse<T> status(String status) {
             super.setStatus(status);
             return this;
         }
 
-        public ApiSuccessResponse<T> message(String message) {
+        public SuccessResponse<T> message(String message) {
             super.setMessage(message);
             return this;
         }
 
-        public ApiSuccessResponse<T> data(T data) {
+        public SuccessResponse<T> data(T data) {
             this.data = data;
             return this;
         }
     }
 
     @Getter
-    public static class ApiFailResponse<T> extends ApiResponse {
+    public static class FailResponse<T> extends ApiResponse {
         private T error;
 
-        private ApiFailResponse() {
+        private FailResponse() {
         }
 
-        public ApiFailResponse(String status, String message, T error) {
+        public FailResponse(String status, String message, T error) {
             super.setStatus(status);
             super.setMessage(message);
             this.error = error;
         }
 
-        public ApiFailResponse<T> status(String status) {
+        public FailResponse<T> status(String status) {
             super.setStatus(status);
             return this;
         }
 
-        public ApiFailResponse<T> message(String message) {
+        public FailResponse<T> message(String message) {
             super.setMessage(message);
             return this;
         }
 
-        public ApiFailResponse<T> error(T error) {
+        public FailResponse<T> error(T error) {
             this.error = error;
             return this;
         }

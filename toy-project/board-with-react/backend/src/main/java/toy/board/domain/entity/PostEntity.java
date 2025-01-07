@@ -24,7 +24,7 @@ public class PostEntity {
     private String content;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
     @CreatedDate
