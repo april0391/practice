@@ -10,7 +10,7 @@ import org.springframework.test.annotation.Commit;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@SpringBootTest
-public class PostEntityEntityTest {
+public class PostEntityTest {
 
     @Autowired
     EntityManager em;

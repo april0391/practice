@@ -1,6 +1,7 @@
 package toy.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,12 @@ public class PostController {
 
         PagedPostResponse data = postService.findAll(page, size, sort);
 
-        ApiResponse.SuccessResponse<PagedPostResponse> response = ApiResponse.<PagedPostResponse>success()
-                .status("success")
+        ApiResponse.<PagedPostResponse>success()
+                .status(HttpStatus.OK)
                 .message("게시글 목록 응답 성공")
                 .data(data);
 
-        return ResponseEntity.ok(response);
+//        return ResponseEntity.ok(response);
+        return null;
     }
 }

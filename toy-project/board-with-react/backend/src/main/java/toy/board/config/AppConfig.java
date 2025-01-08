@@ -13,7 +13,7 @@ public class AppConfig {
 
     private final PostRepository postRepository;
 
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void initPostData() {
         for (int i = 1; i <= 100; i++) {
             PostEntity entity = new PostEntity();

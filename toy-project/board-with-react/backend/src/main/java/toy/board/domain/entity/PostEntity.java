@@ -1,19 +1,19 @@
 package toy.board.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
-
-@Data
-@Table(name = "post")
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "post")
 @Entity
-public class PostEntity {
+public class PostEntity extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -27,9 +27,5 @@ public class PostEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
-    @CreatedDate
-    private LocalDateTime createdDate;
 
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
 }
