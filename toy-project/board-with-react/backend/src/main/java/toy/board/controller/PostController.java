@@ -26,7 +26,7 @@ public class PostController {
         PagedPostResponse data = postService.findAll(page, size, sort);
 
         ApiResponse.<PagedPostResponse>success()
-                .status(HttpStatus.OK)
+                .status(HttpStatus.OK.value())
                 .message("게시글 목록 응답 성공")
                 .data(data);
 
