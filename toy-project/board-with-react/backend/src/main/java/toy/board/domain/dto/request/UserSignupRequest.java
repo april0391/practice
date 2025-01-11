@@ -1,6 +1,5 @@
-package toy.board.domain.dto;
+package toy.board.domain.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -13,10 +12,9 @@ public class UserSignupRequest {
     @NotBlank
     private String email;
 
-    @JsonProperty("password")
     @NotBlank
     @Size(min = 4, max = 20)
-    private String inputPassword;
+    private String password;
 
     @NotBlank
     private String nickname;

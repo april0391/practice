@@ -1,4 +1,4 @@
-package toy.board.domain.dto;
+package toy.board.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

@@ -8,12 +8,14 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class ApiResponse {
 
     protected int status;
     protected String message;
-    protected LocalDateTime timestamp;
     protected String path;
+    protected String httpMethod;
+    protected LocalDateTime timestamp;
 
     public static <T> SuccessResponseBuilder<T> success() {
         return new SuccessResponseBuilder<>();
@@ -29,6 +31,7 @@ public abstract class ApiResponse {
         private String message;
         private T data;
         private String path;
+        private String httpMethod;
 
         private SuccessResponseBuilder() {
         }
@@ -48,29 +51,35 @@ public abstract class ApiResponse {
             return this;
         }
 
+        public SuccessResponseBuilder<T> httpMethod(String httpMethod) {
+            this.setHttpMethod(httpMethod);
+            return this;
+        }
+
         public SuccessResponseBuilder<T> data(T data) {
             this.setData(data);
             return this;
         }
 
         public ApiSuccessResponse<T> build() {
-            return new ApiSuccessResponse<>(status, message, data, path);
+            return new ApiSuccessResponse<>(status, message, data, path, httpMethod);
         }
     }
 
     @Getter
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class ApiSuccessResponse<T> extends ApiResponse {
         private final T data;
 
         public ApiSuccessResponse(int status,
                                   String message,
                                   T data,
-                                  String path) {
+                                  String path,
+                                  String httpMethod) {
             super.status = status;
             super.message = message;
             this.data = data;
             super.path = path;
+            super.httpMethod = httpMethod;
             super.timestamp = LocalDateTime.now();
         }
     }
@@ -81,6 +90,7 @@ public abstract class ApiResponse {
         private String message;
         private T error;
         private String path;
+        private String httpMethod;
 
         private ErrorResponseBuilder() {
         }
@@ -100,28 +110,35 @@ public abstract class ApiResponse {
             return this;
         }
 
+        public ErrorResponseBuilder<T> httpMethod(String httpMethod) {
+            this.setHttpMethod(httpMethod);
+            return this;
+        }
+
         public ErrorResponseBuilder<T> error(T error) {
             this.setError(error);
             return this;
         }
 
         public ApiErrorResponse<T> build() {
-            return new ApiErrorResponse<>(status, message, error, path);
+            return new ApiErrorResponse<>(status, message, error, path, httpMethod);
         }
     }
 
     @Getter
     public static class ApiErrorResponse<T> extends ApiResponse {
-        private T error;
+        private final T error;
 
         public ApiErrorResponse(int status,
-                                  String message,
-                                  T error,
-                                  String path) {
+                                String message,
+                                T error,
+                                String path,
+                                String httpMethod) {
             super.status = status;
             super.message = message;
             this.error = error;
             super.path = path;
+            super.httpMethod = httpMethod;
             super.timestamp = LocalDateTime.now();
         }
 

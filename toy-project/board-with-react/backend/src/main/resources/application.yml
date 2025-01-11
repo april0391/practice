@@ -4,6 +4,10 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  messages:
+    basename:
+      - messages
+      - errors
   datasource:
 #    url: jdbc:h2:tcp://localhost/~/h2/toy-board
     url: jdbc:h2:mem:testdb

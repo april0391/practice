@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Mappings;
-import toy.board.domain.dto.PostDto;
+import toy.board.domain.dto.response.PostDto;
 import toy.board.domain.entity.PostEntity;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)

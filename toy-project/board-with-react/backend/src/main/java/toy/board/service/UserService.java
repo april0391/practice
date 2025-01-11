@@ -3,10 +3,10 @@ package toy.board.service;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import toy.board.domain.dto.UserSignupRequest;
-import toy.board.domain.dto.UserSignupResponse;
+import toy.board.domain.dto.request.UserSignupRequest;
+import toy.board.domain.dto.response.SignupSuccessResponse;
 import toy.board.domain.entity.UserEntity;
-import toy.board.exception.UserException;
+import toy.board.exception.SignupException;
 import toy.board.mapper.UserMapper;
 import toy.board.repository.UserRepository;
 
@@ -19,10 +19,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
 
-    public UserSignupResponse signup(UserSignupRequest request) {
+    public SignupSuccessResponse signup(UserSignupRequest request) {
         validateDuplicateFields(request);
 
-        String encryptedPassword = encryptPassword(request.getInputPassword());
+        String encryptedPassword = encryptPassword(request.getPassword());
 
         UserEntity entity = mapper.signupRequestToEntity(request, encryptedPassword);
         UserEntity saved = userRepository.save(entity);
@@ -44,7 +44,7 @@ public class UserService {
         }
 
         if (!duplicateFields.isEmpty()) {
-            throw new UserException(UserException.ErrorCode.DUPLICATE, duplicateFields);
+            throw new SignupException(SignupException.ErrorCode.DUPLICATE, duplicateFields);
         }
     }
 

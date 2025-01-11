@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import toy.board.domain.dto.UserSignupRequest;
-import toy.board.domain.dto.UserSignupResponse;
+import toy.board.domain.dto.request.UserSignupRequest;
+import toy.board.domain.dto.response.SignupSuccessResponse;
 import toy.board.domain.entity.UserEntity;
 import toy.board.mapper.UserMapper;
 
@@ -22,18 +22,18 @@ class UserServiceTest {
     void signupTest() {
         UserSignupRequest req = new UserSignupRequest();
         req.setNickname("테스터");
-        req.setInputPassword("1234");
+        req.setPassword("1234");
         req.setEmail("tester@test.com");
 
-        UserSignupResponse res = userService.signup(req);
+        SignupSuccessResponse res = userService.signup(req);
 
         System.out.println("res = " + res);
 
         UserEntity byId = userService.findById(res.getId());
 
-        UserSignupResponse userSignupResponse = mapper.entityToSignupResponse(byId);
+        SignupSuccessResponse signupSuccessResponse = mapper.entityToSignupResponse(byId);
 
-        System.out.println("userSignupResponse = " + userSignupResponse);
+        System.out.println("userSignupResponse = " + signupSuccessResponse);
     }
 
 }
