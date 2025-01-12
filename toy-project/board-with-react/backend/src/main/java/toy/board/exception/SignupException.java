@@ -2,27 +2,28 @@ package toy.board.exception;
 
 import lombok.Getter;
 import org.springframework.validation.BindingResult;
+import toy.board.domain.dto.BasicErrorCode;
 
 import java.util.Set;
 
 @Getter
-public class SignupException extends RuntimeException {
+public class SignupException extends UserException {
 
-    private final ErrorCode errorCode;
+    private final SignupErrorCode signupErrorCode;
     private Set<String> duplicateFields;
     private BindingResult bindingResult;
 
-    public SignupException(ErrorCode errorCode, BindingResult bindingResult) {
-        this.errorCode = errorCode;
+    public SignupException(SignupErrorCode signupErrorCode, BindingResult bindingResult) {
+        this.signupErrorCode = signupErrorCode;
         this.bindingResult = bindingResult;
     }
 
-    public SignupException(ErrorCode errorCode, Set<String> duplicateFields) {
-        this.errorCode = errorCode;
+    public SignupException(SignupErrorCode signupErrorCode, Set<String> duplicateFields) {
+        this.signupErrorCode = signupErrorCode;
         this.duplicateFields = duplicateFields;
     }
 
-    public enum ErrorCode {
+    public enum SignupErrorCode implements BasicErrorCode {
         BINDING,
         DUPLICATE
     }

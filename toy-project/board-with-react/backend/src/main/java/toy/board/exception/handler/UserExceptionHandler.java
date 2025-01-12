@@ -8,8 +8,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import toy.board.controller.UserController;
-import toy.board.domain.dto.response.SignupErrorResponse;
+import toy.board.domain.dto.BasicErrorResponseDetail;
+import toy.board.domain.dto.response.SignupErrorResponseDetail;
 import toy.board.exception.SignupException;
+import toy.board.exception.UserException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,17 +20,30 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestControllerAdvice(basePackageClasses = UserController.class)
-public class SignupExceptionHandler {
+public class UserExceptionHandler {
 
     private final MessageSource ms;
 
-    @ExceptionHandler(SignupException.class)
-    public ResponseEntity<SignupErrorResponse> handleUserException(SignupException e) {
-        SignupException.ErrorCode errorCode = e.getErrorCode();
-        SignupErrorResponse body = new SignupErrorResponse();
-        body.setCode(errorCode);
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<?> handleUserException(UserException e) {
+        UserException.UserErrorCode userErrorCode = e.getUserErrorCode();
+        BasicErrorResponseDetail body = new BasicErrorResponseDetail();
+        switch (userErrorCode) {
+            case ID_NOT_FOUND -> {
+                body.setCode(userErrorCode);
+                body.setMessage("아이디");
+            }
+        }
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
 
-        switch (errorCode) {
+    @ExceptionHandler(SignupException.class)
+    public ResponseEntity<SignupErrorResponseDetail> handleSignupException(SignupException e) {
+        SignupException.SignupErrorCode signupErrorCode = e.getSignupErrorCode();
+        SignupErrorResponseDetail body = new SignupErrorResponseDetail();
+        body.setCode(signupErrorCode);
+
+        switch (signupErrorCode) {
             case BINDING -> {
                 body.setMessage(ms.getMessage("userSignupRequest.validation", null, null));
                 body.setDetail(handleBindingResult(e));

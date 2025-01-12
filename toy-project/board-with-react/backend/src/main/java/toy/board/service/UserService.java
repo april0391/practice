@@ -5,8 +5,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import toy.board.domain.dto.request.UserSignupRequest;
 import toy.board.domain.dto.response.SignupSuccessResponse;
+import toy.board.domain.dto.response.UserInfoResponse;
 import toy.board.domain.entity.UserEntity;
 import toy.board.exception.SignupException;
+import toy.board.exception.UserException;
 import toy.board.mapper.UserMapper;
 import toy.board.repository.UserRepository;
 
@@ -30,6 +32,12 @@ public class UserService {
         return mapper.entityToSignupResponse(saved);
     }
 
+    public UserInfoResponse getUserInfo(Long id) {
+        UserEntity entity = userRepository.findById(id)
+                .orElseThrow(() -> new UserException(UserException.UserErrorCode.ID_NOT_FOUND));
+        return mapper.entityToInfoResponse(entity);
+    }
+
     private void validateDuplicateFields(UserSignupRequest request) {
         Set<String> duplicateFields = new HashSet<>();
 
@@ -44,7 +52,7 @@ public class UserService {
         }
 
         if (!duplicateFields.isEmpty()) {
-            throw new SignupException(SignupException.ErrorCode.DUPLICATE, duplicateFields);
+            throw new SignupException(SignupException.SignupErrorCode.DUPLICATE, duplicateFields);
         }
     }
 

@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import toy.board.domain.dto.request.UserSignupRequest;
 import toy.board.domain.dto.response.SignupSuccessResponse;
+import toy.board.domain.dto.response.UserInfoResponse;
 import toy.board.domain.entity.UserEntity;
 
 @Mapper(
@@ -17,5 +18,7 @@ public interface UserMapper {
     UserEntity signupRequestToEntity(UserSignupRequest request, String encryptedPassword);
 
     SignupSuccessResponse entityToSignupResponse(UserEntity entity);
+
+    UserInfoResponse entityToInfoResponse(UserEntity entity);
 
 }
