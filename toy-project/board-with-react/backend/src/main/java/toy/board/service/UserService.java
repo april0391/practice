@@ -3,12 +3,11 @@ package toy.board.service;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import toy.board.domain.dto.request.UserSignupRequest;
-import toy.board.domain.dto.response.SignupSuccessResponse;
-import toy.board.domain.dto.response.UserInfoResponse;
+import toy.board.domain.dto.user.SignupRequest;
+import toy.board.domain.dto.user.UserDetailInfoResponse;
+import toy.board.domain.dto.user.UserSimpleInfoResponse;
 import toy.board.domain.entity.UserEntity;
-import toy.board.exception.SignupException;
-import toy.board.exception.UserException;
+import toy.board.exception.BasicUserException;
 import toy.board.mapper.UserMapper;
 import toy.board.repository.UserRepository;
 
@@ -21,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
 
-    public SignupSuccessResponse signup(UserSignupRequest request) {
+    public UserSimpleInfoResponse signup(SignupRequest request) {
         validateDuplicateFields(request);
 
         String encryptedPassword = encryptPassword(request.getPassword());
@@ -29,39 +28,28 @@ public class UserService {
         UserEntity entity = mapper.signupRequestToEntity(request, encryptedPassword);
         UserEntity saved = userRepository.save(entity);
 
-        return mapper.entityToSignupResponse(saved);
+        return mapper.entityToSimpleInfoResponse(saved);
     }
 
-    public UserInfoResponse getUserInfo(Long id) {
+    public UserDetailInfoResponse getUserInfo(Long id) {
         UserEntity entity = userRepository.findById(id)
-                .orElseThrow(() -> new UserException(UserException.UserErrorCode.ID_NOT_FOUND));
+                .orElseThrow(() -> new BasicUserException(BasicUserException.ErrorCode.ID_NOT_FOUND, id));
         return mapper.entityToInfoResponse(entity);
     }
 
-    private void validateDuplicateFields(UserSignupRequest request) {
-        Set<String> duplicateFields = new HashSet<>();
-
+    private void validateDuplicateFields(SignupRequest request) {
         String email = request.getEmail();
-        if (userRepository.existsByEmail(email)) {
-            duplicateFields.add("email");
-        }
-
         String nickname = request.getNickname();
-        if (userRepository.existsByNickname(nickname)) {
-            duplicateFields.add("nickname");
-        }
+
+        List<Object> duplicateFields = userRepository.findDuplicateFields(email, nickname);
 
         if (!duplicateFields.isEmpty()) {
-            throw new SignupException(SignupException.SignupErrorCode.DUPLICATE, duplicateFields);
+//            throw new SignupException(SignupException.ErrorCode.DUPLICATE, duplicateFields);
         }
-    }
-
-    public UserEntity findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow();
     }
 
     public String encryptPassword(String rawPassword) {
         return BCrypt.hashpw(rawPassword, BCrypt.gensalt());
     }
+
 }

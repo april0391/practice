@@ -1,4 +1,4 @@
-package toy.board.domain.dto;
+package toy.board.domain.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

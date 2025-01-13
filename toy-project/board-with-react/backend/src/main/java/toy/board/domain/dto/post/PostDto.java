@@ -1,4 +1,4 @@
-package toy.board.domain.dto.response;
+package toy.board.domain.dto.post;
 
 import lombok.Data;
 

@@ -3,7 +3,7 @@ package toy.board.domain.entity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import toy.board.domain.dto.request.UserSignupRequest;
+import toy.board.domain.dto.user.SignupRequest;
 import toy.board.mapper.UserMapper;
 import toy.board.repository.UserRepository;
 
@@ -18,7 +18,7 @@ public class UserEntityTest {
 
     @Test
     void test() {
-        UserSignupRequest req = new UserSignupRequest();
+        SignupRequest req = new SignupRequest();
         req.setNickname("테스터");
         req.setPassword("1234");
         req.setEmail("tester@test.com");

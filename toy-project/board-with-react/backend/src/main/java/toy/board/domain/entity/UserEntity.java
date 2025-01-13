@@ -2,6 +2,7 @@ package toy.board.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,10 +20,12 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
+    @Column(unique = true)
     private String nickname;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

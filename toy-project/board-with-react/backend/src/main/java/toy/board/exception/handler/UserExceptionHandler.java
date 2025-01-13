@@ -4,19 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import toy.board.controller.UserController;
 import toy.board.domain.dto.BasicErrorResponseDetail;
-import toy.board.domain.dto.response.SignupErrorResponseDetail;
-import toy.board.exception.SignupException;
-import toy.board.exception.UserException;
+import toy.board.exception.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @RequiredArgsConstructor
 @RestControllerAdvice(basePackageClasses = UserController.class)
@@ -24,42 +24,43 @@ public class UserExceptionHandler {
 
     private final MessageSource ms;
 
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<?> handleUserException(UserException e) {
-        UserException.UserErrorCode userErrorCode = e.getUserErrorCode();
-        BasicErrorResponseDetail body = new BasicErrorResponseDetail();
-        switch (userErrorCode) {
-            case ID_NOT_FOUND -> {
-                body.setCode(userErrorCode);
-                body.setMessage("아이디");
-            }
-        }
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(BasicUserException.class)
+    public ResponseEntity<BasicErrorResponseDetail> handleBasicUserException(BasicUserException e) {
+        return new ResponseEntity<>(createBasicErrorResponseDetail(e), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(SignupException.class)
-    public ResponseEntity<SignupErrorResponseDetail> handleSignupException(SignupException e) {
-        SignupException.SignupErrorCode signupErrorCode = e.getSignupErrorCode();
-        SignupErrorResponseDetail body = new SignupErrorResponseDetail();
-        body.setCode(signupErrorCode);
-
-        switch (signupErrorCode) {
-            case BINDING -> {
-                body.setMessage(ms.getMessage("userSignupRequest.validation", null, null));
-                body.setDetail(handleBindingResult(e));
-            }
-            case DUPLICATE -> {
-                body.setMessage(ms.getMessage("userSignupRequest.duplicate", null, null));
-                body.setDetail(e.getDuplicateFields());
-            }
-        }
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<BasicErrorResponseDetail> handleSignupException(SignupException e) {
+        return new ResponseEntity<>(createBasicErrorResponseDetail(e), HttpStatus.BAD_REQUEST);
     }
 
-    private Map<String, List<String>> handleBindingResult(SignupException e) {
+    private BasicErrorResponseDetail createBasicErrorResponseDetail(UserException e) {
+        BasicErrorCode errorCode = e.getErrorCode();
+        BasicErrorResponseDetail body = new BasicErrorResponseDetail();
+        body.setCode(errorCode);
+        body.setMessage(ms.getMessage(errorCode.getMessageKey(), null, null));
+        body.setDetail(resolveDetail(e));
+        return body;
+    }
+
+    private Object resolveDetail(UserException e) {
+        Map<BasicErrorCode, Function<UserException, Object>> detailResolvers = Map.of(
+                BasicUserException.ErrorCode.ID_NOT_FOUND, ex -> Map.of("id", ((BasicUserException) ex).getId()),
+                SignupException.ErrorCode.DUPLICATE, ex -> ((SignupException) ex).getDuplicateFields(),
+                SignupException.ErrorCode.VALIDATION, ex -> handleBindingResult(((SignupException) ex).getBindingResult())
+        );
+
+        Function<UserException, Object> function = detailResolvers.get(e.getErrorCode());
+        if (function == null) {
+            return null;
+        }
+        return function.apply(e);
+    }
+
+    private Map<String, List<String>> handleBindingResult(BindingResult b) {
         Map<String, List<String>> fieldErrorMap = new HashMap<>();
 
-        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
+        for (FieldError fieldError : b.getFieldErrors()) {
             String field = fieldError.getField();
             String message = ms.getMessage(fieldError,null);
 

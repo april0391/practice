@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import toy.board.domain.dto.request.UserSignupRequest;
-import toy.board.domain.dto.response.SignupSuccessResponse;
-import toy.board.domain.dto.response.UserInfoResponse;
+import toy.board.domain.dto.user.SignupRequest;
+import toy.board.domain.dto.user.UserDetailInfoResponse;
+import toy.board.domain.dto.user.UserSimpleInfoResponse;
 import toy.board.exception.SignupException;
 import toy.board.service.UserService;
 
@@ -20,23 +20,19 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<SignupSuccessResponse> signup(@RequestBody @Validated UserSignupRequest request,
-                                                        BindingResult bindingResult) {
+    public ResponseEntity<UserSimpleInfoResponse> signup(@RequestBody @Validated SignupRequest request,
+                                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new SignupException(SignupException.SignupErrorCode.BINDING, bindingResult);
+            throw new SignupException(SignupException.ErrorCode.VALIDATION, bindingResult);
         }
-        SignupSuccessResponse body = userService.signup(request);
+        UserSimpleInfoResponse body = userService.signup(request);
         return new ResponseEntity<>(body, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public UserInfoResponse getUserInfo(@PathVariable Long id) {
+    public UserDetailInfoResponse getUserDetailInfo(@PathVariable Long id) {
         return userService.getUserInfo(id);
     }
 
-    @PostMapping("/login/{id}")
-    public ResponseEntity<?> login(@PathVariable Long id) {
-        return null;
-    }
 
 }

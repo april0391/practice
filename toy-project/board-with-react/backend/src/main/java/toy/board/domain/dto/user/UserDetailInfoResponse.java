@@ -1,4 +1,4 @@
-package toy.board.domain.dto.response;
+package toy.board.domain.dto.user;
 
 import lombok.Data;
 import toy.board.domain.entity.PostEntity;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class UserInfoResponse {
+public class UserDetailInfoResponse {
 
     private Long id;
 
