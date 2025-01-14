@@ -1,13 +1,17 @@
 package toy.board.exception;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthException extends RuntimeException {
 
     private final ErrorCode errorCode;
+    private JWTVerificationException jwtVerificationException;
 
     @Getter
     public enum ErrorCode implements BasicErrorCode {

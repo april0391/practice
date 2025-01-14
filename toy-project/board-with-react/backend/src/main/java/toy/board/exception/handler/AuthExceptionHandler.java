@@ -12,6 +12,7 @@ public class AuthExceptionHandler {
 
     @ExceptionHandler(AuthException.class)
     public ResponseEntity<Object> handleAuthException(AuthException e) {
-        return ResponseEntity.status(400).body(e.getErrorCode());
+        return ResponseEntity.status(400)
+                .body(e.getErrorCode());
     }
 }
