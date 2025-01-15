@@ -1,17 +1,17 @@
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
-import { useState } from "react";
-import Register from "./components/Register";
+import Board from "./pages/Board";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 
 function App() {
-  const [text, setText] = useState("");
-  const handleOnChange = (e) => {
-    setText(e.target.value);
-  };
-
   return (
     <>
-      <input onChange={handleOnChange} />
-      <div>{text}</div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/board" element={<Board />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }
