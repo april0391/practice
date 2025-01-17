@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import toy.board.domain.api.ApiResponse;
 
 @RequiredArgsConstructor
-@ControllerAdvice(basePackages = "toy.board.exception.handler")
+//@ControllerAdvice(basePackages = "toy.board.exception.handler")
 public class ApiErrorResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     private final MessageSource ms;

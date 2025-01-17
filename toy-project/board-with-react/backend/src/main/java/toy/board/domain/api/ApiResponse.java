@@ -1,11 +1,13 @@
 package toy.board.domain.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -15,7 +17,8 @@ public abstract class ApiResponse {
     protected String message;
     protected String path;
     protected String httpMethod;
-    protected LocalDateTime timestamp;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Seoul")
+    protected ZonedDateTime timestamp;
 
     public static <T> SuccessResponseBuilder<T> success() {
         return new SuccessResponseBuilder<>();
@@ -80,7 +83,7 @@ public abstract class ApiResponse {
             this.data = data;
             super.path = path;
             super.httpMethod = httpMethod;
-            super.timestamp = LocalDateTime.now();
+            super.timestamp = ZonedDateTime.now(ZoneId.of("UTC"));
         }
     }
 
@@ -139,7 +142,7 @@ public abstract class ApiResponse {
             this.error = error;
             super.path = path;
             super.httpMethod = httpMethod;
-            super.timestamp = LocalDateTime.now();
+            super.timestamp = ZonedDateTime.now();
         }
 
     }

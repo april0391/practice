@@ -17,7 +17,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<PagedPostResponse> getPosts(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<PagedPostResponse> getPosts(@RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "10") int size,
                            @RequestParam(defaultValue = "createdDate") String sort) {
 

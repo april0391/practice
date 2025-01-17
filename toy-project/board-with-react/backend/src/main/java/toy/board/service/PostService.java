@@ -22,7 +22,7 @@ public class PostService {
     private final PostMapper postMapper;
 
     public PagedPostResponse findAll(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(sort).descending());
         Page<PostEntity> pageResult = postRepository.findAll(pageable);
 
         List<PostDto> postDtoList = pageResult.stream()

@@ -1,7 +1,12 @@
 import React from "react";
 
-const Post = () => {
-  return <div>Post</div>;
+const Post = ({ post }) => {
+  return (
+    <div>
+      {post.title}
+      {post.content}
+    </div>
+  );
 };
 
 export default Post;

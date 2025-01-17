@@ -1,7 +1,9 @@
 package toy.board.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
 import toy.board.domain.entity.PostEntity;
 import toy.board.repository.PostRepository;
 

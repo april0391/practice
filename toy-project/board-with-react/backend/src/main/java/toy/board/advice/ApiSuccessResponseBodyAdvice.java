@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import toy.board.domain.api.ApiResponse;
 
 @RequiredArgsConstructor
-@ControllerAdvice(annotations = RestController.class)
+//@ControllerAdvice(annotations = RestController.class)
 public class ApiSuccessResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     private final MessageSource ms;
