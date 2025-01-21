@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-job
+spec:
+  completions: 1    # 완료될 작업 수 (default는 1)
+  parallelism: 1    # 동시에 실행될 작업 수 (default는 1)
+  template:
+    spec:
+      containers:
+        - name: my-container
+          image: busybox
+          command: ["echo", "Hello, Kubernetes!"]
+      restartPolicy: Never      # Pod가 종료되면 재시작되지 않습니다.

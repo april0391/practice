@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: headless-service
+spec:
+  clusterIP: None  # ClusterIP를 None으로 설정하여 IP를 할당하지 않음
+  selector:
+    app: webserver
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+

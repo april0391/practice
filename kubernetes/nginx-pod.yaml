@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: nginx
+
+spec:
+  containers:
+  - image: nginx
+    name: web2
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    imagePullPolicy: IfNotPresent
+    env:
+      - name: MYVAR
+        value: "testvalue"
