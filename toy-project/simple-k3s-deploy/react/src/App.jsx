@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import "./App.css";
-const HOST_URL = import.meta.env.VITE_HOST_URL;
+const { VITE_HOST_URL: HOST_URL, VITE_ORDER_APP_PREFIX: ORDER_APP_PREFIX } =
+  import.meta.env;
 
 function App() {
   const [data, setData] = useState("주문 없음");
@@ -9,16 +10,16 @@ function App() {
   const quantityRef = useRef();
 
   console.log("host url: " + HOST_URL);
+  console.log("order app prefix: " + ORDER_APP_PREFIX);
 
   const order = async () => {
     const orderRequest = {
       productName: productNameRef.current.value,
       quantity: quantityRef.current.value,
     };
-    console.log("orderRequest: " + orderRequest);
 
     try {
-      const res = await fetch(HOST_URL + "/orders", {
+      const res = await fetch(HOST_URL + ORDER_APP_PREFIX + "/orders", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -27,8 +28,6 @@ function App() {
       });
 
       const data = await res.text();
-      console.log(data);
-
       setData(data);
     } catch (error) {
       console.error(error);
@@ -37,10 +36,9 @@ function App() {
   };
 
   const getOrders = () => {
-    fetch("http://localhost:8080/orders")
+    fetch(HOST_URL + ORDER_APP_PREFIX + "/orders")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setOrders(data);
       })
       .catch((error) => {
