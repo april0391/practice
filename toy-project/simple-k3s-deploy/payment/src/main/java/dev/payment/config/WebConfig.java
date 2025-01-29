@@ -1,4 +1,4 @@
-package dev.payment.app;
+package dev.payment.config;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

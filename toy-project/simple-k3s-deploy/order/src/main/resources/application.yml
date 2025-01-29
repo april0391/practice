@@ -1,0 +1,7 @@
+spring.application.name=order
+server.port=8080
+payment.host=http://localhost:8081
+
+#logging.level.org.springframework.web=TRACE
+#logging.level.org.springframework.web.servlet=TRACE
+
