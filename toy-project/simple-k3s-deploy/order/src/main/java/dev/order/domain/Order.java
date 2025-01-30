@@ -1,4 +1,4 @@
-package dev.order.app.domain;
+package dev.order.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -13,4 +13,7 @@ public class Order {
     private String productName;
     private int quantity;
     private boolean paid;
+
+    private Address address;
+    private boolean shipped;
 }

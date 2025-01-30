@@ -9,7 +9,6 @@ public class PaymentListener {
     @RabbitListener(queues = "order-queue")
     public void processOrder(OrderEntity order) {
         System.out.println("Received order: " + order);
-        
     }
 
 }

@@ -1,6 +1,25 @@
-spring.application.name=order
-server.port=8080
-payment.host=http://localhost:8081
+spring:
+  application:
+    name: order
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  data:
+    mongodb:
+      uri: mongodb://root:0000@localhost:27017/mydb
+
+server:
+  port: 8080
+
+payment-service:
+  url: http://localhost:8081
+
+rabbitmq:
+  queue: order-queue         # 큐 이름
+  exchange: order-exchange   # 익스체인지 이름
+  routing-key: order-routing-key # 라우팅 키
 
 #logging.level.org.springframework.web=TRACE
 #logging.level.org.springframework.web.servlet=TRACE

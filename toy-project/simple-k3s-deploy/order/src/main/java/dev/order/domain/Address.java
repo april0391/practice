@@ -1,2 +1,10 @@
-package dev.order.domain;public class Address {
+package dev.order.domain;
+
+import lombok.Data;
+
+@Data
+public class Address {
+    private String city;
+    private String details;
+    private int zipcode;
 }

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-deployment
+  name: order-deployment-1-0-0
 spec:
   replicas: 1
   selector:
@@ -11,10 +11,11 @@ spec:
     metadata:
       labels:
         app: order
+        version: 1.0.0
     spec:
       containers:
       - name: order-container
-        image: order-app
+        image: order-app:1.0.0
         ports:
         - containerPort: 8080      # 컨테이너에서 사용하는 포트
         imagePullPolicy: IfNotPresent

@@ -14,5 +14,5 @@ rabbitmq:
   exchange: order-exchange   # ????? ??
   routing-key: order-routing-key # ??? ?
 
-order:
-  host: http://localhost:8080
+order-serivce:
+  url: http://localhost:8080

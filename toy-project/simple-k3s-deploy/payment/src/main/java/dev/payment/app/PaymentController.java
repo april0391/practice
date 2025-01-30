@@ -3,11 +3,12 @@ package dev.payment.app;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -19,22 +20,8 @@ public class PaymentController {
     private final Environment env;
 
     @PostMapping("/payment")
-    public String payment(@RequestBody Map<String, Long> payload) {
-        long id = payload.get("id");
-        if (id % 4 == 0) {
-            throw new RuntimeException();
-        }
-        return "ok";
-    }
-
-    @GetMapping("/check")
-    public String check() {
-        try {
-            return restTemplate.getForObject(env.getProperty("order.host") + "/check", String.class);
-        } catch (RestClientException e) {
-            log.error(e.getMessage());
-            return e.getMessage();
-        }
+    public boolean payment() {
+        return Math.random() > 0.25;
     }
 
     @GetMapping("/env/{key}")
