@@ -6,12 +6,14 @@ const cors = require("cors");
 const morgan = require("morgan");
 
 const { mongodbConnect } = require("./config/mongodb");
+const { mysqlConnect } = require("./config/mysql");
 
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const postRoutes = require("./routes/postRoutes");
 
-mongodbConnect();
+// mongodbConnect();
+mysqlConnect();
 
 app.use(morgan("dev"));
 app.use(

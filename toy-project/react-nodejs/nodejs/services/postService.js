@@ -1,6 +1,6 @@
 const createError = require("http-errors");
-const Post = require("../models/postModel");
-const User = require("../models/userModel");
+const Post = require("../models/mongodb/postModel");
+const User = require("../models/mongodb/userModel");
 
 const save = async (data, userId) => {
   const post = new Post({

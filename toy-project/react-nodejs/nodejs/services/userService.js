@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const User = require("../models/mongodb/userModel");
 const bcrypt = require("../utils/bcryptUtils");
 
 const createUser = async (data) => {

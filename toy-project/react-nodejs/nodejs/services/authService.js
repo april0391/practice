@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const User = require("../models/userModel");
+const User = require("../models/mongodb/userModel");
 const bcryptUtils = require("../utils/bcryptUtils");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
