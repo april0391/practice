@@ -1,4 +1,4 @@
-const userService = require("../services/userService");
+const { userService } = require("../config/dependencyFactory");
 
 const createUser = async (req, res) => {
   const user = await userService.createUser(req.body);

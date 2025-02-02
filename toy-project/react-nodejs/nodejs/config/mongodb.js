@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-exports.mongodbConnect = async () => {
+exports.connect = async () => {
   try {
     await mongoose.connect("mongodb://root:0000@localhost:27017/mydb");
     console.log("mongodb 연결 성공");

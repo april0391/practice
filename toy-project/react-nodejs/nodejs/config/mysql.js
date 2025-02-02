@@ -1,18 +1,20 @@
-const { Sequelize } = require("sequelize");
+const { sequelize } = require("../models/mysql/index");
 
-const sequelize = new Sequelize("mydb", "root", "0000", {
-  host: "localhost",
-  dialect: "mysql",
-  logging: console.log,
-});
-
-const mysqlConnect = async () => {
+exports.connect = async () => {
   try {
     await sequelize.authenticate();
     console.log("MySQL 연결 성공");
   } catch (error) {
     console.error("MySQL 연결 실패: ", error);
   }
+  tableInit();
 };
 
-module.exports = { sequelize, mysqlConnect };
+tableInit = async () => {
+  try {
+    await sequelize.sync({ alter: true });
+    console.log("테이블 생성 완료");
+  } catch (error) {
+    console.error("Unable to create table:", error);
+  }
+};

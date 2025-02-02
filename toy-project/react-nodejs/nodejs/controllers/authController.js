@@ -2,6 +2,8 @@ const authService = require("../services/authService");
 
 const loginProcess = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
+
   const user = await authService.loginProcess(email, password);
   const jwt = authService.createJwt(user);
 

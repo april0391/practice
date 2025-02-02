@@ -1,5 +1,11 @@
+require("dotenv").config();
+
 const Sequelize = require("sequelize");
-const config = require("../config/config.json")["development"];
+const env = process.env.NODE_ENV || "development";
+const config = require("../../config/config.json")[env];
+
+const User = require("./user");
+const Post = require("./post");
 
 const sequelize = new Sequelize(
   config.database,
@@ -11,13 +17,13 @@ const sequelize = new Sequelize(
 const db = {};
 
 db.sequelize = sequelize;
-db.User = require("./user");
-db.Post = require("./post");
+db.User = User;
+db.Post = Post;
 
-db.User.init(sequelize);
-db.Post.init(sequelize);
+User.initiate(sequelize);
+Post.initiate(sequelize);
 
-db.User.associate(db);
-db.Post.associate(db);
+User.associate(db);
+Post.associate(db);
 
 module.exports = db;

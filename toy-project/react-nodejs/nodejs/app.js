@@ -5,15 +5,13 @@ const createError = require("http-errors");
 const cors = require("cors");
 const morgan = require("morgan");
 
-const { mongodbConnect } = require("./config/mongodb");
-const { mysqlConnect } = require("./config/mysql");
+const { dbConfig } = require("./config/dependencyFactory");
 
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const postRoutes = require("./routes/postRoutes");
 
-// mongodbConnect();
-mysqlConnect();
+dbConfig.connect();
 
 app.use(morgan("dev"));
 app.use(
@@ -23,10 +21,8 @@ app.use(
   })
 );
 
-// 요청 본문 JSON 파싱
-app.use(express.json());
-// HTML 폼 데이터를 req.body로 변환
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // 요청 본문 JSON 파싱
+app.use(express.urlencoded({ extended: true })); // HTML 폼 데이터를 req.body로 변환
 
 // 라우터 설정
 app.use("/users", userRoutes);

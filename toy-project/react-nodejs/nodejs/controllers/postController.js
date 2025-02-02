@@ -1,4 +1,4 @@
-const postService = require("../services/postService");
+const postService = require("../services/postMongoService");
 
 const save = async (req, res) => {
   const post = await postService.save(req.body, req.user.userId);

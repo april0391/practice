@@ -1,11 +1,14 @@
 const createError = require("http-errors");
-const User = require("../models/mongodb/userModel");
+// const User = require("../models/mongodb/userModel");
+const User = require("../models/mysql/user");
 const bcryptUtils = require("../utils/bcryptUtils");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const loginProcess = async (email, password) => {
-  const findUser = await User.findOne({ email });
+  // const findUser = await User.findOne({ email });
+  const findUser = await User.findOne({ where: { email } });
+
   if (!findUser) {
     throw createError(401, "잘못된 아이디입니다");
   }
