@@ -1,0 +1,60 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: hojunlim
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: express-api-with-dynamodb-demo
+
+plugins:
+  - serverless-offline
+
+stages:
+  default:
+    params:
+      tableName: "users-table-${sls:stage}"
+
+# custom:
+# env: ${file(./env/${opt:stage,'local'}.json)}
+# serverless-offline:
+#   httpPort: 4000 # 로컬 포트
+#   lambdaPort: 4001 # 람다 포트
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  memorySize: 128
+  region: ap-northeast-2
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [UsersTable, Arn]
+  environment:
+    USERS_TABLE: ${param:tableName}
+    STAGE: ${sls:stage}
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: "*"
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${param:tableName}
