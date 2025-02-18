@@ -1,0 +1,62 @@
+org: hojunlim
+app: rest-api-demo
+service: http-api-demo
+
+package:
+  individually: true # 각 함수 개별 패키징
+  exclude:
+    - node_modules/** # 중복 포함 방지
+    - package.json
+    - package-lock.json
+    - README.md
+    - serverless.yml
+
+layers:
+  commonDependencies:
+    path: layer
+    name: ${sls:stage}-common-dependencies
+    description: "Common dependencies for all functions"
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-northeast-2
+  memorySize: 256
+  layers:
+    - Ref: CommonDependenciesLambdaLayer
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  getUser:
+    handler: ./src/users.getUser
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: get
+
+  createUser:
+    handler: ./src/users.createUser
+    events:
+      - httpApi:
+          path: /users
+          method: post
+
+  updateUser:
+    handler: ./src/users.updateUser
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: put
+
+  deleteUser:
+    handler: ./src/users.deleteUser
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: delete
