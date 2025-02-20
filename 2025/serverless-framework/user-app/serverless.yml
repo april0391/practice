@@ -25,7 +25,7 @@ provider:
   name: aws
   runtime: nodejs22.x
   region: ap-northeast-2
-  memorySize: 256
+  memorySize: 128
   iam:
     role:
       statements:
