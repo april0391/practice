@@ -7,13 +7,17 @@ const {
   UpdateCommand,
   DeleteCommand,
 } = require("@aws-sdk/lib-dynamodb");
-if (process.env.IS_OFFLINE === "true") {
-  require("dotenv").config();
-}
 
-const client = new DynamoDBClient({
-  endpoint: process.env.DYNAMODB_ENDPOINT,
-});
+/* let client;
+
+if (process.env.IS_OFFLINE === "true") {
+  client = new DynamoDBClient({
+    endpoint: "http://localhost:8000",
+  });
+} else {
+  client = new DynamoDBClient();
+} */
+const client = new DynamoDBClient({ endpoint: process.env.DYNAMODB_ENDPOINT });
 
 const docClient = DynamoDBDocumentClient.from(client);
 

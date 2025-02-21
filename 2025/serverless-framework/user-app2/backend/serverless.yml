@@ -1,7 +1,7 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: hojunlim
 # "service" is the name of this project. This will also be added to your AWS resource names.
-service: user-app
+service: user-app2
 
 package:
   # individually: true # 각 함수 개별 패키징
@@ -11,16 +11,17 @@ package:
     - package-lock.json
     - README.md
     - .env
+    - local/**
     - serverless.yml
 
 stages:
   default:
     params:
-      tableName: "[${self:service}][${sls:stage}]-users_table"
+      tableName: "${self:service}-users-table-${sls:stage}"
       dynamodb_endpoint: "https://dynamodb.${aws:region}.amazonaws.com"
   local:
     params:
-      dynamodb_endpoint: "http://localhost:8000"
+      dynamodb_endpoint: http://localhost:8000
 
 provider:
   name: aws
@@ -55,19 +56,22 @@ resources:
   Resources:
     UsersTable:
       Type: AWS::DynamoDB::Table
-      # DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: userId
             AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: userId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${param:tableName}
-      Tags:
-        - Key: APP_NAME
-          Value: ${self:service}
 
 plugins:
   - serverless-offline
+  - serverless-dynamodb
+
+custom:
+  serverless-dynamodb:
+    start:
+      port: 8000
+      docker: false

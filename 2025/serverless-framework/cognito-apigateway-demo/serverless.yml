@@ -30,3 +30,6 @@ functions:
       - cognitoUserPool:
           pool: MyUserPool
           trigger: CustomMessage
+
+plugins:
+  - serverless-offline
