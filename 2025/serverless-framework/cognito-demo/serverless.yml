@@ -1,0 +1,30 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: hojunlim
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: cognito-demo
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-northeast-2
+  httpApi:
+    authorizers:
+      someJwtAuthorizer:
+        type: jwt
+        identitySource: $request.header.Authorization
+        audience:
+          - ${client1Id}
+          - ${client2Id}
+
+functions:
+  someFunction:
+    handler: index.handler
+    events:
+      - httpApi:
+          method: "*"
+          path: /secret
+          authorizer:
+            name: someJwtAuthorizer
+            scopes: # Optional
+              - user.id
+              - user.email
