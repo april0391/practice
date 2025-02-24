@@ -78,25 +78,25 @@ resources:
         BillingMode: PAY_PER_REQUEST
         TableName: user-app2-users-table
 
-    CognitoUserPool:
-      Type: AWS::Cognito::UserPool
-      Properties:
-        UserPoolName: "user-app2-user-pool"
-        AutoVerifiedAttributes:
-          - email
-        Policies:
-          PasswordPolicy:
-            MinimumLength: 8
-            RequireUppercase: true
-            RequireLowercase: true
-            RequireNumbers: true
-            RequireSymbols: false
+    # CognitoUserPool:
+    #   Type: AWS::Cognito::UserPool
+    #   Properties:
+    #     UserPoolName: "user-app2-user-pool"
+    #     AutoVerifiedAttributes:
+    #       - email
+    #     Policies:
+    #       PasswordPolicy:
+    #         MinimumLength: 8
+    #         RequireUppercase: true
+    #         RequireLowercase: true
+    #         RequireNumbers: true
+    #         RequireSymbols: false
 
-    CognitoUserPoolClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-        ClientName: "user-app2-user-pool-client"
-        UserPoolId: !Ref CognitoUserPool
-        ExplicitAuthFlows:
-          - ADMIN_NO_SRP_AUTH
-        GenerateSecret: false
+    # CognitoUserPoolClient:
+    #   Type: AWS::Cognito::UserPoolClient
+    #   Properties:
+    #     ClientName: "user-app2-user-pool-client"
+    #     UserPoolId: !Ref CognitoUserPool
+    #     ExplicitAuthFlows:
+    #       - ADMIN_NO_SRP_AUTH
+    #     GenerateSecret: false

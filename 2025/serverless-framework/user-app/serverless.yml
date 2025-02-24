@@ -1,6 +1,4 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: hojunlim
-# "service" is the name of this project. This will also be added to your AWS resource names.
 service: user-app
 
 package:
@@ -16,7 +14,7 @@ package:
 stages:
   default:
     params:
-      tableName: "[${self:service}][${sls:stage}]-users_table"
+      tableName: "${self:service}-users_table-${sls:stage}"
       dynamodb_endpoint: "https://dynamodb.${aws:region}.amazonaws.com"
   local:
     params:
@@ -27,7 +25,7 @@ provider:
   runtime: nodejs22.x
   region: ap-northeast-2
   stage: ${opt:stage, 'dev'}
-  memorySize: 128
+  memorySize: 256
   iam:
     role:
       statements:
