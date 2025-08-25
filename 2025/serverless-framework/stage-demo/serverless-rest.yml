@@ -1,0 +1,20 @@
+org: hojunlim
+service: stage-rest-demo
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-northeast-2
+  stage: ${opt:stage, 'dev'}
+  apiGateway:
+    restApiId: dpxjpgi3k8
+    restApiRootResourceId: b803zmto6a
+    stage: ${opt:stage, 'dev'}
+
+functions:
+  MyApi:
+    handler: handler.hello
+    events:
+      - http:
+          path: "{proxy+}"
+          method: ANY

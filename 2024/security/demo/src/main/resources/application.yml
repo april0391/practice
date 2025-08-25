@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: demo
+  output:
+    ansi:
+      enabled: always
+  jwt:
+    secret: asdoghiwehfwfwdfkjlwadfvnlwsdgsdakdf
+
+logging:
+  level:
+    org.springframework.security: DEBUG

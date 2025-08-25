@@ -1,0 +1,37 @@
+org: hojunlim
+service: stage-http-demo
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-northeast-2
+  stage: ${opt:stage, 'dev'}
+  httpApi:
+    stage: ${opt:stage, 'dev'}
+
+functions:
+  MyApi:
+    handler: handler.hello
+    events:
+      - httpApi: "*"
+# resources:
+#   Resources:
+#     MyApiStage:
+#       Type: AWS::ApiGatewayV2::Stage
+#       Properties:
+#         ApiId: ${self:custom.apiId}
+#         StageName: ${opt:stage, 'dev'}
+#         AutoDeploy: true
+#     MyApiRouteGetHello:
+#       Type: AWS::ApiGatewayV2::Route
+#       Properties:
+#         ApiId: ${self:custom.apiId}
+#         RouteKey: "GET /hello"
+#         Target: !Sub "integrations/${MyApiIntegration}"
+#     MyApiIntegration:
+#       Type: AWS::ApiGatewayV2::Integration
+#       Properties:
+#         ApiId: ${self:custom.apiId}
+#         IntegrationType: AWS_PROXY
+#         IntegrationUri: arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${self:service}-${opt:stage, 'dev'}-MyApi
+#         PayloadFormatVersion: "2.0"

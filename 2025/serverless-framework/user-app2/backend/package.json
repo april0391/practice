@@ -1,0 +1,17 @@
+{
+  "name": "user-app2",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^4.21.2",
+    "express-async-errors": "^3.1.1",
+    "http-errors": "^2.0.0",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.585.0",
+    "@aws-sdk/lib-dynamodb": "^3.585.0",
+    "serverless-offline": "^14.4.0"
+  }
+}

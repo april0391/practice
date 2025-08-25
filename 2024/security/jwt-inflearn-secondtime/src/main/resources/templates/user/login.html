@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>login</title>
+</head>
+<body>
+<form action="/login" method="post">
+    username: <input type="text" id="username" name="username"><br>
+    password: <input type="text" id="password" name="password">
+    <button id="submitBtn">제출</button>
+</form>
+<script>
+    const submitBtn = document.querySelector('#submitBtn');
+    submitBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const jsonBody = {username: username, password: password}
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonBody)
+        })
+        .then(res => res.text())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+    });
+</script>
+</body>
+</html>

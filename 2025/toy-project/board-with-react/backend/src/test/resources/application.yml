@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: board
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+#    url: jdbc:h2:tcp://localhost/~/h2/toy-board
+    url: jdbc:h2:mem:testdb
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

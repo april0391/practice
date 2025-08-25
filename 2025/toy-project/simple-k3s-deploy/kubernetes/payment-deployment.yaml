@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+      - name: payment-container
+        image: payment-app
+        ports:
+        - containerPort: 8081         # 컨테이너에서 사용하는 포트
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: app-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec:
+  selector:
+    app: payment
+  ports:
+    - protocol: TCP
+      port: 8080                  # 외부에 노출되는 포트
+      targetPort: 8081            # 컨테이너에서 사용하는 포트
+  type: ClusterIP

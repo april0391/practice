@@ -1,0 +1,16 @@
+org: hojunlim
+service: stage-demo
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-northeast-2
+  stage: ${opt:stage, 'dev'}
+
+functions:
+  myFunction:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /hello
+          method: get

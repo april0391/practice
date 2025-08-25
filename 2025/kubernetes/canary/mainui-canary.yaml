@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mainui-canary
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mainui
+      version: canary
+  template:
+    metadata:
+      labels:
+        app: mainui
+        version: canary
+    spec:
+      containers:
+      - name: mainui
+        image: httpd
+        ports:
+        - containerPort: 80
+

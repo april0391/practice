@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  annotations:
+    kubernetes.io/change-cause: version latest
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      name: nginx-deploy
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+   
+  progressDeadlineSeconds: 600  # 업데이트 지연 시 타임아웃
+  revisionHistoryLimit: 10      # 배포 이력 개수
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
