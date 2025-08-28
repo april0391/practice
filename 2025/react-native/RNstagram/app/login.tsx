@@ -1,0 +1,111 @@
+import { useAuthContext } from "@/components/common/AuthProvider";
+import Button from "@/components/common/Button";
+import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import { ThemedText } from "@/components/ThemedText";
+import Icon from "@/components/ui/Icon";
+import { Colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
+
+export default function LoginScreen() {
+  const router = useRouter();
+  const { signIn } = useAuthContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSignIn() {
+    setLoading(true);
+    await signIn(email, password);
+  }
+
+  function handleForgotPassword() {}
+
+  function handleSignup() {
+    router.push("/signup");
+  }
+
+  return (
+    <ThemedSafeAreaView style={styles.container}>
+      <View style={styles.subContainer}>
+        <Icon
+          color="black"
+          library="antDesign"
+          name="instagram"
+          size={100}
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="이메일 주소"
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="비밀번호"
+          onChangeText={setPassword}
+          secureTextEntry={true}
+          autoCapitalize="none"
+        />
+        <View style={styles.buttonContainer}>
+          <Button onPress={handleSignIn} variant="default" textColor="white">
+            로그인 {loading && <ActivityIndicator />}
+          </Button>
+          <Button onPress={handleForgotPassword} variant="ghost">
+            비밀번호를 잊으셨나요?
+          </Button>
+        </View>
+      </View>
+      <View style={styles.subContainer}>
+        <Button
+          onPress={handleSignup}
+          variant="outline"
+          textColor={Colors.primary300}
+        >
+          새 계정 만들기
+        </Button>
+        <View style={styles.footer}>
+          <Icon library="ionicons" name="logo-react" size={20} color="black" />
+          <ThemedText>React Native</ThemedText>
+        </View>
+      </View>
+    </ThemedSafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: 100,
+    paddingBottom: 20,
+    padding: 20,
+    width: "100%",
+  },
+  subContainer: {
+    width: "95%",
+    gap: 12,
+  },
+  icon: {
+    margin: "auto",
+    marginBottom: 90,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  buttonContainer: {
+    width: "100%",
+    gap: 4,
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 6,
+  },
+});
