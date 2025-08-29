@@ -10,13 +10,16 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 // import {useColorScheme} from "nativewind";
-import AuthProvider, { useAuthContext } from "@/components/common/AuthProvider";
+import AuthProvider, { useAuthContext } from "@/components/auth/AuthProvider";
 import { useEffect } from "react";
 import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from "react-native-safe-area-context";
 
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Toast from "react-native-toast-message";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -33,14 +36,21 @@ export default function Root() {
   }
 
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <AuthProvider>
-          <RootNavigator />
-          <StatusBar style="auto" />
-        </AuthProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <BottomSheetModalProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <AuthProvider>
+              <RootNavigator />
+              <Toast />
+              <StatusBar style="auto" />
+            </AuthProvider>
+          </ThemeProvider>
+        </BottomSheetModalProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -56,20 +66,21 @@ function RootNavigator() {
   }
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerShadowVisible: false,
+        headerTitle: "",
+      }}
+    >
+      <Stack.Protected guard={!session}>
+        <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+        <Stack.Screen name="(sign-up)" />
+      </Stack.Protected>
+
       <Stack.Protected guard={!!session}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack.Protected>
 
-      <Stack.Protected guard={!session}>
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="signup"
-          options={{
-            headerShadowVisible: false,
-          }}
-        />
-      </Stack.Protected>
       <Stack.Screen name="+not-found" />
     </Stack>
   );

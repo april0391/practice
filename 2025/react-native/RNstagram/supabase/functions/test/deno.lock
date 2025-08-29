@@ -3,6 +3,7 @@
   "specifiers": {
     "jsr:@supabase/functions-js@*": "2.4.5",
     "npm:@supabase/supabase-js@2": "2.56.0",
+    "npm:nodemailer@6.9.7": "6.9.7",
     "npm:openai@^4.52.5": "4.104.0"
   },
   "jsr": {
@@ -249,6 +250,9 @@
         "whatwg-url"
       ]
     },
+    "nodemailer@6.9.7": {
+      "integrity": "sha512-rUtR77ksqex/eZRLmQ21LKVH5nAAsVicAtAYudK7JgwenEDZ0UIQ1adUGqErz7sMkWYxWTTU1aeP2Jga6WQyJw=="
+    },
     "openai@4.104.0": {
       "integrity": "sha512-p99EFNsA/yX6UhVO93f5kJsDRLAg+CTA2RBqdHK4RtK8u5IJw32Hyb2dTGKbnnFmnuoBv5r7Z2CURI9sGZpSuA==",
       "dependencies": [
@@ -287,5 +291,9 @@
     "ws@8.18.3": {
       "integrity": "sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg=="
     }
+  },
+  "remote": {
+    "https://deno.land/std@0.215.0/async/delay.ts": "8e1d18fe8b28ff95885e2bc54eccec1713f57f756053576d8228e6ca110793ad",
+    "https://deno.land/std@0.215.0/http/server.ts": "6dce295abc169d0956ae00432441331b3425afad4d79e8b3475739be2f04d614"
   }
 }

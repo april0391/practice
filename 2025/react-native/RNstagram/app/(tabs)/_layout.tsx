@@ -18,6 +18,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarShowLabel: false,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
@@ -33,8 +34,7 @@ export default function TabLayout() {
           key={tab.name}
           name={tab.name}
           options={{
-            title: "Home",
-            tabBarShowLabel: false,
+            title: tab.name,
             tabBarIcon: ({ color }) => (
               <Icon
                 library={tab.icon.library}

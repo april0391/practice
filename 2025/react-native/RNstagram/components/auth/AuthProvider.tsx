@@ -36,11 +36,13 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("getSession().then()");
       setSession(session);
       setIsSessionInitialized(true);
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("onAuthStateChange()", _event);
       setSession(session);
     });
   }, []);
@@ -54,6 +56,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
+
     console.log("error", error);
   }
 

@@ -1,52 +1,43 @@
-import { Colors } from "@/constants/Colors";
-import type { StyleProp, ViewStyle } from "react-native";
-import { Pressable, StyleSheet } from "react-native";
-import { ThemedText } from "../ThemedText";
-import { ThemedView } from "../ThemedView";
+import { cn } from "@/utils/cn";
+import { Pressable, Text, View } from "react-native";
 
 type ButtonType = "default" | "outline" | "ghost";
 
 type Props = {
-  children: React.ReactNode;
   onPress: () => void;
   variant?: ButtonType;
-  style?: StyleProp<ViewStyle>;
-  textColor?: string;
+  disabled?: boolean;
+  className?: string;
+  children: React.ReactNode;
 };
 
 export default function Button({
-  children,
   onPress,
   variant = "default",
-  style,
-  textColor,
+  disabled = false,
+  className,
+  children,
 }: Props) {
   return (
-    <Pressable onPress={onPress}>
-      <ThemedView style={[styles.base, styles[variant], style]}>
-        <ThemedText style={textColor && { color: textColor }}>
+    <Pressable onPress={onPress} disabled={disabled}>
+      <View
+        className={cn(
+          "items-center p-3",
+          variant === "default" && `rounded-3xl bg-primary-300`,
+          variant === "outline" && `border rounded-3xl border-primary-300`,
+          disabled && "opacity-60",
+          className
+        )}
+      >
+        <Text
+          className={cn(
+            variant === "default" && "text-white",
+            variant === "outline" && "text-primary-300"
+          )}
+        >
           {children}
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  base: {
-    alignItems: "center",
-    padding: 8,
-  },
-  default: {
-    borderRadius: 20,
-    backgroundColor: Colors.primary500,
-  },
-  outline: {
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: Colors.primary300,
-  },
-  ghost: {
-    alignItems: "center",
-  },
-});

@@ -1,9 +1,8 @@
-import { useAuthContext } from "@/components/common/AuthProvider";
+import { useAuthContext } from "@/components/auth/AuthProvider";
 import Button from "@/components/common/Button";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 import { ThemedText } from "@/components/ThemedText";
 import Icon from "@/components/ui/Icon";
-import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
@@ -11,19 +10,20 @@ import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
 export default function LoginScreen() {
   const router = useRouter();
   const { signIn } = useAuthContext();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSignIn() {
-    setLoading(true);
+    setIsLoading(true);
     await signIn(email, password);
   }
 
   function handleForgotPassword() {}
 
   function handleSignup() {
-    router.push("/signup");
+    router.push("/(sign-up)/send-otp");
   }
 
   return (
@@ -49,8 +49,8 @@ export default function LoginScreen() {
           autoCapitalize="none"
         />
         <View style={styles.buttonContainer}>
-          <Button onPress={handleSignIn} variant="default" textColor="white">
-            로그인 {loading && <ActivityIndicator />}
+          <Button onPress={handleSignIn}>
+            로그인 {isLoading && <ActivityIndicator />}
           </Button>
           <Button onPress={handleForgotPassword} variant="ghost">
             비밀번호를 잊으셨나요?
@@ -58,11 +58,7 @@ export default function LoginScreen() {
         </View>
       </View>
       <View style={styles.subContainer}>
-        <Button
-          onPress={handleSignup}
-          variant="outline"
-          textColor={Colors.primary300}
-        >
+        <Button onPress={handleSignup} variant="outline">
           새 계정 만들기
         </Button>
         <View style={styles.footer}>
