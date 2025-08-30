@@ -1,26 +1,27 @@
+import { useEffect } from "react";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
+import "../global.css";
 // import {useColorScheme} from "nativewind";
-import AuthProvider, { useAuthContext } from "@/components/auth/AuthProvider";
-import { useEffect } from "react";
+import { useFonts } from "expo-font";
 import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from "react-native-safe-area-context";
+import "react-native-reanimated";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import Toast from "react-native-toast-message";
-import "../global.css";
+
+import AuthProvider, { useAuthContext } from "@/components/auth/AuthProvider";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,11 +46,12 @@ export default function Root() {
             <AuthProvider>
               <RootNavigator />
               <Toast />
-              <StatusBar style="auto" />
             </AuthProvider>
           </ThemeProvider>
         </BottomSheetModalProvider>
       </SafeAreaProvider>
+
+      <StatusBar style="auto" />
     </GestureHandlerRootView>
   );
 }
@@ -65,6 +67,8 @@ function RootNavigator() {
     return null;
   }
 
+  const isSignedIn = !!session;
+
   return (
     <Stack
       screenOptions={{
@@ -72,12 +76,12 @@ function RootNavigator() {
         headerTitle: "",
       }}
     >
-      <Stack.Protected guard={!session}>
+      <Stack.Protected guard={!isSignedIn}>
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
-        <Stack.Screen name="(sign-up)" />
+        <Stack.Screen name="(sign-up)" options={{ headerShown: false }} />
       </Stack.Protected>
 
-      <Stack.Protected guard={!!session}>
+      <Stack.Protected guard={isSignedIn}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack.Protected>
 

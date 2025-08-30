@@ -1,10 +1,10 @@
+import type { ComponentProps } from "react";
 import type {
   AntDesign,
   FontAwesome,
   Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import type { ComponentProps } from "react";
 
 export type IconLibrary = "ionicons" | "material" | "antDesign" | "fontAwesome";
 
@@ -24,4 +24,28 @@ export type Tab = {
   name: string;
   label: string;
   icon: Icon;
+};
+
+export type ApiErrorCode =
+  | "invalid_otp"
+  | "otp_expired"
+  //
+  | "invalid_json"
+  | "invalid_input"
+  | "missing_field"
+  //
+  | "functions_http_error"
+  | "functions_relay_error"
+  | "functions_fetch_error"
+  //
+  | "bad_request"
+  | "method_not_allowed"
+  | "internal_server_error";
+
+export type SignUpData = {
+  email: string;
+  password: string;
+  birthDate: string;
+  name: string;
+  agreedToAll: boolean;
 };

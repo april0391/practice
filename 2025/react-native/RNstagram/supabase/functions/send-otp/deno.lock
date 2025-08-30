@@ -3,7 +3,10 @@
   "specifiers": {
     "jsr:@supabase/functions-js@*": "2.4.5",
     "npm:@react-email/components@0.0.22": "0.0.22_react@18.3.1",
+    "npm:@supabase/supabase-js@2": "2.56.0",
+    "npm:drizzle-orm@*": "0.44.5_postgres@3.4.7",
     "npm:openai@^4.52.5": "4.104.0",
+    "npm:postgres@*": "3.4.7",
     "npm:react@18.3.1": "18.3.1"
   },
   "jsr": {
@@ -205,6 +208,56 @@
         "selderee"
       ]
     },
+    "@supabase/auth-js@2.71.1": {
+      "integrity": "sha512-mMIQHBRc+SKpZFRB2qtupuzulaUhFYupNyxqDj5Jp/LyPvcWvjaJzZzObv6URtL/O6lPxkanASnotGtNpS3H2Q==",
+      "dependencies": [
+        "@supabase/node-fetch"
+      ]
+    },
+    "@supabase/functions-js@2.4.5": {
+      "integrity": "sha512-v5GSqb9zbosquTo6gBwIiq7W9eQ7rE5QazsK/ezNiQXdCbY+bH8D9qEaBIkhVvX4ZRW5rP03gEfw5yw9tiq4EQ==",
+      "dependencies": [
+        "@supabase/node-fetch"
+      ]
+    },
+    "@supabase/node-fetch@2.6.15": {
+      "integrity": "sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==",
+      "dependencies": [
+        "whatwg-url"
+      ]
+    },
+    "@supabase/postgrest-js@1.21.3": {
+      "integrity": "sha512-rg3DmmZQKEVCreXq6Am29hMVe1CzemXyIWVYyyua69y6XubfP+DzGfLxME/1uvdgwqdoaPbtjBDpEBhqxq1ZwA==",
+      "dependencies": [
+        "@supabase/node-fetch"
+      ]
+    },
+    "@supabase/realtime-js@2.15.1": {
+      "integrity": "sha512-edRFa2IrQw50kNntvUyS38hsL7t2d/psah6om6aNTLLcWem0R6bOUq7sk7DsGeSlNfuwEwWn57FdYSva6VddYw==",
+      "dependencies": [
+        "@supabase/node-fetch",
+        "@types/phoenix",
+        "@types/ws",
+        "ws"
+      ]
+    },
+    "@supabase/storage-js@2.11.0": {
+      "integrity": "sha512-Y+kx/wDgd4oasAgoAq0bsbQojwQ+ejIif8uczZ9qufRHWFLMU5cODT+ApHsSrDufqUcVKt+eyxtOXSkeh2v9ww==",
+      "dependencies": [
+        "@supabase/node-fetch"
+      ]
+    },
+    "@supabase/supabase-js@2.56.0": {
+      "integrity": "sha512-XqwhHSyVnkjdliPN61CmXsmFGnFHTX2WDdwjG3Ukvdzuu3Trix+dXupYOQ3BueIyYp7B6t0yYpdQtJP2hIInyg==",
+      "dependencies": [
+        "@supabase/auth-js",
+        "@supabase/functions-js",
+        "@supabase/node-fetch",
+        "@supabase/postgrest-js",
+        "@supabase/realtime-js",
+        "@supabase/storage-js"
+      ]
+    },
     "@types/node-fetch@2.6.13": {
       "integrity": "sha512-QGpRVpzSaUs30JBSGPjOg4Uveu384erbHBoT1zeONvyCfwQxIkUshLAOqN/k9EjGviPRmWTTe6aH2qySWKTVSw==",
       "dependencies": [
@@ -222,6 +275,15 @@
       "integrity": "sha512-3xyG3pMCq3oYCNg7/ZP+E1ooTaGB4cG8JWRsqqOYQdbWNY4zbaV0Ennrd7stjiJEFZCaybcIgpTjJWHRfBSIDw==",
       "dependencies": [
         "undici-types@7.10.0"
+      ]
+    },
+    "@types/phoenix@1.6.6": {
+      "integrity": "sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A=="
+    },
+    "@types/ws@8.18.1": {
+      "integrity": "sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==",
+      "dependencies": [
+        "@types/node@24.2.0"
       ]
     },
     "abbrev@2.0.0": {
@@ -335,6 +397,15 @@
         "dom-serializer",
         "domelementtype",
         "domhandler"
+      ]
+    },
+    "drizzle-orm@0.44.5_postgres@3.4.7": {
+      "integrity": "sha512-jBe37K7d8ZSKptdKfakQFdeljtu3P2Cbo7tJoJSVZADzIKOBo9IAJPOmMsH2bZl90bZgh8FQlD8BjxXA/zuBkQ==",
+      "dependencies": [
+        "postgres"
+      ],
+      "optionalPeers": [
+        "postgres"
       ]
     },
     "dunder-proto@1.0.1": {
@@ -643,6 +714,9 @@
     "peberminta@0.9.0": {
       "integrity": "sha512-XIxfHpEuSJbITd1H3EeQwpcZbTLHc+VVr8ANI9t5sit565tsI4/xK3KWTUFE2e6QiangUkh3B0jihzmGnNrRsQ=="
     },
+    "postgres@3.4.7": {
+      "integrity": "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="
+    },
     "prismjs@1.29.0": {
       "integrity": "sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q=="
     },
@@ -769,6 +843,9 @@
         "string-width@5.1.2",
         "strip-ansi@7.1.0"
       ]
+    },
+    "ws@8.18.3": {
+      "integrity": "sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg=="
     }
   },
   "redirects": {
@@ -804,5 +881,11 @@
     "https://deno.land/x/smtp@v0.7.0/deps.ts": "5e2a437e3ae35f0e83719fd2e707858dcb750c1111ff5bebc729522a1380b53d",
     "https://deno.land/x/smtp@v0.7.0/mod.ts": "9b0d8fbdacc184d1af10f727980e51486e0ddf9d2ec7227c8dfce90db5bfbcf5",
     "https://deno.land/x/smtp@v0.7.0/smtp.ts": "47c72a99925ad07f3174037f9325dbb8b703dc1177277b9161dc6209c7fa4f90"
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:drizzle-orm@*",
+      "npm:postgres@*"
+    ]
   }
 }

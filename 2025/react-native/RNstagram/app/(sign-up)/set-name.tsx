@@ -5,23 +5,21 @@ import { z } from "zod";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
 
-import Button from "@/components/common/Button";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import Button from "@/components/common/Button";
 
-const passwordSchema = z
+export const nameSchema = z
   .string()
-  .min(
-    6,
-    "비밀번호가 너무 짧습니다. 6자 이상의 문자, 숫자, 특수문자를 조합하여 만드세요."
-  )
+  .min(2, "이름은 최소 2글자 이상이어야 합니다.")
+  .max(20, "이름은 최대 20글자까지 입력 가능합니다.")
   .regex(
-    /^[\w!@#$%^&*(),.?":{}|<>~`\-_=+\\[\];'/]+$/,
-    "비밀번호에 허용되지 않은 문자가 포함되어 있습니다."
+    /^[가-힣a-zA-Z\s]+$/,
+    "이름에는 한글, 영어, 공백만 사용할 수 있습니다."
   );
 
-export default function SetPasswordScreen() {
-  const [password, setPassword] = useState("");
+export default function SetNameScreen() {
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
 
   const { updateSignUpField } = useSignUpContext();
@@ -29,31 +27,26 @@ export default function SetPasswordScreen() {
   const router = useRouter();
 
   function handleNext() {
-    const result = passwordSchema.safeParse(password);
+    const result = nameSchema.safeParse(name);
     if (!result.success) {
       setError(result.error.issues[0].message);
       return;
     }
 
-    setError("");
-
-    updateSignUpField("password", password);
-    router.navigate("/set-birth-date");
+    updateSignUpField("name", name);
+    router.navigate("/agreements");
   }
 
   return (
     <ThemedView className="flex-1 gap-5 p-7">
-      <ThemedText type="title">비밀번호 만들기</ThemedText>
-      <ThemedText>
-        다른 사람이 추측할 수 없는 6자 이상의 문자 또는 숫자로 비밀번호를
-        만드세요.
+      <ThemedText type="title" className="mb-3">
+        이름 입력
       </ThemedText>
       <TextInput
         className="border border-gray-400 rounded-xl p-4"
-        placeholder="비밀번호"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
+        placeholder="성명"
+        value={name}
+        onChangeText={setName}
         autoCapitalize="none"
       />
       {error && <Text className="text-red-500">{error}</Text>}

@@ -1,12 +1,13 @@
-import Button from "@/components/common/Button";
-import { ThemedText } from "@/components/ThemedText";
 import { useState } from "react";
+import { ActivityIndicator, Text, TextInput } from "react-native";
+import { useRouter } from "expo-router";
 import { z } from "zod";
 
+import { sendOtp } from "@/utils/auth";
+
+import Button from "@/components/common/Button";
+import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { supabase } from "@/utils/supabase";
-import { useRouter } from "expo-router";
-import { ActivityIndicator, Text, TextInput } from "react-native";
 
 const emailSchema = z.email("올바른 이메일 주소를 입력해주세요.");
 
@@ -15,11 +16,11 @@ export default function SendOtpScreen() {
   const [emailError, setEmailError] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [, setError] = useState<string | null>(null);
+  const [otpRequestError, setOtpRequestError] = useState<string | null>(null);
 
   const router = useRouter();
 
-  async function handleVerifyEmail() {
+  async function handleNext() {
     // email 형식 검증
     const result = emailSchema.safeParse(email);
 
@@ -31,18 +32,15 @@ export default function SendOtpScreen() {
 
     // otp 발송
     setIsLoading(true);
-    setError(null);
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-    });
+    setOtpRequestError(null);
+    const res = await sendOtp(email);
 
-    if (error) {
-      setError(error.message);
+    if (!res.success) {
+      setOtpRequestError(res.error.message);
       setIsLoading(false);
       return;
     }
 
-    // otp 검증 페이지 라우팅
     router.navigate({
       pathname: "/verify-otp",
       params: {
@@ -70,12 +68,15 @@ export default function SendOtpScreen() {
         {emailError ? (
           <Text className="text-red-500 mt-2">{emailError}</Text>
         ) : null}
+        {otpRequestError ? (
+          <Text className="text-red-500 mt-2">{otpRequestError}</Text>
+        ) : null}
       </ThemedView>
       <ThemedText>
         또한 회원님은 저희가 보내는 이메일을 받게 되며 언제든지 이를 수신 거부할
         수 있습니다.
       </ThemedText>
-      <Button onPress={handleVerifyEmail} disabled={isLoading}>
+      <Button onPress={handleNext} disabled={isLoading}>
         {!isLoading ? "다음" : <ActivityIndicator />}
       </Button>
     </ThemedView>

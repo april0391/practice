@@ -1,3 +1,4 @@
+import { useSignUpContext } from "@/components/auth/SignUpProvider";
 import Button from "@/components/common/Button";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -13,10 +14,12 @@ import {
   View,
 } from "react-native";
 
-export default function SetBirthdateScreen() {
-  const [showPicker, setShowPicker] = useState(false);
+export default function SetBirthDateScreen() {
   const [date, setDate] = useState(new Date());
-  const [displayBirthdate, setDisplayBirthdate] = useState("");
+  const [displayBirthDate, setDisplayBirthDate] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
+
+  const { updateSignUpField } = useSignUpContext();
 
   const router = useRouter();
 
@@ -30,7 +33,7 @@ export default function SetBirthdateScreen() {
 
       const formatted = `${year}년 ${month}월 ${day}일`;
 
-      setDisplayBirthdate(formatted);
+      setDisplayBirthDate(formatted);
     }
 
     if (Platform.OS === "android") {
@@ -39,7 +42,8 @@ export default function SetBirthdateScreen() {
   }
 
   function handleNext() {
-    // router.push("/set-next-screen"); // 다음 화면으로 이동
+    updateSignUpField("birthDate", date.toISOString().slice(0, 10));
+    router.push("/set-name");
   }
 
   return (
@@ -55,7 +59,7 @@ export default function SetBirthdateScreen() {
         onPress={() => setShowPicker(true)}
         className="border border-gray-400 rounded-xl p-4 bg-gray-100"
       >
-        <Text>{displayBirthdate ? displayBirthdate : "생년월일 선택"}</Text>
+        <Text>{displayBirthDate ? displayBirthDate : "생년월일 선택"}</Text>
       </TouchableOpacity>
 
       <Modal

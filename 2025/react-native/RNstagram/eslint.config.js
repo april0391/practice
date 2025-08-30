@@ -7,14 +7,14 @@ module.exports = defineConfig([
   {
     ignores: ["dist/*"],
     rules: {
+      "no-unused-vars": ["error"], // 빌드 시 오류로 처리
+      "unused-imports/no-unused-imports": "off", // 자동 삭제 막기
       "import/no-unresolved": [
         "error",
         {
-          ignore: ["^jsr:", "^npm:"], // Deno 전용 모듈 무시
+          ignore: ["^jsr:", "^npm:", "postgres", "drizzle-orm/*"], // deno
         },
       ],
-      "no-unused-vars": ["error"], // 빌드 시 오류로 처리
-      "unused-imports/no-unused-imports": "off", // 자동 삭제 막기
     },
   },
 ]);

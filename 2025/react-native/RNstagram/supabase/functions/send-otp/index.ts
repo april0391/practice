@@ -1,43 +1,37 @@
-// supabase/functions/send-mailpit/index.ts
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { sql } from "drizzle-orm";
+import db from "../_shared/db.ts";
 
-const MAILPIT_URL = "http://host.docker.internal:54324/api/v1/send";
+import middleware from "../_shared/middleware.ts";
+import { sendEmail } from "../_shared/send-email.ts";
+import { ok } from "../_shared/responses.ts";
 
-async function handler(req: Request) {
-  if (req.method !== "POST") {
-    return new Response(null, {
-      status: 405,
-    });
-  }
+async function handler(_req: Request, { email }: { email: string }) {
+  const otpNumber = await insertOtp(email);
 
-  const { email: receiverEmail } = await req.json();
+  const subject = "RNstagram 코드";
+  const text = `코드를 앱의 입력창에 입력해주세요. 코드: ${otpNumber}`;
 
-  try {
-    const res = await fetch(MAILPIT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: { name: "RNstagram", email: "no-reply@rnstagram.com" },
-        to: [{ email: receiverEmail }],
-        subject: "RNstagram 코드",
-        // html: null,
-      }),
-    });
+  await sendEmail({ to: email, subject, text });
 
-    if (!res.ok) throw new Error(await res.text());
-
-    return new Response(JSON.stringify({ message: "Mail sent" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (e) {
-    console.error("sendMail error:", e);
-
-    return new Response(JSON.stringify({ error: e.message }), {
-      status: 502,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  return ok();
 }
 
-Deno.serve(handler);
+Deno.serve(
+  middleware(handler, { requiredFields: ["email"] }),
+);
+
+async function insertOtp(email: string) {
+  const otpNumber = generateOtpNumber();
+
+  await db.execute(sql`
+    INSERT INTO "private"."otps" (email, otp_number, expires_at)
+    VALUES (${email}, ${otpNumber}, now() + interval '5 minutes');
+  `);
+
+  return otpNumber;
+}
+
+function generateOtpNumber() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
