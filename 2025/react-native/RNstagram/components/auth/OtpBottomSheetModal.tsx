@@ -1,13 +1,15 @@
-import { supabase } from "@/utils/supabase";
+import { View } from "react-native";
+import { useRouter } from "expo-router";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
   useBottomSheetModal,
 } from "@gorhom/bottom-sheet";
-import { useRouter } from "expo-router";
-import { View } from "react-native";
 import Toast from "react-native-toast-message";
+
+import { sendOtp } from "@/utils/auth";
+
 import Button from "../common/Button";
 
 type Props = {
@@ -24,10 +26,11 @@ export default function OtpBottomSheetModal({
   const router = useRouter();
 
   async function handleResendOtp() {
-    const { error } = await supabase.auth.signInWithOtp({ email });
+    const res = await sendOtp(email);
 
-    if (error) {
-      // 에러 핸들링
+    if (!res.success) {
+      // 에러 처리
+      dismiss();
       return;
     }
 
@@ -65,7 +68,7 @@ export default function OtpBottomSheetModal({
             variant="ghost"
             onPress={() => {
               dismiss();
-              router.navigate("/(sign-up)/send-otp");
+              router.navigate("/send-otp");
             }}
           >
             이메일 주소 변경

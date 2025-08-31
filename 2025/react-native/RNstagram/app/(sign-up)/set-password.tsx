@@ -1,44 +1,27 @@
 import { useState } from "react";
 import { Text, TextInput } from "react-native";
-import { useRouter } from "expo-router";
-import { z } from "zod";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
+import { passwordSchema, validateWithZod } from "@/utils/zod";
 
 import Button from "@/components/common/Button";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
-const passwordSchema = z
-  .string()
-  .min(
-    6,
-    "비밀번호가 너무 짧습니다. 6자 이상의 문자, 숫자, 특수문자를 조합하여 만드세요."
-  )
-  .regex(
-    /^[\w!@#$%^&*(),.?":{}|<>~`\-_=+\\[\];'/]+$/,
-    "비밀번호에 허용되지 않은 문자가 포함되어 있습니다."
-  );
-
 export default function SetPasswordScreen() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { updateSignUpField } = useSignUpContext();
-
-  const router = useRouter();
+  const { updateAndNext } = useSignUpContext();
 
   function handleNext() {
-    const result = passwordSchema.safeParse(password);
+    const result = validateWithZod(passwordSchema, password);
     if (!result.success) {
-      setError(result.error.issues[0].message);
+      setError(result.error);
       return;
     }
 
-    setError("");
-
-    updateSignUpField("password", password);
-    router.navigate("/set-birth-date");
+    updateAndNext("password", password);
   }
 
   return (

@@ -1,34 +1,31 @@
 import { useState } from "react";
-import { ActivityIndicator, Text, TextInput } from "react-native";
-import { useRouter } from "expo-router";
-import { z } from "zod";
+import { ActivityIndicator, TextInput } from "react-native";
 
+import { useSignUpContext } from "@/components/auth/SignUpProvider";
 import { sendOtp } from "@/utils/auth";
+import { emailSchema, validateWithZod } from "@/utils/zod";
 
 import Button from "@/components/common/Button";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
-const emailSchema = z.email("올바른 이메일 주소를 입력해주세요.");
-
 export default function SendOtpScreen() {
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [validationError, setValidationError] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [otpRequestError, setOtpRequestError] = useState<string | null>(null);
 
-  const router = useRouter();
+  const { updateAndNext } = useSignUpContext();
 
   async function handleNext() {
-    // email 형식 검증
-    const result = emailSchema.safeParse(email);
+    const result = validateWithZod(emailSchema, email);
 
     if (!result.success) {
-      setEmailError(result.error.issues[0].message);
+      setValidationError(result.error);
       return;
     }
-    setEmailError("");
+    setValidationError("");
 
     // otp 발송
     setIsLoading(true);
@@ -41,12 +38,8 @@ export default function SendOtpScreen() {
       return;
     }
 
-    router.navigate({
-      pathname: "/verify-otp",
-      params: {
-        email,
-      },
-    });
+    setIsLoading(false);
+    updateAndNext("email", email);
   }
 
   return (
@@ -65,11 +58,15 @@ export default function SendOtpScreen() {
           autoCapitalize="none"
           autoCorrect={false}
         />
-        {emailError ? (
-          <Text className="text-red-500 mt-2">{emailError}</Text>
+        {validationError ? (
+          <ThemedText className="text-red-500 mt-2">
+            {validationError}
+          </ThemedText>
         ) : null}
         {otpRequestError ? (
-          <Text className="text-red-500 mt-2">{otpRequestError}</Text>
+          <ThemedText className="text-red-500 mt-2">
+            {otpRequestError}
+          </ThemedText>
         ) : null}
       </ThemedView>
       <ThemedText>

@@ -33,6 +33,8 @@ export type ApiErrorCode =
   | "invalid_json"
   | "invalid_input"
   | "missing_field"
+  | "invalid_username"
+  | "duplicate_username"
   //
   | "functions_http_error"
   | "functions_relay_error"
@@ -47,5 +49,6 @@ export type SignUpData = {
   password: string;
   birthDate: string;
   name: string;
+  username: string;
   agreedToAll: boolean;
 };

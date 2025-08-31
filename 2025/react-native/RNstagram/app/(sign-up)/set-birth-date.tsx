@@ -1,49 +1,47 @@
+import { useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
+
 import Button from "@/components/common/Button";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import {
-  Modal,
-  Platform,
-  Pressable,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
 
 export default function SetBirthDateScreen() {
-  const [date, setDate] = useState(new Date());
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
   const [displayBirthDate, setDisplayBirthDate] = useState("");
+  const [error, setError] = useState("");
+
   const [showPicker, setShowPicker] = useState(false);
 
-  const { updateSignUpField } = useSignUpContext();
+  const { updateAndNext } = useSignUpContext();
 
-  const router = useRouter();
-
-  function handleChangeBirthDate(_event: any, selectedDate?: Date) {
-    if (selectedDate) {
-      setDate(selectedDate);
-
-      const year = selectedDate.getFullYear();
-      const month = selectedDate.getMonth() + 1;
-      const day = selectedDate.getDate();
-
-      const formatted = `${year}년 ${month}월 ${day}일`;
-
-      setDisplayBirthDate(formatted);
-    }
-
-    if (Platform.OS === "android") {
+  function handleChangeBirthDate({ type }: any, selectedDate?: Date) {
+    if (type === "dismissed" || !selectedDate) {
       setShowPicker(false);
+      return;
     }
+
+    setBirthDate(selectedDate);
+
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth() + 1;
+    const day = selectedDate.getDate();
+
+    const formatted = `${year}년 ${month}월 ${day}일`;
+
+    setDisplayBirthDate(formatted);
+    setShowPicker(false);
   }
 
   function handleNext() {
-    updateSignUpField("birthDate", date.toISOString().slice(0, 10));
-    router.push("/set-name");
+    if (!birthDate) {
+      setError("생년월일을 선택해주세요");
+      return;
+    }
+
+    updateAndNext("birthDate", birthDate.toISOString().slice(0, 10));
   }
 
   return (
@@ -59,36 +57,21 @@ export default function SetBirthDateScreen() {
         onPress={() => setShowPicker(true)}
         className="border border-gray-400 rounded-xl p-4 bg-gray-100"
       >
-        <Text>{displayBirthDate ? displayBirthDate : "생년월일 선택"}</Text>
+        <Text>{displayBirthDate || "생년월일 선택"}</Text>
       </TouchableOpacity>
 
-      <Modal
-        visible={showPicker}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setShowPicker(false)}
-      >
-        <Pressable
-          style={{
-            flex: 1,
-            backgroundColor: "rgba(0,0,0,0.3)",
-            justifyContent: "center",
-          }}
-          onPress={() => setShowPicker(false)}
-        >
-          <View>
-            <DateTimePicker
-              value={date}
-              mode="date"
-              display="spinner"
-              locale="ko-KR"
-              maximumDate={new Date()}
-              onChange={handleChangeBirthDate}
-            />
-          </View>
-        </Pressable>
-      </Modal>
+      {showPicker && (
+        <DateTimePicker
+          value={birthDate || new Date()}
+          mode="date"
+          display="spinner"
+          locale="ko-KR"
+          maximumDate={new Date()}
+          onChange={handleChangeBirthDate}
+        />
+      )}
 
+      {error && <Text className="text-red-500">{error}</Text>}
       <Button onPress={handleNext}>다음</Button>
     </ThemedView>
   );

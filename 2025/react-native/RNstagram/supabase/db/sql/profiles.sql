@@ -2,7 +2,7 @@ CREATE TABLE profiles (
   id UUID references auth.users(id) PRIMARY KEY,
   email VARCHAR(100) NOT NULL UNIQUE,
   name VARCHAR(100),
-  username VARCHAR(100) NOT NULL,
+  username VARCHAR(100) NOT NULL UNIQUE,
   birth_date CHAR(10) NOT NULL,
   bio TEXT,
   avatar_url VARCHAR(200)

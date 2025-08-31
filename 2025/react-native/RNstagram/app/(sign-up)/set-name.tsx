@@ -1,40 +1,27 @@
 import { useState } from "react";
 import { Text, TextInput } from "react-native";
-import { useRouter } from "expo-router";
-import { z } from "zod";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
+import { nameSchema, validateWithZod } from "@/utils/zod";
 
+import Button from "@/components/common/Button";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import Button from "@/components/common/Button";
-
-export const nameSchema = z
-  .string()
-  .min(2, "이름은 최소 2글자 이상이어야 합니다.")
-  .max(20, "이름은 최대 20글자까지 입력 가능합니다.")
-  .regex(
-    /^[가-힣a-zA-Z\s]+$/,
-    "이름에는 한글, 영어, 공백만 사용할 수 있습니다."
-  );
 
 export default function SetNameScreen() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const { updateSignUpField } = useSignUpContext();
-
-  const router = useRouter();
+  const { updateAndNext } = useSignUpContext();
 
   function handleNext() {
-    const result = nameSchema.safeParse(name);
+    const result = validateWithZod(nameSchema, name);
     if (!result.success) {
-      setError(result.error.issues[0].message);
+      setError(result.error);
       return;
     }
 
-    updateSignUpField("name", name);
-    router.navigate("/agreements");
+    updateAndNext("name", name);
   }
 
   return (

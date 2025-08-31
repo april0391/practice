@@ -1,6 +1,4 @@
 import { useCallback, useRef, useState } from "react";
-import { Text } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import { OtpInput } from "react-native-otp-entry";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
@@ -18,10 +16,10 @@ export default function VerifyOtpScreen() {
   const [error, setError] = useState("");
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const { email }: { email: string } = useLocalSearchParams();
-  const router = useRouter();
-
-  const { updateSignUpField } = useSignUpContext();
+  const {
+    signUpData: { email },
+    updateAndNext,
+  } = useSignUpContext();
 
   async function handleVerifyOtp(filledOtp: string | null) {
     if (filledOtp == null && otp.length === 0) {
@@ -43,8 +41,7 @@ export default function VerifyOtpScreen() {
       return;
     }
 
-    updateSignUpField("email", email);
-    router.navigate("/set-password");
+    updateAndNext("email", email);
   }
 
   const openOtpModal = useCallback(() => {
@@ -62,7 +59,7 @@ export default function VerifyOtpScreen() {
         onTextChange={(text) => setOtp(text)}
         onFilled={(filledOtp) => handleVerifyOtp(filledOtp)}
       />
-      {error && <Text className="text-red-600">{error}</Text>}
+      {error && <ThemedText className="text-red-600">{error}</ThemedText>}
       <Button onPress={() => handleVerifyOtp(null)} variant="default">
         다음
       </Button>
