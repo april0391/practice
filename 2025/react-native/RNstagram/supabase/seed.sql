@@ -28,3 +28,6 @@ VALUES (
   '2025-08-31 20:02:37.273797+00',
   false
 );
+
+INSERT INTO profiles (id, email, name, username, birth_date, bio) 
+VALUES ('d981b492-c539-45e6-af2f-bc14fbe0b79a', 'test@test.com', '테스터', 'tester', '2000-01-01', '안녕하세요');

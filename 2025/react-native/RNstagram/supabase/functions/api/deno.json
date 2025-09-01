@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "hono": "jsr:@hono/hono",
+
+    "postgres": "npm:postgres",
+    "drizzle-orm": "npm:/drizzle-orm",
+    "drizzle-orm/": "npm:/drizzle-orm/",
+
+    "shared/": "../_shared/",
+    "schemas": "../../db/drizzle/schemas/schema.ts"
+  }
+}

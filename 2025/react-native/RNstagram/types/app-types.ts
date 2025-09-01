@@ -29,12 +29,13 @@ export type Tab = {
 export type ApiErrorCode =
   | "invalid_otp"
   | "otp_expired"
+  | "duplicate_email"
+  | "invalid_username"
+  | "duplicate_username"
   //
   | "invalid_json"
   | "invalid_input"
   | "missing_field"
-  | "invalid_username"
-  | "duplicate_username"
   //
   | "functions_http_error"
   | "functions_relay_error"

@@ -1,12 +1,16 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@hono/hono@*": "4.9.5",
     "jsr:@supabase/functions-js@*": "2.4.5",
     "npm:@supabase/supabase-js@2": "2.56.0",
     "npm:nodemailer@6.9.7": "6.9.7",
     "npm:openai@^4.52.5": "4.104.0"
   },
   "jsr": {
+    "@hono/hono@4.9.5": {
+      "integrity": "9979382257287abb33e98893247a97660adc0a9239cf37d57e207e3592040a96"
+    },
     "@supabase/functions-js@2.4.5": {
       "integrity": "ead2df253fe0c3b0b682c5f25076978ab62c10afff4d04222451a90ba512c394",
       "dependencies": [

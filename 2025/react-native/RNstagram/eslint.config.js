@@ -12,7 +12,7 @@ module.exports = defineConfig([
       "import/no-unresolved": [
         "error",
         {
-          ignore: ["^jsr:", "^npm:", "postgres", "drizzle-orm/*"], // deno
+          ignore: [],
         },
       ],
     },

@@ -1,7 +1,0 @@
-{
-  "imports": {
-    "drizzle-orm": "npm:/drizzle-orm",
-    "drizzle-orm/": "npm:/drizzle-orm/",
-    "postgres": "npm:postgres"
-  }
-}

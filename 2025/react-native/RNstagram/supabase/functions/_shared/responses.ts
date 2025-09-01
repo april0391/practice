@@ -1,10 +1,10 @@
 import type { ApiErrorCode } from "../../../types/app-types.ts";
 
-export function badRequest(errorCode?: ApiErrorCode) {
+export function badRequest(code?: ApiErrorCode, message?: string) {
   return new Response(
     JSON.stringify({
       success: false,
-      error: { code: errorCode || "bad_request" },
+      error: { code: code || "bad_request", message },
     }),
     {
       status: 400,
@@ -13,8 +13,7 @@ export function badRequest(errorCode?: ApiErrorCode) {
   );
 }
 
-// deno-lint-ignore no-explicit-any
-export function ok(data?: any) {
+export function ok<T>(data?: T) {
   return new Response(JSON.stringify({ success: true, data }), {
     status: 200,
     headers: { "Content-Type": "application/json" },
