@@ -1,12 +1,10 @@
-import type { Context } from "hono";
 import { and, desc, eq, isNull, sql } from "drizzle-orm";
 import db from "shared/db.ts";
-import { otpsInPrivate as otps, profiles, usersInAuth } from "schemas";
+import { otpsInPrivate as otps, usersInAuth } from "schemas";
+import type { ContextBody } from "shared/types.ts";
 
 import { sendEmail } from "shared/send-email.ts";
 import { badRequest, ok } from "shared/responses.ts";
-
-type ContextBody<T> = Context<{ Variables: { body: T } }>;
 
 export async function sendOtpEmail(c: ContextBody<{ email: string }>) {
   const { email } = c.var.body;
@@ -57,18 +55,6 @@ export async function verifyOtp(
     .where(
       eq(otps.id, findOtp.id),
     );
-
-  return ok();
-}
-
-export async function verifyUsername(c: ContextBody<{ username: string }>) {
-  const { username } = c.var.body;
-
-  const count = await db.$count(profiles, eq(profiles.username, username));
-
-  if (count) {
-    return badRequest("duplicate_username");
-  }
 
   return ok();
 }

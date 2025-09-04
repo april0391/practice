@@ -2,24 +2,23 @@ import { useState } from "react";
 import { Text, TextInput } from "react-native";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
-import { passwordSchema, validateWithZod } from "@/utils/zod";
+import useValidation from "@/hooks/useValidation";
+import { signUpSchema } from "@/utils/zod-schema";
 
 import Button from "@/components/common/Button";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText, ThemedView } from "@/components/common/Themed";
+
+const passwordSchema = signUpSchema.pick({ password: true });
 
 export default function SetPasswordScreen() {
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const { error, validate } = useValidation();
 
   const { updateAndNext } = useSignUpContext();
 
   function handleNext() {
-    const result = validateWithZod(passwordSchema, password);
-    if (!result.success) {
-      setError(result.error);
-      return;
-    }
+    const success = validate(passwordSchema, { password });
+    if (!success) return;
 
     updateAndNext("password", password);
   }

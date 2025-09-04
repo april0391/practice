@@ -1,12 +1,18 @@
-import { createContext, useContext, useState } from "react";
-import type { PropsWithChildren } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type PropsWithChildren,
+} from "react";
+import { usePathname, useRouter, type Href } from "expo-router";
+
 import type { SignUpData } from "@/types/app-types";
-import { type Href, usePathname, useRouter } from "expo-router";
+import { signUp } from "@/utils/auth";
 
 type SignUpContextProps = {
   signUpData: SignUpData;
   updateAndNext: <K extends keyof SignUpData>(k: K, v: SignUpData[K]) => void;
-  submitSignUp: () => void;
 };
 
 const SignUpContext = createContext<SignUpContextProps | null>(null);
@@ -28,8 +34,15 @@ export function SignUpProvider({ children }: PropsWithChildren) {
     birthDate: "",
     name: "",
     username: "",
-    agreedToAll: false,
+    agreedToPolicies: false,
   });
+  const [isAllStepsCompleted, setIsAllStepsCompleted] = useState(false);
+
+  useEffect(() => {
+    if (isAllStepsCompleted) {
+      signUp(signUpData);
+    }
+  }, [signUpData, isAllStepsCompleted]);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -41,8 +54,9 @@ export function SignUpProvider({ children }: PropsWithChildren) {
     setSignUpData((prev) => ({ ...prev, [k]: v }));
   }
 
-  function navigateNextStep() {
+  function handleNext() {
     const currentStepIdx = signUpSteps.findIndex((s) => s.href === pathname);
+
     const isLastStep = currentStepIdx === signUpSteps.length - 1;
 
     if (!isLastStep) {
@@ -50,16 +64,12 @@ export function SignUpProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    // router.replace("/");
+    setIsAllStepsCompleted(true);
   }
 
   function updateAndNext<K extends keyof SignUpData>(k: K, v: SignUpData[K]) {
     updateSignUpData(k, v);
-    navigateNextStep();
-  }
-
-  function submitSignUp() {
-    console.log("signUpData", signUpData);
+    handleNext();
   }
 
   return (
@@ -67,7 +77,6 @@ export function SignUpProvider({ children }: PropsWithChildren) {
       value={{
         signUpData,
         updateAndNext,
-        submitSignUp,
       }}
     >
       {children}

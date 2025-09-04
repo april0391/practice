@@ -48,8 +48,8 @@ export type ApiErrorCode =
 export type SignUpData = {
   email: string;
   password: string;
-  birthDate: string;
-  name: string;
   username: string;
-  agreedToAll: boolean;
+  name: string;
+  birthDate: string;
+  agreedToPolicies: boolean;
 };

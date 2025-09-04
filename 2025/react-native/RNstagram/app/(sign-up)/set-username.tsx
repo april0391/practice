@@ -1,28 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, TextInput } from "react-native";
+import { useDebounce } from "use-debounce";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
-import { nameSchema, validateWithZod } from "@/utils/zod";
+import useValidation from "@/hooks/useValidation";
+import { signUpSchema } from "@/utils/zod-schema";
+import { verifyUsername } from "@/utils/auth";
 
 import Button from "@/components/common/Button";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText, ThemedView } from "@/components/common/Themed";
+
+const usernameSchema = signUpSchema.pick({ username: true });
 
 export default function SetUserameScreen() {
   const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
+  const { error, validate } = useValidation();
+  const [debouncedUsername] = useDebounce(username, 300);
+  const [serverError, setServerError] = useState("");
+  const [serverValidated, setServerValidated] = useState<boolean | null>(null);
 
   const { updateAndNext } = useSignUpContext();
 
-  function handleNext() {
-    const result = validateWithZod(nameSchema, username);
-    if (!result.success) {
-      setError(result.error);
+  useEffect(() => {
+    const success = validate(usernameSchema, { username: debouncedUsername });
+    if (!success) {
+      setServerValidated(null);
       return;
     }
 
-    updateAndNext("username", username);
+    async function requestVerifyUsername() {
+      const { success } = await verifyUsername(debouncedUsername);
+
+      if (!success) {
+        setServerValidated(false);
+        setServerError("사용할 수 없는 사용자 이름입니다");
+      } else {
+        setServerError("");
+        setServerValidated(true);
+      }
+    }
+
+    requestVerifyUsername();
+  }, [debouncedUsername]);
+
+  function handleNext() {
+    if (serverValidated) {
+      updateAndNext("username", debouncedUsername);
+    }
   }
 
   return (
@@ -39,18 +64,36 @@ export default function SetUserameScreen() {
           className="border border-gray-400 rounded-xl p-4"
           placeholder="성명"
           value={username}
-          onChangeText={setUsername}
+          onChangeText={(text) => {
+            setServerValidated(null);
+            setUsername(text);
+          }}
           autoCapitalize="none"
         />
-        <AntDesign
-          name="checkcircleo"
-          size={21}
-          color="green"
-          className="absolute right-4 top-1/2 -translate-y-1/2"
-        />
+        {!error && serverValidated === true && (
+          <AntDesign
+            name="checkcircleo"
+            size={21}
+            color="green"
+            className="absolute right-4 top-1/2 -translate-y-1/2"
+          />
+        )}
+        {serverValidated === false && (
+          <AntDesign
+            name="closecircle"
+            size={21}
+            color="red"
+            className="absolute right-4 top-1/2 -translate-y-1/2"
+          />
+        )}
       </ThemedView>
       {error && <Text className="text-red-500">{error}</Text>}
-      <Button onPress={handleNext}>다음</Button>
+      {serverValidated === false && serverError && (
+        <Text className="text-red-500">중복된 사용자 이름입니다.</Text>
+      )}
+      <Button onPress={handleNext} disabled={!serverValidated}>
+        다음
+      </Button>
     </ThemedView>
   );
 }

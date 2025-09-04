@@ -1,11 +1,12 @@
-import { useAuthContext } from "@/components/auth/AuthProvider";
-import Button from "@/components/common/Button";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
-import { ThemedText } from "@/components/ThemedText";
-import Icon from "@/components/ui/Icon";
-import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
+import { useRouter } from "expo-router";
+
+import { useAuthContext } from "@/components/auth/AuthProvider";
+import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import Button from "@/components/common/Button";
+import { ThemedText } from "@/components/common/Themed";
+import Icon from "@/components/ui/Icon";
 
 export default function LoginScreen() {
   const router = useRouter();

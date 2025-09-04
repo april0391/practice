@@ -3,13 +3,12 @@ import { OtpInput } from "react-native-otp-entry";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { verifyOtp } from "@/utils/auth";
+import { useSignUpContext } from "@/components/auth/SignUpProvider";
 
 import Button from "@/components/common/Button";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText, ThemedView } from "@/components/common/Themed";
 
 import OtpBottomSheetModal from "@/components/auth/OtpBottomSheetModal";
-import { useSignUpContext } from "@/components/auth/SignUpProvider";
 
 export default function VerifyOtpScreen() {
   const [otp, setOtp] = useState("");

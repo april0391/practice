@@ -1,4 +1,4 @@
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedView } from "@/components/common/Themed";
 import { Text } from "react-native";
 
 export default function AgreementsDetail() {

@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 
 import { jsonValidator } from "shared/middlewares.ts";
-import { sendOtpEmail, verifyOtp, verifyUsername } from "../controllers/otp.ts";
+import { sendOtpEmail, verifyOtp } from "../controllers/otp.ts";
+import { verifyUsername } from "../controllers/profiles.ts";
 
 export const auth = new Hono();
 

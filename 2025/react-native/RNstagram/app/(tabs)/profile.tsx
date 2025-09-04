@@ -1,7 +1,7 @@
 import { useAuthContext } from "@/components/auth/AuthProvider";
 import Button from "@/components/common/Button";
 import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "@/components/common/Themed";
 
 export default function ProfileScreen() {
   const { signOut } = useAuthContext();

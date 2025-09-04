@@ -5,8 +5,8 @@ import { Checkbox } from "expo-checkbox";
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
 
 import Button from "@/components/common/Button";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/common/Themed";
+import { ThemedView } from "@/components/common/Themed";
 
 export default function AgreementsScreen() {
   const [agreements, setAgreements] = useState({

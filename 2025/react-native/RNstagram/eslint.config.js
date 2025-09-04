@@ -7,14 +7,9 @@ module.exports = defineConfig([
   {
     ignores: ["dist/*"],
     rules: {
-      "no-unused-vars": ["error"], // 빌드 시 오류로 처리
-      "unused-imports/no-unused-imports": "off", // 자동 삭제 막기
-      "import/no-unresolved": [
-        "error",
-        {
-          ignore: [],
-        },
-      ],
+      "no-unused-vars": ["error"],
+      // "unused-imports/no-unused-imports": "off",
+      "import/no-unresolved": "off",
     },
   },
 ]);

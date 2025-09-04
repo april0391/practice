@@ -3,15 +3,17 @@ import { ActivityIndicator, TextInput } from "react-native";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
 import { sendOtp } from "@/utils/auth";
-import { emailSchema, validateWithZod } from "@/utils/zod";
+import { signUpSchema } from "@/utils/zod-schema";
+import useValidation from "@/hooks/useValidation";
 
 import Button from "@/components/common/Button";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText, ThemedView } from "@/components/common/Themed";
+
+const emailSchema = signUpSchema.pick({ email: true });
 
 export default function SendOtpScreen() {
   const [email, setEmail] = useState("");
-  const [validationError, setValidationError] = useState("");
+  const { error, validate } = useValidation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [otpRequestError, setOtpRequestError] = useState<string | null>(null);
@@ -19,15 +21,9 @@ export default function SendOtpScreen() {
   const { updateAndNext } = useSignUpContext();
 
   async function handleNext() {
-    const result = validateWithZod(emailSchema, email);
+    const success = validate(emailSchema, { email });
+    if (!success) return;
 
-    if (!result.success) {
-      setValidationError(result.error);
-      return;
-    }
-    setValidationError("");
-
-    // otp 발송
     setIsLoading(true);
     setOtpRequestError(null);
     const res = await sendOtp(email);
@@ -58,11 +54,9 @@ export default function SendOtpScreen() {
           autoCapitalize="none"
           autoCorrect={false}
         />
-        {validationError ? (
-          <ThemedText className="text-red-500 mt-2">
-            {validationError}
-          </ThemedText>
-        ) : null}
+        {error && (
+          <ThemedText className="text-red-500 mt-2">{error}</ThemedText>
+        )}
         {otpRequestError ? (
           <ThemedText className="text-red-500 mt-2">
             {otpRequestError}

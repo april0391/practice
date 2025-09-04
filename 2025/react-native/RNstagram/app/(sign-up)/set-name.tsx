@@ -2,24 +2,22 @@ import { useState } from "react";
 import { Text, TextInput } from "react-native";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
-import { nameSchema, validateWithZod } from "@/utils/zod";
+import useValidation from "@/hooks/useValidation";
+import { signUpSchema } from "@/utils/zod-schema";
 
 import Button from "@/components/common/Button";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText, ThemedView } from "@/components/common/Themed";
+
+const nameSchema = signUpSchema.pick({ name: true });
 
 export default function SetNameScreen() {
   const [name, setName] = useState("");
-  const [error, setError] = useState("");
-
+  const { error, validate } = useValidation();
   const { updateAndNext } = useSignUpContext();
 
   function handleNext() {
-    const result = validateWithZod(nameSchema, name);
-    if (!result.success) {
-      setError(result.error);
-      return;
-    }
+    const success = validate(nameSchema, { name });
+    if (!success) return;
 
     updateAndNext("name", name);
   }
