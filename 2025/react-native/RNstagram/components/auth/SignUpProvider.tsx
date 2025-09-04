@@ -38,14 +38,18 @@ export function SignUpProvider({ children }: PropsWithChildren) {
   });
   const [isAllStepsCompleted, setIsAllStepsCompleted] = useState(false);
 
-  useEffect(() => {
-    if (isAllStepsCompleted) {
-      signUp(signUpData);
-    }
-  }, [signUpData, isAllStepsCompleted]);
-
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (!isAllStepsCompleted) return;
+
+    signUp(signUpData)
+      .then(() => {
+        router.navigate("/set-avatar");
+      })
+      .catch();
+  }, [signUpData, isAllStepsCompleted, router]);
 
   function updateSignUpData<K extends keyof SignUpData>(
     k: K,

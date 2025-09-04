@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { OtpInput } from "react-native-otp-entry";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { verifyOtp } from "@/utils/auth";
 import { useSignUpContext } from "@/components/auth/SignUpProvider";

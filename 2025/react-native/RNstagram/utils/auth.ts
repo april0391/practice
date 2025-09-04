@@ -62,10 +62,11 @@ export async function signUp({
     password,
     options: {
       data: {
+        email,
         username,
         name,
-        birthDate,
-        agreedToPolicies,
+        birth_date: birthDate,
+        agreed_to_policies: agreedToPolicies,
       },
     },
   });

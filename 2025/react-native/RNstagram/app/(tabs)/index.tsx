@@ -1,7 +1,7 @@
-import Feed from "@/components/home/Feed";
+import { ThemedSafeAreaView } from "@/components/common/Themed";
 import Header from "@/components/home/Header";
 import StoriesBar from "@/components/home/StoriesBar";
-import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
+import Feed from "@/components/home/Feed";
 
 export default function HomeScreen() {
   return (

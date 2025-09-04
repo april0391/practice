@@ -15,8 +15,8 @@ const usernameSchema = signUpSchema.pick({ username: true });
 
 export default function SetUserameScreen() {
   const [username, setUsername] = useState("");
-  const { error, validate } = useValidation();
   const [debouncedUsername] = useDebounce(username, 300);
+  const { error, validate } = useValidation();
   const [serverError, setServerError] = useState("");
   const [serverValidated, setServerValidated] = useState<boolean | null>(null);
 
@@ -42,7 +42,7 @@ export default function SetUserameScreen() {
     }
 
     requestVerifyUsername();
-  }, [debouncedUsername]);
+  }, [validate, debouncedUsername]);
 
   function handleNext() {
     if (serverValidated) {
@@ -87,9 +87,11 @@ export default function SetUserameScreen() {
           />
         )}
       </ThemedView>
-      {error && <Text className="text-red-500">{error}</Text>}
+      {username !== "" && error && (
+        <Text className="text-red-500">{error}</Text>
+      )}
       {serverValidated === false && serverError && (
-        <Text className="text-red-500">중복된 사용자 이름입니다.</Text>
+        <Text className="text-red-500">{serverError}</Text>
       )}
       <Button onPress={handleNext} disabled={!serverValidated}>
         다음

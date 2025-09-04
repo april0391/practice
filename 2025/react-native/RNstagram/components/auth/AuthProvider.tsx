@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AppState } from "react-native";
-import { supabase } from "@/utils/supabase";
 import type { Session } from "@supabase/supabase-js";
+import { supabase } from "@/utils/supabase";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive

@@ -68,6 +68,7 @@ function RootNavigator() {
   }
 
   const isSignedIn = !!session;
+  console.log("session", session);
 
   return (
     <Stack
@@ -82,6 +83,7 @@ function RootNavigator() {
       </Stack.Protected>
 
       <Stack.Protected guard={isSignedIn}>
+        <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack.Protected>
 

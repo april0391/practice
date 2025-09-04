@@ -1,5 +1,9 @@
 import { View, Text } from "react-native";
 import type { ViewProps, TextProps } from "react-native";
+import {
+  SafeAreaView,
+  type SafeAreaViewProps,
+} from "react-native-safe-area-context";
 import { cn } from "@/utils/cn";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -52,6 +56,30 @@ export function ThemedText({
         className
       )}
       {...rest}
+    />
+  );
+}
+
+export type ThemedSafeAreaViewProps = SafeAreaViewProps & {
+  lightColor?: string;
+  darkColor?: string;
+};
+
+export function ThemedSafeAreaView({
+  style,
+  lightColor,
+  darkColor,
+  ...otherProps
+}: ThemedSafeAreaViewProps) {
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+
+  return (
+    <SafeAreaView
+      style={[{ backgroundColor }, { flex: 1 }, style]}
+      {...otherProps}
     />
   );
 }
