@@ -1,17 +1,17 @@
-import { ThemedText } from "@/components/common/Themed";
-import { ThemedView } from "@/components/common/Themed";
+import { Text } from "@/components/common/Themed";
+import { View } from "@/components/common/Themed";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 
 export default function Header() {
   return (
-    <ThemedView style={styles.header}>
-      <ThemedText type="title">RNstagram</ThemedText>
-      <ThemedView style={{ flexDirection: "row", gap: 10 }}>
+    <View style={styles.header}>
+      <Text type="title">RNstagram</Text>
+      <View style={{ flexDirection: "row", gap: 10 }}>
         <Ionicons name="heart-outline" size={24} />
         <Ionicons name="send" size={24} />
-      </ThemedView>
-    </ThemedView>
+      </View>
+    </View>
   );
 }
 

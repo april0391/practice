@@ -1,5 +1,5 @@
-import { ThemedView } from "../common/Themed";
+import { View } from "../common/Themed";
 
 export default function Feed() {
-  return <ThemedView></ThemedView>;
+  return <View></View>;
 }

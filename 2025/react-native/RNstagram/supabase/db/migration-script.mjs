@@ -29,7 +29,7 @@ for (let i = 0; i < args.length; i++) {
   }
 }
 
-const mergedFile = `supabase/migrations/${getTimestamp()}_${fileNameArg || "init"}.sql`;
+const mergedFileName = `supabase/migrations/${getTimestamp()}_${fileNameArg || "init"}.sql`;
 
 async function mergeSQLFiles() {
   let mergedSQL = "";
@@ -62,8 +62,8 @@ async function mergeSQLFiles() {
     }
   }
 
-  await fs.writeFile(mergedFile, mergedSQL, "utf-8");
-  console.log(`${mergedFile} 생성 완료!`);
+  await fs.writeFile(mergedFileName, mergedSQL, "utf-8");
+  console.log(`${mergedFileName} 생성 완료!`);
 }
 
 mergeSQLFiles().catch(console.error);

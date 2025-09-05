@@ -1,24 +1,30 @@
 import { useState } from "react";
-import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
+import { ActivityIndicator, StyleSheet, useColorScheme } from "react-native";
 import { useRouter } from "expo-router";
 
 import { useAuthContext } from "@/components/auth/AuthProvider";
 
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import Button from "@/components/common/Button";
-import Icon from "@/components/ui/Icon";
-import { ThemedSafeAreaView, ThemedText } from "@/components/common/Themed";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+} from "@/components/common/Themed";
 
 export default function LoginScreen() {
   const router = useRouter();
   const { signIn } = useAuthContext();
+  const colorScheme = useColorScheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleSignIn() {
+  function handleSignIn() {
     setIsLoading(true);
-    await signIn(email, password);
+    signIn(email, password);
   }
 
   function handleForgotPassword() {}
@@ -28,11 +34,10 @@ export default function LoginScreen() {
   }
 
   return (
-    <ThemedSafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.subContainer}>
-        <Icon
-          color="black"
-          library="antDesign"
+        <AntDesign
+          color={colorScheme === "dark" ? "white" : "black"}
           name="instagram"
           size={100}
           style={styles.icon}
@@ -63,11 +68,15 @@ export default function LoginScreen() {
           새 계정 만들기
         </Button>
         <View style={styles.footer}>
-          <Icon library="ionicons" name="logo-react" size={20} color="black" />
-          <ThemedText>React Native</ThemedText>
+          <Ionicons
+            name="logo-react"
+            size={20}
+            color={colorScheme === "dark" ? "white" : "black"}
+          />
+          <Text>React Native</Text>
         </View>
       </View>
-    </ThemedSafeAreaView>
+    </SafeAreaView>
   );
 }
 

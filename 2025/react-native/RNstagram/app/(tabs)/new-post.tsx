@@ -1,10 +1,10 @@
-import { ThemedText } from "@/components/common/Themed";
-import { ThemedView } from "@/components/common/Themed";
+import { Text } from "@/components/common/Themed";
+import { View } from "@/components/common/Themed";
 
 export default function NewPostScreen() {
   return (
-    <ThemedView>
-      <ThemedText>NewPostScreen</ThemedText>
-    </ThemedView>
+    <View>
+      <Text>NewPostScreen</Text>
+    </View>
   );
 }

@@ -7,7 +7,7 @@ import { signUpSchema } from "@/utils/zod-schema";
 import useValidation from "@/hooks/useValidation";
 
 import Button from "@/components/common/Button";
-import { ThemedText, ThemedView } from "@/components/common/Themed";
+import { Text, View } from "@/components/common/Themed";
 
 const emailSchema = signUpSchema.pick({ email: true });
 
@@ -39,37 +39,33 @@ export default function SendOtpScreen() {
   }
 
   return (
-    <ThemedView className="flex-1 gap-9 p-5">
-      <ThemedText type="title">이메일 주소 입력</ThemedText>
-      <ThemedText>
+    <View className="flex-1 gap-9 p-5 web:max-w-xl web:mx-auto">
+      <Text type="title">이메일 주소 입력</Text>
+      <Text>
         회원님에게 연락할 수 있는 이메일 주소를 입력하세요. 이 이메일 주소는
         프로필에서 다른 사람에게 공개되지 않습니다.
-      </ThemedText>
-      <ThemedView>
+      </Text>
+      <View>
         <TextInput
-          className="border border-gray-400 rounded-xl p-4"
+          className="border border-gray-400 rounded-xl p-4 dark:text-white"
           value={email}
           onChangeText={(text) => setEmail(text)}
           placeholder="이메일 주소"
           autoCapitalize="none"
           autoCorrect={false}
         />
-        {error && (
-          <ThemedText className="text-red-500 mt-2">{error}</ThemedText>
-        )}
+        {error && <Text className="text-red-500 mt-2">{error}</Text>}
         {otpRequestError ? (
-          <ThemedText className="text-red-500 mt-2">
-            {otpRequestError}
-          </ThemedText>
+          <Text className="text-red-500 mt-2">{otpRequestError}</Text>
         ) : null}
-      </ThemedView>
-      <ThemedText>
+      </View>
+      <Text>
         또한 회원님은 저희가 보내는 이메일을 받게 되며 언제든지 이를 수신 거부할
         수 있습니다.
-      </ThemedText>
+      </Text>
       <Button onPress={handleNext} disabled={isLoading}>
         {!isLoading ? "다음" : <ActivityIndicator />}
       </Button>
-    </ThemedView>
+    </View>
   );
 }

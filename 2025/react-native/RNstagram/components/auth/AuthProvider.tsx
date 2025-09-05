@@ -48,15 +48,17 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   async function signIn(email: string, password: string) {
-    return await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
+    console.log("data", data);
+    console.log("error", error);
   }
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
-
     console.log("error", error);
   }
 

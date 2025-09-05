@@ -1,13 +1,13 @@
 import { useAuthContext } from "@/components/auth/AuthProvider";
 import Button from "@/components/common/Button";
-import { ThemedSafeAreaView, ThemedText } from "@/components/common/Themed";
+import { SafeAreaView, Text } from "@/components/common/Themed";
 
 export default function ProfileScreen() {
   const { signOut } = useAuthContext();
 
   return (
-    <ThemedSafeAreaView>
-      <ThemedText>ProfileScreen</ThemedText>
+    <SafeAreaView>
+      <Text>ProfileScreen</Text>
       <Button
         onPress={() => {
           console.log("signout");
@@ -16,6 +16,6 @@ export default function ProfileScreen() {
       >
         로그아웃
       </Button>
-    </ThemedSafeAreaView>
+    </SafeAreaView>
   );
 }

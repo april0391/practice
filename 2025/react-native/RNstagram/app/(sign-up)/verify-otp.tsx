@@ -6,7 +6,7 @@ import { verifyOtp } from "@/utils/auth";
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
 
 import Button from "@/components/common/Button";
-import { ThemedText, ThemedView } from "@/components/common/Themed";
+import { Text, View } from "@/components/common/Themed";
 
 import OtpBottomSheetModal from "@/components/auth/OtpBottomSheetModal";
 
@@ -48,17 +48,17 @@ export default function VerifyOtpScreen() {
   }, []);
 
   return (
-    <ThemedView className="flex-1 gap-5 p-7">
-      <ThemedText type="title">인증 코드 입력</ThemedText>
-      <ThemedText>
+    <View className="flex-1 gap-5 p-7">
+      <Text type="title">인증 코드 입력</Text>
+      <Text>
         계정을 확인하려면 {email} 주소로 전송된 6자리 코드를 입력하세요.
-      </ThemedText>
+      </Text>
       <OtpInput
         numberOfDigits={6}
         onTextChange={(text) => setOtp(text)}
         onFilled={(filledOtp) => handleVerifyOtp(filledOtp)}
       />
-      {error && <ThemedText className="text-red-600">{error}</ThemedText>}
+      {error && <Text className="text-red-600">{error}</Text>}
       <Button onPress={() => handleVerifyOtp(null)} variant="default">
         다음
       </Button>
@@ -70,6 +70,6 @@ export default function VerifyOtpScreen() {
         bottomSheetModalRef={bottomSheetModalRef}
         email={email}
       />
-    </ThemedView>
+    </View>
   );
 }

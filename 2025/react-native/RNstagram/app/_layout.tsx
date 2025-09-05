@@ -68,7 +68,6 @@ function RootNavigator() {
   }
 
   const isSignedIn = !!session;
-  console.log("session", session);
 
   return (
     <Stack

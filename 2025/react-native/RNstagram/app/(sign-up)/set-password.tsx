@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Text, TextInput } from "react-native";
+import { TextInput } from "react-native";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
 import useValidation from "@/hooks/useValidation";
 import { signUpSchema } from "@/utils/zod-schema";
 
 import Button from "@/components/common/Button";
-import { ThemedText, ThemedView } from "@/components/common/Themed";
+import { Text, View } from "@/components/common/Themed";
 
 const passwordSchema = signUpSchema.pick({ password: true });
 
@@ -24,12 +24,12 @@ export default function SetPasswordScreen() {
   }
 
   return (
-    <ThemedView className="flex-1 gap-5 p-7">
-      <ThemedText type="title">비밀번호 만들기</ThemedText>
-      <ThemedText>
+    <View className="flex-1 gap-5 p-7">
+      <Text type="title">비밀번호 만들기</Text>
+      <Text>
         다른 사람이 추측할 수 없는 6자 이상의 문자 또는 숫자로 비밀번호를
         만드세요.
-      </ThemedText>
+      </Text>
       <TextInput
         className="border border-gray-400 rounded-xl p-4"
         placeholder="비밀번호"
@@ -40,6 +40,6 @@ export default function SetPasswordScreen() {
       />
       {error && <Text className="text-red-500">{error}</Text>}
       <Button onPress={handleNext}>다음</Button>
-    </ThemedView>
+    </View>
   );
 }

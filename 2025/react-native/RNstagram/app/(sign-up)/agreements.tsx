@@ -5,7 +5,7 @@ import { Checkbox } from "expo-checkbox";
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
 
 import Button from "@/components/common/Button";
-import { ThemedText, ThemedView } from "@/components/common/Themed";
+import { Text, View } from "@/components/common/Themed";
 
 export default function AgreementsScreen() {
   const [agreements, setAgreements] = useState({
@@ -39,34 +39,32 @@ export default function AgreementsScreen() {
   }
 
   return (
-    <ThemedView className="flex-1 gap-5 p-7">
-      <ThemedText type="title">RNstagram 약관 및 정책에 동의</ThemedText>
-      <ThemedText>계정을 만들려면 모든 약관에 동의해주세요</ThemedText>
-      <ThemedText type="subtitle">이용 약관</ThemedText>
-      <ThemedView className="gap-3 border border-gray-400 rounded-2xl p-3">
-        <ThemedView className="flex-row justify-between items-center">
-          <ThemedView>
-            <ThemedText type="defaultSemiBold">이용 약관(필수)</ThemedText>
+    <View className="flex-1 gap-5 p-7">
+      <Text type="title">RNstagram 약관 및 정책에 동의</Text>
+      <Text>계정을 만들려면 모든 약관에 동의해주세요</Text>
+      <Text type="subtitle">이용 약관</Text>
+      <View className="gap-3 border border-gray-400 rounded-2xl p-3">
+        <View className="flex-row justify-between items-center">
+          <View>
+            <Text type="defaultSemiBold">이용 약관(필수)</Text>
             <Link href="/agreements-details" push>
-              <ThemedText type="link">더 알아보기</ThemedText>
+              <Text type="link">더 알아보기</Text>
             </Link>
-          </ThemedView>
+          </View>
           <Checkbox
             className="mr-3"
             value={agreements.agreedToTerms}
             color="blue"
             onValueChange={(value) => handleValueChange("agreedToTerms", value)}
           />
-        </ThemedView>
-        <ThemedView className="flex-row justify-between items-center">
-          <ThemedView>
-            <ThemedText type="defaultSemiBold">
-              개인정보처리방침(필수)
-            </ThemedText>
+        </View>
+        <View className="flex-row justify-between items-center">
+          <View>
+            <Text type="defaultSemiBold">개인정보처리방침(필수)</Text>
             <Link href="/agreements-details" push>
-              <ThemedText type="link">더 알아보기</ThemedText>
+              <Text type="link">더 알아보기</Text>
             </Link>
-          </ThemedView>
+          </View>
           <Checkbox
             className="mr-3"
             value={agreements.agreedToPrivacyPolicy}
@@ -75,14 +73,14 @@ export default function AgreementsScreen() {
               handleValueChange("agreedToPrivacyPolicy", value)
             }
           />
-        </ThemedView>
-        <ThemedView className="flex-row justify-between items-center">
-          <ThemedView>
-            <ThemedText type="defaultSemiBold">위치 기반 기능(필수)</ThemedText>
+        </View>
+        <View className="flex-row justify-between items-center">
+          <View>
+            <Text type="defaultSemiBold">위치 기반 기능(필수)</Text>
             <Link href="/agreements-details" push>
-              <ThemedText type="link">더 알아보기</ThemedText>
+              <Text type="link">더 알아보기</Text>
             </Link>
-          </ThemedView>
+          </View>
           <Checkbox
             className="mr-3"
             value={agreements.agreedToLocationServices}
@@ -91,10 +89,10 @@ export default function AgreementsScreen() {
               handleValueChange("agreedToLocationServices", value)
             }
           />
-        </ThemedView>
-      </ThemedView>
-      {error && <ThemedText className="text-red-500">{error}</ThemedText>}
+        </View>
+      </View>
+      {error && <Text className="text-red-500">{error}</Text>}
       <Button onPress={handleNext}>동의</Button>
-    </ThemedView>
+    </View>
   );
 }

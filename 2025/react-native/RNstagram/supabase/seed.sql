@@ -19,7 +19,7 @@ VALUES (
   'authenticated',
   'authenticated',
   'test@test.com',
-  '$2a$10$3duDprttA3CFBH72ldExOOl7RAzZBgQ5YI3lVEBdDlhWP9aJZ8dyK',
+  '$2a$10$0lqD9tDL/fgXoLYLoyJ27enEkPlKPGBwc6CnOC7oEMZgOZz0TCfde',
   '2025-08-31 20:02:37.273031+00',
   null,
   '{"provider":"email", "providers":["email"]}',

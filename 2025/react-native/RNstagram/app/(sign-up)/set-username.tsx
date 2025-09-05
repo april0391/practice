@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, TextInput } from "react-native";
+import { TextInput } from "react-native";
 import { useDebounce } from "use-debounce";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
@@ -9,7 +9,7 @@ import { signUpSchema } from "@/utils/zod-schema";
 import { verifyUsername } from "@/utils/auth";
 
 import Button from "@/components/common/Button";
-import { ThemedText, ThemedView } from "@/components/common/Themed";
+import { Text, View } from "@/components/common/Themed";
 
 const usernameSchema = signUpSchema.pick({ username: true });
 
@@ -51,15 +51,15 @@ export default function SetUserameScreen() {
   }
 
   return (
-    <ThemedView className="flex-1 gap-5 p-7">
-      <ThemedText type="title" className="mb-3">
+    <View className="flex-1 gap-5 p-7">
+      <Text type="title" className="mb-3">
         사용자 이름 만들기
-      </ThemedText>
-      <ThemedText>
+      </Text>
+      <Text>
         사용자 이름을 직접 추가하거나 추천 이름을 사용하세요. 언제든지 변경할 수
         있습니다.
-      </ThemedText>
-      <ThemedView className="relative">
+      </Text>
+      <View className="relative">
         <TextInput
           className="border border-gray-400 rounded-xl p-4"
           placeholder="성명"
@@ -86,7 +86,7 @@ export default function SetUserameScreen() {
             className="absolute right-4 top-1/2 -translate-y-1/2"
           />
         )}
-      </ThemedView>
+      </View>
       {username !== "" && error && (
         <Text className="text-red-500">{error}</Text>
       )}
@@ -96,6 +96,6 @@ export default function SetUserameScreen() {
       <Button onPress={handleNext} disabled={!serverValidated}>
         다음
       </Button>
-    </ThemedView>
+    </View>
   );
 }

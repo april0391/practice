@@ -1,7 +1,12 @@
-import { View, Text } from "react-native";
-import type { ViewProps, TextProps } from "react-native";
 import {
-  SafeAreaView,
+  View as RNView,
+  Text as RNText,
+  TextInput as RNTextInput,
+  useColorScheme,
+} from "react-native";
+import type { ViewProps, TextProps, TextInputProps } from "react-native";
+import {
+  SafeAreaView as RNSafeAreaView,
   type SafeAreaViewProps,
 } from "react-native-safe-area-context";
 import { cn } from "@/utils/cn";
@@ -20,7 +25,7 @@ export type ThemedTextProps = TextProps & {
   type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link";
 };
 
-export function ThemedView({
+export function View({
   style,
   lightColor,
   darkColor,
@@ -31,10 +36,10 @@ export function ThemedView({
     "background"
   );
 
-  return <View style={[{ backgroundColor }, style]} {...otherProps} />;
+  return <RNView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
-export function ThemedText({
+export function Text({
   style,
   lightColor,
   darkColor,
@@ -45,8 +50,8 @@ export function ThemedText({
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return (
-    <Text
-      style={!className ? { color } : undefined}
+    <RNText
+      style={!className && { color }}
       className={cn(
         type === "title" && "text-3xl font-semibold leading-8",
         type === "subtitle" && "text-xl font-bold",
@@ -65,7 +70,7 @@ export type ThemedSafeAreaViewProps = SafeAreaViewProps & {
   darkColor?: string;
 };
 
-export function ThemedSafeAreaView({
+export function SafeAreaView({
   style,
   lightColor,
   darkColor,
@@ -77,8 +82,20 @@ export function ThemedSafeAreaView({
   );
 
   return (
-    <SafeAreaView
+    <RNSafeAreaView
       style={[{ backgroundColor }, { flex: 1 }, style]}
+      {...otherProps}
+    />
+  );
+}
+
+export function TextInput({ className, ...otherProps }: TextInputProps) {
+  const colorScheme = useColorScheme();
+
+  return (
+    <RNTextInput
+      className={cn("text-black dark:text-white", className)}
+      placeholderTextColor={colorScheme === "dark" ? "#aaa" : "#666"}
       {...otherProps}
     />
   );

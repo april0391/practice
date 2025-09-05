@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { useSignUpContext } from "@/components/auth/SignUpProvider";
 
 import Button from "@/components/common/Button";
-import { ThemedText, ThemedView } from "@/components/common/Themed";
+import { Text, View } from "@/components/common/Themed";
 
 export default function SetBirthDateScreen() {
   const [birthDate, setBirthDate] = useState<Date | null>(null);
@@ -44,13 +44,13 @@ export default function SetBirthDateScreen() {
   }
 
   return (
-    <ThemedView className="flex-1 gap-5 p-7">
-      <ThemedText type="title">생년월일 선택</ThemedText>
-      <ThemedText>
+    <View className="flex-1 gap-5 p-7">
+      <Text type="title">생년월일 선택</Text>
+      <Text>
         비즈니스, 반려동물 또는 기타 목적으로 이 계정을 만드는 경우에도 회원님의
         실제 생년월일을 사용하세요. 이 생년월일 정보는 회원님이 공유하지 않는 한
         다른 사람에게 공개되지 않습니다.
-      </ThemedText>
+      </Text>
 
       <TouchableOpacity
         onPress={() => setShowPicker(true)}
@@ -72,6 +72,6 @@ export default function SetBirthDateScreen() {
 
       {error && <Text className="text-red-500">{error}</Text>}
       <Button onPress={handleNext}>다음</Button>
-    </ThemedView>
+    </View>
   );
 }

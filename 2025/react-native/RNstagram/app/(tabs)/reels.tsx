@@ -1,10 +1,10 @@
-import { ThemedText } from "@/components/common/Themed";
-import { ThemedView } from "@/components/common/Themed";
+import { Text } from "@/components/common/Themed";
+import { View } from "@/components/common/Themed";
 
 export default function ReelsScreen() {
   return (
-    <ThemedView>
-      <ThemedText>ReelsScreen</ThemedText>
-    </ThemedView>
+    <View>
+      <Text>ReelsScreen</Text>
+    </View>
   );
 }
