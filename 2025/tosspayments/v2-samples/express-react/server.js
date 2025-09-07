@@ -22,8 +22,6 @@ const encryptedApiSecretKey =
 
 // 결제위젯 승인
 app.post("/confirm/widget", function (req, res) {
-  // console.log("/confirm/widget");
-  // console.log("req", req);
   const { paymentKey, orderId, amount } = req.body;
 
   // 결제 승인 API를 호출하세요.
@@ -42,7 +40,7 @@ app.post("/confirm/widget", function (req, res) {
     }),
   }).then(async function (response) {
     const result = await response.json();
-    console.log(result);
+    console.log("result", result);
 
     if (!response.ok) {
       // TODO: 결제 승인 실패 비즈니스 로직을 구현하세요.
