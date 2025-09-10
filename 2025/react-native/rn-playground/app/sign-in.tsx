@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, TextInput } from "react-native";
 import { Link } from "expo-router";
 
-import { useAuth } from "@/store/AuthProvider";
+// import { useAuth } from "@/store/AuthProvider";
 import { useAuthStore } from "@/store/authStore";
 
 import { Text, View } from "@/components/common/Themed";
@@ -20,6 +20,7 @@ export default function SignInScreen() {
       <TextInput
         className="border border-gray-400 w-full"
         placeholder="이메일"
+        autoCapitalize="none"
         onChangeText={setEmail}
       />
       <TextInput

@@ -2,7 +2,7 @@ import "../global.css";
 import { useEffect } from "react";
 import { SplashScreen, Stack } from "expo-router";
 
-import { AuthProvider, useAuth } from "@/store/AuthProvider";
+// import { AuthProvider, useAuth } from "@/store/AuthProvider";
 import { useAuthStore } from "@/store/authStore";
 
 SplashScreen.preventAutoHideAsync();
@@ -33,8 +33,6 @@ function RootNavigator() {
 
   const isSignedIn = !!session;
 
-  console.log("isSignedIn", isSignedIn);
-
   return (
     <Stack>
       <Stack.Protected guard={!isSignedIn}>
@@ -43,8 +41,7 @@ function RootNavigator() {
       </Stack.Protected>
 
       <Stack.Protected guard={isSignedIn}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="checkout" />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack.Protected>
     </Stack>
   );

@@ -10,7 +10,7 @@ import {
   productsInPrivate,
 } from "../functions/api/drizzle/schemas/schema";
 
-dotenv.config({ path: path.resolve(__dirname, "../../functions/.env.local") });
+dotenv.config({ path: path.resolve(__dirname, "../functions/.env.local") });
 // dotenv.config({ path: "./.env.local"});
 
 async function main() {
@@ -18,6 +18,7 @@ async function main() {
     name: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     price: faker.number.int({ min: 0, max: 10000, multipleOf: 100 }),
+    imageUrl: faker.image.urlPicsumPhotos(),
   }));
 
   const client = postgres(process.env.DATABASE_URL!);

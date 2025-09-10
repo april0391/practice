@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Alert, Button, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useEffect, useState } from "react";
+import { Alert, Button } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import type {
   AgreementWidgetControl,
   PaymentMethodWidgetControl,
@@ -12,26 +12,47 @@ import {
   usePaymentWidget,
 } from "@tosspayments/widget-sdk-react-native";
 
+import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/store/authStore";
 
-export default function TossSdk() {
+import { ScrollView } from "@/components/common/Themed";
+
+export default function CheckoutScreen() {
   const { session } = useAuthStore();
+  const { productId } = useLocalSearchParams<{ productId: string }>();
+
+  const [product, setProduct] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const {
+        data: [product],
+        error,
+      } = await supabase.functions.invoke(`/api/products/${productId}`, {
+        method: "GET",
+      });
+
+      console.log("error", error);
+
+      setProduct(product);
+    })();
+  }, [productId]);
 
   return (
-    <SafeAreaView edges={["bottom"]}>
-      <ScrollView>
+    <ScrollView className="">
+      {product && (
         <PaymentWidgetProvider
           clientKey={`test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm`}
           customerKey={session!.user.id}
         >
-          <CheckoutPage />
+          <TossSdk product={product} />
         </PaymentWidgetProvider>
-      </ScrollView>
-    </SafeAreaView>
+      )}
+    </ScrollView>
   );
 }
 
-function CheckoutPage() {
+function TossSdk({ product }) {
   const paymentWidgetControl = usePaymentWidget();
   const [paymentMethodWidgetControl, setPaymentMethodWidgetControl] =
     useState<PaymentMethodWidgetControl | null>(null);
@@ -46,7 +67,7 @@ function CheckoutPage() {
           paymentWidgetControl
             .renderPaymentMethods(
               "payment-methods",
-              { value: 50_000 },
+              { value: product.price },
               {
                 variantKey: "DEFAULT",
               }
@@ -85,32 +106,33 @@ function CheckoutPage() {
           paymentWidgetControl
             .requestPayment?.({
               orderId: "GkE7i5oFXWuuI0xiM9dzx2",
-              orderName: "토스 티셔츠 외 2건",
+              orderName: product.name,
             })
             .then((result) => {
               console.log("result", result);
 
               if (result?.success) {
+                Alert.alert(result.success.orderId);
                 // 결제 성공 비즈니스 로직을 구현하세요.
                 // result.success에 있는 값을 서버로 전달해서 결제 승인을 호출하세요.
-                fetch("http://10.0.2.2:4000/confirm/widget", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    paymentKey: result.success.paymentKey,
-                    orderId: result.success.orderId,
-                    amount: result.success.amount,
-                  }),
-                })
-                  .then((res) => res.json())
-                  .then((data) => {
-                    console.log("서버 응답:", data);
-                  })
-                  .catch((err) => {
-                    console.error("서버 에러:", err);
-                  });
+                // fetch("http://10.0.2.2:4000/confirm/widget", {
+                //   method: "POST",
+                //   headers: {
+                //     "Content-Type": "application/json",
+                //   },
+                //   body: JSON.stringify({
+                //     paymentKey: result.success.paymentKey,
+                //     orderId: result.success.orderId,
+                //     amount: result.success.amount,
+                //   }),
+                // })
+                //   .then((res) => res.json())
+                //   .then((data) => {
+                //     console.log("서버 응답:", data);
+                //   })
+                //   .catch((err) => {
+                //     console.error("서버 에러:", err);
+                //   });
               } else if (result?.fail) {
                 // 결제 실패 비즈니스 로직을 구현하세요.
                 Alert.alert(result.fail.code);

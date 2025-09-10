@@ -46,4 +46,5 @@ export const productsInPrivate = privateSchema.table("products", {
   name: varchar({ length: 100 }).notNull(),
   description: text(),
   price: integer().notNull(),
+  imageUrl: text("image_url").notNull(),
 });

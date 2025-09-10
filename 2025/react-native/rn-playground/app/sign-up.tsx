@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, TextInput } from "react-native";
+import { Alert, Button, TextInput } from "react-native";
 import { supabase } from "@/lib/supabase";
 
 import { Text, View } from "@/components/common/Themed";
@@ -26,6 +26,10 @@ export default function SignUpScreen() {
       <Button
         title="회원가입"
         onPress={async () => {
+          console.log(
+            "EXPO_PUBLIC_SUPABASE_URL",
+            process.env.EXPO_PUBLIC_SUPABASE_URL!
+          );
           const { data, error } = await supabase.auth.signUp({
             email,
             password,
@@ -36,7 +40,10 @@ export default function SignUpScreen() {
             },
           });
           console.log("data", data);
-          console.log("error", error);
+          if (error) {
+            console.log("error", error);
+            Alert.alert(error.message);
+          }
         }}
       />
     </View>

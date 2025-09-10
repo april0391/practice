@@ -10,7 +10,8 @@ CREATE TABLE "private"."products" (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   description TEXT,
-  price INT4 NOT NULL
+  price INT4 NOT NULL,
+  image_url TEXT NOT NULL
 );
 
 CREATE TABLE "private"."orders" (
