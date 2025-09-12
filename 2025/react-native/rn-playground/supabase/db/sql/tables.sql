@@ -1,6 +1,7 @@
 CREATE TABLE profiles (
   id UUID REFERENCES auth.users(id) PRIMARY KEY,
-  username VARCHAR(50)
+  username VARCHAR(50),
+  user_role VARCHAR(20) NOT NULL
 );
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;

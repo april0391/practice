@@ -9,7 +9,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="(products)"
+        name="products"
         options={{
           title: "상점",
           headerShown: false,
@@ -31,6 +31,12 @@ export default function TabLayout() {
         name="checkout"
         options={{
           title: "결제",
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="index"
+        options={{
           href: null,
         }}
       />

@@ -10,7 +10,7 @@ import {
   productsInPrivate,
 } from "../functions/api/drizzle/schemas/schema";
 
-dotenv.config({ path: path.resolve(__dirname, "../functions/.env.local") });
+dotenv.config({ path: path.resolve(__dirname, "../.env.local") });
 // dotenv.config({ path: "./.env.local"});
 
 async function main() {

@@ -1,4 +1,4 @@
-supabase functions serve --env-file ./functions/.env.local
+supabase functions serve --env-file ./.env.local
 
 # routing
 npx uri-scheme open exp://10.238.179.174:8081/--/set-username --android
@@ -12,3 +12,7 @@ npx expo-router-sitemap
 curl -i -L \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
   'http://10.238.179.174:54321/functions/v1/api/products'
+
+curl -i -L \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjU0MzIxL2F1dGgvdjEiLCJzdWIiOiI5Y2M1ZjM3YS1iYjQ2LTQ0ZDUtYTc2OS01ZDJlYWQ1ZTQ5MjciLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzU3NzAzOTEyLCJpYXQiOjE3NTc3MDAzMTIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiOWNjNWYzN2EtYmI0Ni00NGQ1LWE3NjktNWQyZWFkNWU0OTI3IiwidXNlcm5hbWUiOiJ0ZXN0ZXIifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc1NzcwMDMxMn1dLCJzZXNzaW9uX2lkIjoiYWRmNGNkNjYtYzQ0My00YzNkLTgyZWMtZmIxMzMwMGM2YzQwIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.-gmPd5e3IyxviygoVpGUA69gqr1AmE30yd2kVKsIc88' \
+  'http://10.238.179.174:54321/functions/v1/verify-token'
