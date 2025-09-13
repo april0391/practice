@@ -5,7 +5,7 @@
 project_id = "rn-playground"
 
 [api]
-enabled = false
+enabled = true
 # Port to use for the API URL.
 port = 54321
 # Schemas to expose in your API. Tables, views and stored procedures in this schema will get API
@@ -50,9 +50,7 @@ max_client_conn = 100
 enabled = true
 # Specifies an ordered list of schema files that describe your database.
 # Supports glob patterns relative to supabase directory: "./schemas/*.sql"
-schema_paths = [
-  "./db/*.sql",
-]
+schema_paths = []
 
 [db.seed]
 # If enabled, seeds the database after migrations during a db reset.
@@ -335,3 +333,57 @@ s3_region = "env(S3_REGION)"
 s3_access_key = "env(S3_ACCESS_KEY)"
 # Configures AWS_SECRET_ACCESS_KEY for S3 bucket
 s3_secret_key = "env(S3_SECRET_KEY)"
+
+[functions.api]
+enabled = true
+verify_jwt = true
+import_map = "./functions/api/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/api/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/api/*.html" ]
+
+[functions.custom_access_token]
+enabled = true
+verify_jwt = true
+import_map = "./functions/custom_access_token/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/custom_access_token/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/custom_access_token/*.html" ]
+
+[functions.before_user_created]
+enabled = true
+verify_jwt = false
+import_map = "./functions/before_user_created/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/before_user_created/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/before_user_created/*.html" ]
+
+# [auth.hook.custom_access_token]
+# enabled = true
+# uri = "http://host.docker.internal:54321/functions/v1/custom_access_token"
+# secrets = "env(CUSTOM_ACCESS_TOKEN_SECRET)"
+
+[auth.hook.before_user_created]
+enabled = true
+uri = "http://host.docker.internal:54321/functions/v1/before_user_created"
+secrets = "env(BEFORE_USER_CREATED_HOOK_SECRET)"
+
+[functions.verify-token]
+enabled = true
+verify_jwt = false
+import_map = "./functions/verify-token/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/verify-token/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/verify-token/*.html" ]

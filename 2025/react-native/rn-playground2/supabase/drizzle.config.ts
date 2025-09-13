@@ -1,12 +1,12 @@
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  schema: "./drizzle/schema.ts",
-  out: "./drizzle/out",
+  schema: "./db/drizzle/schema.ts",
+  out: "./db/drizzle/out",
   dialect: "postgresql",
   dbCredentials: {
     url: "postgresql://postgres:postgres@127.0.0.1:54322/postgres",
   },
-  schemaFilter: ["public"],
+  schemaFilter: ["public", "private"],
   tablesFilter: ["*"],
 });
