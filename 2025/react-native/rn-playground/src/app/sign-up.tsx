@@ -1,32 +1,23 @@
 import { useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
 import { Checkbox } from "expo-checkbox";
-import { supabase } from "../utils/supabase";
+import useAuth from "../stores/auth-store";
 
 export default function SignUpScreen() {
   const [signUpForm, setSignUpForm] = useState({
     email: "",
     password: "",
-    avatarUrl: "",
-    role: "seller",
+    role: "buyer",
   });
+  const { signUp } = useAuth();
 
   function handleInputChange(input: string, field: keyof typeof signUpForm) {
     setSignUpForm({ ...signUpForm, [field]: input });
   }
 
   async function handleSignUp() {
-    console.log("signUpForm", signUpForm);
-    const { data, error } = await supabase.auth.signUp({
-      email: signUpForm.email,
-      password: signUpForm.password,
-      options: {
-        data: {
-          avarar_url: signUpForm.avatarUrl,
-          role: signUpForm.role,
-        },
-      },
-    });
+    const { data, error } = await signUp(signUpForm);
+
     console.log("data", data);
     console.log("error", error);
   }
@@ -36,6 +27,7 @@ export default function SignUpScreen() {
       <TextInput
         className="border border-gray-500 w-full"
         placeholder="이메일"
+        autoCapitalize="none"
         onChangeText={(text) => {
           handleInputChange(text, "email");
         }}
@@ -43,6 +35,7 @@ export default function SignUpScreen() {
       <TextInput
         className="border border-gray-500 w-full"
         placeholder="비밀번호"
+        autoCapitalize="none"
         secureTextEntry={true}
         onChangeText={(text) => {
           handleInputChange(text, "password");

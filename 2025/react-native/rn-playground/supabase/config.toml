@@ -51,7 +51,10 @@ enabled = true
 # Specifies an ordered list of schema files that describe your database.
 # Supports glob patterns relative to supabase directory: "./schemas/*.sql"
 schema_paths = [
-  "./db/*.sql",
+  "./db/tables.sql",
+  "./db/functions.sql",
+  "./db/triggers.sql",
+  "./db/permissions.sql"
 ]
 
 [db.seed]
@@ -335,3 +338,9 @@ s3_region = "env(S3_REGION)"
 s3_access_key = "env(S3_ACCESS_KEY)"
 # Configures AWS_SECRET_ACCESS_KEY for S3 bucket
 s3_secret_key = "env(S3_SECRET_KEY)"
+
+
+# auth hooks
+[auth.hook.custom_access_token]
+enabled = true
+uri = "pg-functions://postgres/app/custom_access_token_hook"
