@@ -30,7 +30,7 @@ as $$
     original_claims jsonb;
     new_claims jsonb;
     claim text;
-    app_role text;
+    user_role text;
   begin
     original_claims = event->'claims';
     new_claims = '{}'::jsonb;
@@ -58,11 +58,11 @@ as $$
     end loop;
 
     select role 
-    into app_role
+    into user_role
     from app.profiles 
-    where id = (original_claims ->> 'sub')::uuid;
+    where id = (event->>'user_id')::uuid;
 
-    new_claims = jsonb_set(new_claims, array['app_role'], to_jsonb(app_role));
+    new_claims = jsonb_set(new_claims, array['user_role'], to_jsonb(user_role));
 
     return jsonb_build_object('claims', new_claims);
   end

@@ -5,13 +5,14 @@ import type {
   Session,
 } from "@supabase/supabase-js";
 import { supabase } from "../libs/supabase";
+import { jwtDecode } from "jwt-decode";
 import { create } from "zustand";
 
-type ExtendedSession = Session & {
-  claims: {
-    app_role: string;
-  };
+type Claims = {
+  user_role: string;
 };
+
+type ExtendedSession = Session & { claims: Claims };
 
 type AuthStore = {
   loading: boolean;
@@ -31,18 +32,17 @@ type AuthStore = {
 
 const useAuth = create<AuthStore>((set) => {
   const updateSession = async (session: Session | null) => {
-    // await new Promise((res) => setTimeout(res, 1500));
-    const { data: claimsData } = await supabase.auth.getClaims();
-    const claims = claimsData?.claims;
-    if (!session || !claims) {
+    if (!session) {
       set({ session: null, loading: false });
       return;
     }
 
+    const claims = jwtDecode<Claims>(session.access_token);
+
     set({
       session: {
         ...session,
-        claims: { app_role: claims.app_role },
+        claims,
       },
       loading: false,
     });
