@@ -25,6 +25,7 @@ $$;
 create or replace function app.custom_access_token_hook(event jsonb)
 returns jsonb
 language plpgsql
+security definer set search_path = ''
 as $$
   declare
     original_claims jsonb;

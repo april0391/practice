@@ -1,11 +1,29 @@
+import "../global.css";
 import { useEffect } from "react";
 import { AppState } from "react-native";
 import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
+import { ThemeProvider } from "@react-navigation/native";
+import { useColorScheme } from "nativewind";
+import { PortalHost } from "@rn-primitives/portal";
+import { NAV_THEME } from "../lib/theme";
+
 import useAuth from "../stores/auth-store";
-import "../global.css";
 
 export default function RootLayout() {
+  const { colorScheme } = useColorScheme();
+
+  return (
+    <ThemeProvider value={NAV_THEME[colorScheme ?? "light"]}>
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+      <RootNavigator />
+      <PortalHost />
+    </ThemeProvider>
+  );
+}
+
+function RootNavigator() {
   const {
     loading,
     session,

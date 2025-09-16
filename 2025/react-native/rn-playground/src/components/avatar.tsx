@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Alert, Image, Button } from "react-native";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+
 import * as ImagePicker from "expo-image-picker";
-import { supabase } from "../libs/supabase";
+import { supabase } from "../lib/supabase";
+import useAuth from "../stores/auth-store";
 
 interface Props {
   size: number;
@@ -13,6 +16,7 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const avatarSize = { height: size, width: size };
+  // const { session } = useAuth();
 
   useEffect(() => {
     if (url) downloadImage(url);
@@ -58,7 +62,6 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
       }
 
       const image = result.assets[0];
-      console.log("Got image", image);
 
       if (!image.uri) {
         throw new Error("No image uri!"); // Realistically, this should never happen, but just in case...
@@ -70,20 +73,60 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
 
       const fileExt = image.uri?.split(".").pop()?.toLowerCase() ?? "jpeg";
       const path = `${Date.now()}.${fileExt}`;
-      const { data, error: uploadError } = await supabase.storage
-        .from("avatars")
-        .upload(path, arraybuffer, {
-          contentType: image.mimeType ?? "image/jpeg",
-        });
 
-      if (uploadError) {
-        throw uploadError;
-      }
+      // const { data, error: uploadError } = await supabase.storage
+      //   .from("avatars")
+      //   .upload(path, arraybuffer, {
+      //     contentType: image.mimeType ?? "image/jpeg",
+      //   });
 
-      onUpload(data.path);
+      // const client = new S3Client({
+      //   forcePathStyle: true,
+      //   region: "project_region",
+      //   endpoint: "https://project_ref.storage.supabase.co/storage/v1/s3",
+      //   credentials: {
+      //     accessKeyId: "project_ref",
+      //     secretAccessKey: "anonKey",
+      //     sessionToken: session.access_token,
+      //   },
+      // });
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      const client = new S3Client({
+        forcePathStyle: true,
+        region: process.env.EXPO_PUBLIC_SUPABASE_PROJECT_REGION,
+        endpoint: `${process.env.EXPO_PUBLIC_SUPABASE_STORAGE_URL}/storage/v1/s3`,
+        credentials: {
+          accessKeyId: process.env.EXPO_PUBLIC_SUPABASE_PROJECT_ID!,
+          secretAccessKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!,
+          sessionToken: session!.access_token,
+        },
+      });
+
+      const r = await client.send(
+        new PutObjectCommand({
+          Bucket: "avatars",
+          Key: path,
+          Body: new Uint8Array(arraybuffer),
+          ContentType: "image/png",
+        })
+      );
+
+      console.log("r", r);
+
+      // if (uploadError) {
+      //   throw uploadError;
+      // }
+
+      // onUpload(data.path);
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert(error.message);
+        console.error(error);
+        console.error("$response", error?.$response);
       } else {
         throw error;
       }

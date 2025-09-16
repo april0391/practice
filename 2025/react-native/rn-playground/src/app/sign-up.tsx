@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import { Checkbox } from "expo-checkbox";
 import useAuth from "../stores/auth-store";
+
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
 
 export default function SignUpScreen() {
   const [signUpForm, setSignUpForm] = useState({
@@ -59,7 +62,9 @@ export default function SignUpScreen() {
           }}
         />
       </View>
-      <Button title="회원가입" onPress={handleSignUp} />
+      <Button onPress={handleSignUp}>
+        <Text>회원가입</Text>
+      </Button>
     </View>
   );
 }

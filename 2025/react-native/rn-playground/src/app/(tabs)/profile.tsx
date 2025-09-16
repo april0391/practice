@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
-import { supabase } from "@/src/libs/supabase";
-import useAuth from "@/src/stores/auth-store";
+import { supabase } from "@/lib/supabase";
+import useAuth from "@/stores/auth-store";
 
-import ImagePickerExample from "@/src/components/image-picker";
-import Avatar from "@/src/components/avatar";
+import ImagePickerExample from "@/components/image-picker";
+import Avatar from "@/components/avatar";
 
 export default function ProfileTab() {
   const [avatarUrl, setAvatarUrl] = useState("");

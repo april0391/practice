@@ -4,7 +4,7 @@ import type {
   AuthTokenResponsePassword,
   Session,
 } from "@supabase/supabase-js";
-import { supabase } from "../libs/supabase";
+import { supabase } from "../lib/supabase";
 import { jwtDecode } from "jwt-decode";
 import { create } from "zustand";
 
