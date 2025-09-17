@@ -14,7 +14,7 @@ export default function ProfileTab() {
   useEffect(() => {
     const {
       data: { publicUrl },
-    } = supabase.storage.from("avatars").getPublicUrl("1757944354160.png");
+    } = supabase.storage.from("avatars").getPublicUrl("1758114810747.png");
 
     setAvatarUrl(publicUrl);
   }, []);

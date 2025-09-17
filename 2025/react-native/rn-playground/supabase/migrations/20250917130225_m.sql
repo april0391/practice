@@ -124,4 +124,16 @@ $function$
 
 grant select on table "app"."profiles" to "supabase_auth_admin";
 
+grant usage
+on schema app
+to supabase_auth_admin;
 
+grant execute
+on function app.custom_access_token_hook
+to supabase_auth_admin;
+
+create trigger on_auth_user_created
+after insert 
+on auth.users
+for each row 
+execute procedure app.handle_new_user();

@@ -16,7 +16,7 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const avatarSize = { height: size, width: size };
-  // const { session } = useAuth();
+  const { session } = useAuth();
 
   useEffect(() => {
     if (url) downloadImage(url);
@@ -80,20 +80,9 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
       //     contentType: image.mimeType ?? "image/jpeg",
       //   });
 
-      // const client = new S3Client({
-      //   forcePathStyle: true,
-      //   region: "project_region",
-      //   endpoint: "https://project_ref.storage.supabase.co/storage/v1/s3",
-      //   credentials: {
-      //     accessKeyId: "project_ref",
-      //     secretAccessKey: "anonKey",
-      //     sessionToken: session.access_token,
-      //   },
-      // });
-
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      // if (uploadError) {
+      //   throw uploadError;
+      // }
 
       const client = new S3Client({
         forcePathStyle: true,
@@ -106,7 +95,7 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
         },
       });
 
-      const r = await client.send(
+      await client.send(
         new PutObjectCommand({
           Bucket: "avatars",
           Key: path,
@@ -115,17 +104,12 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
         })
       );
 
-      console.log("r", r);
-
-      // if (uploadError) {
-      //   throw uploadError;
-      // }
-
       // onUpload(data.path);
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert(error.message);
         console.error(error);
+        // @ts-expect-error
         console.error("$response", error?.$response);
       } else {
         throw error;

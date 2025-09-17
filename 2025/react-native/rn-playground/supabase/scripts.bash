@@ -6,12 +6,11 @@ npx uri-scheme open exp://10.238.179.174:8081/--/set-username --android
 # sitemap
 npx expo-router-sitemap
 
-#
+
 # invoke functions
-#
 curl -i -L \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
-  'http://10.238.179.174:54321/functions/v1/api/products'
+  'http://localhost:54321/functions/v1/api'
 
 curl -i -L \
   -X PUT \
@@ -23,3 +22,4 @@ curl -i -L \
 curl -i -L \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjU0MzIxL2F1dGgvdjEiLCJzdWIiOiIxZGE2ZGM0Yi1iOTc3LTRhOTItOGI1ZS0zMTZkZTdiNzA4OTIiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzU3ODYzOTYzLCJpYXQiOjE3NTc4NjAzNjMsImVtYWlsIjoidEB0LmNvIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6InRAdC5jbyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpbml0X2RhdGEiOiIiLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6IjFkYTZkYzRiLWI5NzctNGE5Mi04YjVlLTMxNmRlN2I3MDg5MiJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzU3ODYwMzYzfV0sInNlc3Npb25faWQiOiI3ODU2OWI1Ny03NTY1LTQ3NjItODZiYi0zOGUyMzM2MjllZjYiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.IfN1xaUhTkVjkT3ZtAZ_pJKBH2iCOdXaTTKKpAxOt4I' \
   'http://localhost:54321/auth/v1/user'
+  
