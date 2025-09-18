@@ -15,7 +15,7 @@ import {
   usersInAuth,
 } from "./auth-schema.ts";
 
-import { productsInApp, profilesInApp, transactionsInApp } from "./schema.ts";
+import { products, profiles, transactions } from "./schema.ts";
 
 export const samlRelayStatesInAuthRelations = relations(
   samlRelayStatesInAuth,
@@ -74,6 +74,7 @@ export const usersInAuthRelations = relations(usersInAuth, ({ many }) => ({
   identitiesInAuths: many(identitiesInAuth),
   oneTimeTokensInAuths: many(oneTimeTokensInAuth),
   mfaFactorsInAuths: many(mfaFactorsInAuth),
+  profilesInApps: many(profiles),
 }));
 
 export const ssoDomainsInAuthRelations = relations(
@@ -149,32 +150,42 @@ export const mfaChallengesInAuthRelations = relations(
 
 // ============ auth schema relations end ============
 
-export const productsInAppRelations = relations(productsInApp, ({ one }) => ({
-  usersInAuth: one(usersInAuth, {
-    fields: [productsInApp.sellerId],
-    references: [usersInAuth.id],
-  }),
-}));
-
-export const transactionsInAppRelations = relations(
-  transactionsInApp,
-  ({ one }) => ({
-    usersInAuth_buyerId: one(usersInAuth, {
-      fields: [transactionsInApp.buyerId],
+export const profilesRelations = relations(
+  profiles,
+  ({ one, many }) => ({
+    usersInAuth: one(usersInAuth, {
+      fields: [profiles.id],
       references: [usersInAuth.id],
-      relationName: "transactionsInApp_buyerId_usersInAuth_id",
     }),
-    usersInAuth_sellerId: one(usersInAuth, {
-      fields: [transactionsInApp.sellerId],
-      references: [usersInAuth.id],
-      relationName: "transactionsInApp_sellerId_usersInAuth_id",
+    productsInApps: many(products),
+    transactionsInApps_buyerId: many(transactions, {
+      relationName: "transactionsInApp_buyerId_profilesInApp_id",
+    }),
+    transactionsInApps_sellerId: many(transactions, {
+      relationName: "transactionsInApp_sellerId_profilesInApp_id",
     }),
   }),
 );
 
-export const profilesInAppRelations = relations(profilesInApp, ({ one }) => ({
-  usersInAuth: one(usersInAuth, {
-    fields: [profilesInApp.id],
-    references: [usersInAuth.id],
+export const productsRelations = relations(products, ({ one }) => ({
+  profiles: one(profiles, {
+    fields: [products.sellerId],
+    references: [profiles.id],
   }),
 }));
+
+export const transactionsRelations = relations(
+  transactions,
+  ({ one }) => ({
+    profiles_buyerId: one(profiles, {
+      fields: [transactions.buyerId],
+      references: [profiles.id],
+      relationName: "transactionsInApp_buyerId_profilesInApp_id",
+    }),
+    profiles_sellerId: one(profiles, {
+      fields: [transactions.sellerId],
+      references: [profiles.id],
+      relationName: "transactionsInApp_sellerId_profilesInApp_id",
+    }),
+  }),
+);

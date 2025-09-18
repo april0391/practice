@@ -137,3 +137,8 @@ after insert
 on auth.users
 for each row 
 execute procedure app.handle_new_user();
+
+insert into storage.buckets
+  (id, name, public, file_size_limit, allowed_mime_types)
+values
+  ('avatars', 'avatars', true, 10485760, array['image/*']);

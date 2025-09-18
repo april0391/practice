@@ -13,7 +13,7 @@ begin
   );
 
   update auth.users
-  set raw_user_meta_data = '{"init_data": ""}'::jsonb
+  set raw_user_meta_data = '{"init_data": null}'::jsonb
   where id = NEW.id;
 
   return new;

@@ -2,9 +2,21 @@ import { foreignKey, integer, pgSchema, text, uuid } from "drizzle-orm/pg-core";
 import { usersInAuth as users } from "./auth-schema.ts";
 
 export const app = pgSchema("app");
-export const userRoleInApp = app.enum("user_role", ["buyer", "seller"]);
+export const userRole = app.enum("user_role", ["buyer", "seller"]);
 
-export const productsInApp = app.table("products", {
+export const profiles = app.table("profiles", {
+  id: uuid().primaryKey().notNull(),
+  avatarUrl: text("avatar_url"),
+  role: userRole().notNull(),
+}, (table) => [
+  foreignKey({
+    columns: [table.id],
+    foreignColumns: [users.id],
+    name: "profiles_id_fkey",
+  }).onDelete("cascade"),
+]);
+
+export const products = app.table("products", {
   id: integer().primaryKey().generatedByDefaultAsIdentity({
     name: "app.products_id_seq",
     startWith: 1,
@@ -21,12 +33,12 @@ export const productsInApp = app.table("products", {
 }, (table) => [
   foreignKey({
     columns: [table.sellerId],
-    foreignColumns: [users.id],
+    foreignColumns: [profiles.id],
     name: "products_seller_id_fkey",
   }).onDelete("cascade"),
 ]);
 
-export const transactionsInApp = app.table("transactions", {
+export const transactions = app.table("transactions", {
   id: uuid().defaultRandom().primaryKey().notNull(),
   buyerId: uuid("buyer_id").notNull(),
   sellerId: uuid("seller_id").notNull(),
@@ -34,24 +46,12 @@ export const transactionsInApp = app.table("transactions", {
 }, (table) => [
   foreignKey({
     columns: [table.buyerId],
-    foreignColumns: [users.id],
+    foreignColumns: [profiles.id],
     name: "transactions_buyer_id_fkey",
   }),
   foreignKey({
     columns: [table.sellerId],
-    foreignColumns: [users.id],
+    foreignColumns: [profiles.id],
     name: "transactions_seller_id_fkey",
   }),
-]);
-
-export const profilesInApp = app.table("profiles", {
-  id: uuid().primaryKey().notNull(),
-  avatarUrl: text("avatar_url"),
-  role: userRoleInApp().notNull(),
-}, (table) => [
-  foreignKey({
-    columns: [table.id],
-    foreignColumns: [users.id],
-    name: "profiles_id_fkey",
-  }).onDelete("cascade"),
 ]);

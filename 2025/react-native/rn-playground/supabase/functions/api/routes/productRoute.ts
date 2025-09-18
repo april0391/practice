@@ -1,19 +1,36 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { Hono } from "hono";
+import { eq } from "drizzle-orm";
 
 import db from "shared/db.ts";
-import { productsInApp as products } from "shared/schema.ts";
 
 const productRoute = new Hono();
 
-productRoute.use(async (c, next) => {
-  console.log("middleware before route");
+productRoute.use(async (_c, next) => {
+  // console.log("middleware before route");
   await next();
-  console.log("middleware after route");
+  // console.log("middleware after route");
 });
 
 productRoute.get("/", async (c) => {
-  // await db.query.
+  const page = c.req.query("page");
+  console.log("page", page);
+
+  await new Promise((res) => setTimeout(res, 1000));
+
+  const products = await db.query.products.findMany({
+    with: {
+      profiles: {
+        columns: {
+          avatarUrl: true,
+        },
+      },
+    },
+    limit: 20,
+    offset: page ? Math.max(Number(page) - 1, 0) * 20 : 0,
+  });
+
+  return c.json(products);
 });
 
 productRoute.post("/", async (c) => {
