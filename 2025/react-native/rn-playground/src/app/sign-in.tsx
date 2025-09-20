@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { View } from "react-native";
 import { Link } from "expo-router";
+import { createClient } from "@supabase/supabase-js";
 import useAuth from "../stores/auth-store";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { createClient } from "@supabase/supabase-js";
 
 export default function SignInScreen() {
   const [credentials, setCredentials] = useState({

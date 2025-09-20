@@ -5,6 +5,7 @@
     "postgres": "npm:postgres",
     "drizzle-orm": "npm:/drizzle-orm",
     "drizzle-orm/": "npm:/drizzle-orm/",
+    "supabase": "npm:@supabase/supabase-js@2",
 
     "shared/": "../_shared/"
   }

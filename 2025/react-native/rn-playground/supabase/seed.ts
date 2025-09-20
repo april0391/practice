@@ -10,22 +10,22 @@ import * as schema from "./functions/_shared/schema";
 
 dotenv.config({ path: "./.env.local" });
 
-type Product = typeof schema.products.$inferInsert;
-
+const client = postgres(process.env.DATABASE_URL!, { prepare: false });
+const db = drizzle({ client, schema });
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
-const client = postgres(process.env.DATABASE_URL!, { prepare: false });
-const db = drizzle({ client, schema });
+
+const { products } = schema;
+
+type Product = typeof products.$inferInsert;
 
 async function main() {
   await clearAuthUsers();
   await reset(db, schema);
 
   const userIds = await createAuthUsers(30);
-
-  const { products } = schema;
 
   const dummyProducts: Product[] = Array.from({ length: 200 }, (_, idx) => ({
     name: `${idx} - ${faker.commerce.product()}`,
@@ -42,10 +42,10 @@ async function main() {
 
 async function createAuthUsers(length: number) {
   const createPromises = Array.from(
-    { length: length },
+    { length },
     (_, i) =>
       supabaseAdmin.auth.admin.createUser({
-        email: `test${i}@test.com`,
+        email: `seller${i}@test.com`,
         password: "1234qwer",
         email_confirm: true,
         user_metadata: {
