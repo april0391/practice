@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,6 +23,7 @@ import com.example.androidplayground.R
 import com.example.androidplayground.ui.AppViewModelProvider
 import com.example.androidplayground.ui.components.DefaultTopAppBar
 import com.example.androidplayground.ui.navigation.AppDestination
+import kotlinx.coroutines.launch
 
 object ItemEntryDestination : AppDestination {
     override val route = "item_entry"
@@ -35,6 +37,8 @@ fun ItemEntryScreen(
     onNavigateUp: () -> Unit,
     viewModel: ItemEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             DefaultTopAppBar(
@@ -53,8 +57,14 @@ fun ItemEntryScreen(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
             OutlinedTextField(
-                value = viewModel.itemDetailsState.name,
-                onValueChange = { viewModel.itemDetailsState.copy(name = it) },
+                value = viewModel.itemDetailsUiState.name,
+                onValueChange = {
+                    viewModel.updateItemDetailsState(
+                        viewModel.itemDetailsUiState.copy(
+                            name = it
+                        )
+                    )
+                },
                 label = { Text("name") },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -64,17 +74,22 @@ fun ItemEntryScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
-            TextField(value = viewModel.itemDetailsState.price, onValueChange = {
+            TextField(value = viewModel.itemDetailsUiState.price, onValueChange = {
                 viewModel.updateItemDetailsState(
-                    viewModel.itemDetailsState.copy(price = it)
+                    viewModel.itemDetailsUiState.copy(price = it)
                 )
             })
-            TextField(value = viewModel.itemDetailsState.quantity, onValueChange = {
+            TextField(value = viewModel.itemDetailsUiState.quantity, onValueChange = {
                 viewModel.updateItemDetailsState(
-                    viewModel.itemDetailsState.copy(quantity = it)
+                    viewModel.itemDetailsUiState.copy(quantity = it)
                 )
             })
-            Button(onClick = { }) {
+            Button(onClick = {
+                coroutineScope.launch {
+                    viewModel.saveItem()
+                    navigateBack()
+                }
+            }) {
                 Text("Save")
             }
         }

@@ -22,12 +22,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androidplayground.R
 import com.example.androidplayground.data.Item
 import com.example.androidplayground.data.formatedPrice
+import com.example.androidplayground.ui.AppViewModelProvider
 import com.example.androidplayground.ui.components.DefaultTopAppBar
 import com.example.androidplayground.ui.navigation.AppDestination
 
@@ -40,8 +44,10 @@ object HomeDestination : AppDestination {
 @Composable
 fun HomeScreen(
     navigateToItemEntry: () -> Unit = {},
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val homeUiState by viewModel.homeUiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -69,7 +75,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items(DUMMY_ITEMS) { item ->
+            items(homeUiState.itemList) { item ->
                 ItemCard(
                     item = item,
                     modifier = Modifier
@@ -111,11 +117,3 @@ fun ItemCard(item: Item, modifier: Modifier = Modifier) {
         }
     }
 }
-
-val DUMMY_ITEMS = listOf(
-    Item(1, "test1", 10.0, 10),
-    Item(2, "test2", 11.0, 20),
-    Item(3, "test3", 12.0, 30),
-    Item(4, "test4", 13.0, 40),
-    Item(5, "test5", 14.0, 50),
-)

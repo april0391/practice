@@ -61,9 +61,11 @@ fun InventoryNavHost(
         }
         composable(
             route = ItemDetailsDestination.routeWithArgs,
-            arguments = listOf(navArgument(ItemDetailsDestination.itemIdArg) {
-                type = NavType.IntType
-            })
+            arguments = listOf(
+                navArgument(ItemDetailsDestination.itemIdArg) {
+                    type = NavType.IntType
+                }
+            )
         ) {
             ItemDetailsScreen(
                 navigateToEditItem = { navController.navigate("${ItemEditDestination.route}/$it") },
