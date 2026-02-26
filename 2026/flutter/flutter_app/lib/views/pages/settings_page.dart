@@ -33,6 +33,55 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
+              ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(
+                    SnackBar(
+                      content: Text("Snackbar"),
+                      duration: Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
+                ),
+                child: Text("open snackbar"),
+              ),
+              Divider(
+                color: Colors.amber,
+                thickness: 5.0,
+                endIndent: 50,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Alert Title"),
+                        content: Text("Alert content"),
+                        actions: [
+                          FilledButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Close"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
+                ),
+                child: Text("open dialog"),
+              ),
               DropdownButton(
                 value: menuItem,
                 items: List.generate(
@@ -100,14 +149,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: double.infinity,
                   color: Colors.white12,
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  foregroundColor: Colors.white,
-                ),
-                child: Text("click me"),
               ),
               ElevatedButton(
                 onPressed: () {},
