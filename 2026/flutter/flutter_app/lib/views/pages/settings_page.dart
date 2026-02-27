@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/views/pages/expanded_flexible_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.title});
@@ -151,8 +152,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
-                child: Text("click me"),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ExpandedFlexiblePage();
+                    },
+                  ),
+                ),
+                child: Text("Show expanded_flexible_page"),
               ),
               FilledButton(
                 onPressed: () {},
